@@ -7,6 +7,7 @@ import { PlanetImage } from '../components/PlanetImage';
 import { ScientificImage } from '../components/ScientificImage';
 import { EducationalCarousel } from '../components/EducationalCarousel';
 import { InteractiveDiagram } from '../components/InteractiveDiagram';
+import { BilingualFlowchart } from '../components/BilingualFlowchart';
 import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from 'lucide-react';
 
 export function PlanetDetailPage() {
@@ -86,7 +87,7 @@ export function PlanetDetailPage() {
         </div>
       </section>
 
-      {/* SECTION 1.5: PLANET IMAGE CAROUSEL */}
+      {/* SECTION 1.5: PLANET IMAGE CAROUSEL - 10 SLIDES */}
       <section>
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('Image Gallery', 'تصاویر کی گیلری')}
@@ -98,14 +99,70 @@ export function PlanetDetailPage() {
               captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Full disk view`,
               captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - مکمل کرہ نما منظر`,
               credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: selectedPlanet.id === 'earth' ? 'radial-gradient(circle at 35% 35%, #7ec8e3, #4a90d9 30%, #2d6b3f 50%, #1a3a5c)' :
-                               selectedPlanet.id === 'mars' ? 'radial-gradient(circle at 35% 35%, #e8845a, #c1440e 40%, #5c1800)' :
-                               selectedPlanet.id === 'jupiter' ? 'radial-gradient(ellipse at 40% 40%, #f0d8a8, #c88b3a 25%, #6b4010)' :
-                               selectedPlanet.id === 'saturn' ? 'radial-gradient(ellipse at 40% 40%, #f5ecc8, #e8d088 30%, #786020)' :
-                               selectedPlanet.id === 'uranus' ? 'radial-gradient(circle at 35% 35%, #b8e8f0, #7ec8e3 40%, #2a6888)' :
-                               selectedPlanet.id === 'neptune' ? 'radial-gradient(circle at 35% 35%, #6688ee, #3355cc 40%, #112266)' :
-                               selectedPlanet.id === 'venus' ? 'radial-gradient(circle at 35% 35%, #f5e6a8, #e8c468 35%, #8b6914)' :
-                               'radial-gradient(circle at 35% 35%, #c8beb0, #8c7e6d 40%, #3d352c)'
+              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
+            },
+            {
+              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
+              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Size: ${selectedPlanet.diameter}`,
+              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - سائز: ${selectedPlanet.diameter}`,
+              credit: getCelestialImage(selectedPlanet.id).credit,
+              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
+            },
+            {
+              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
+              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Distance: ${selectedPlanet.avgDistance}`,
+              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - فاصلہ: ${selectedPlanet.avgDistance}`,
+              credit: getCelestialImage(selectedPlanet.id).credit,
+              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
+            },
+            {
+              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
+              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Day: ${selectedPlanet.dayLength}`,
+              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - دن: ${selectedPlanet.dayLength}`,
+              credit: getCelestialImage(selectedPlanet.id).credit,
+              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
+            },
+            {
+              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
+              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Year: ${selectedPlanet.yearLength}`,
+              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - سال: ${selectedPlanet.yearLength}`,
+              credit: getCelestialImage(selectedPlanet.id).credit,
+              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
+            },
+            {
+              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
+              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Temperature: ${selectedPlanet.avgTemp}`,
+              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - درجہ حرارت: ${selectedPlanet.avgTemp}`,
+              credit: getCelestialImage(selectedPlanet.id).credit,
+              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
+            },
+            {
+              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
+              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Gravity: ${selectedPlanet.gravity}`,
+              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - کشش: ${selectedPlanet.gravity}`,
+              credit: getCelestialImage(selectedPlanet.id).credit,
+              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
+            },
+            {
+              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
+              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Moons: ${selectedPlanet.moons}`,
+              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - چاند: ${selectedPlanet.moons}`,
+              credit: getCelestialImage(selectedPlanet.id).credit,
+              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
+            },
+            {
+              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
+              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Type: ${selectedPlanet.type.en}`,
+              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - قسم: ${selectedPlanet.type.ur}`,
+              credit: getCelestialImage(selectedPlanet.id).credit,
+              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
+            },
+            {
+              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
+              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - ${selectedPlanet.funFacts[0]?.en || 'Interesting fact'}`,
+              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - ${selectedPlanet.funFacts[0]?.ur || 'دلچسپ حقیقت'}`,
+              credit: getCelestialImage(selectedPlanet.id).credit,
+              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
             }
           ]}
         />
@@ -151,6 +208,70 @@ export function PlanetDetailPage() {
         <p className="text-xs italic mt-3 text-center" style={{ color: 'var(--text-secondary)' }}>
           {renderText('Values are approximate educational averages.', 'یہ قدریں تعلیمی مقصد کے لیے اندازاً اوسط ہیں۔')}
         </p>
+      </section>
+
+      {/* SECTION 3.5: SIZE COMPARISON */}
+      <section>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          {renderText('Size Comparison with Earth', 'زمین کے مقابلے میں سائز')}
+        </h2>
+        <div className="flex items-end justify-center gap-4 p-6 rounded-xl" style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
+          <div className="text-center">
+            <div className="w-16 h-16 rounded-full mx-auto mb-2" style={{ background: 'radial-gradient(circle at 35% 35%, #7ec8e3, #4a90d9 30%, #2d6b3f 50%, #1a3a5c)' }} />
+            <p className="text-xs font-medium" style={{ color: 'var(--text-primary)' }}>
+              {renderText('Earth', 'زمین')}
+            </p>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>12,756 km</p>
+          </div>
+          <div className="text-center">
+            <div className="rounded-full mx-auto mb-2" style={{ 
+              width: `${Math.max(20, Math.min(120, (parseInt(selectedPlanet.diameter.replace(/[^0-9]/g, '')) / 12756) * 64))}px`,
+              height: `${Math.max(20, Math.min(120, (parseInt(selectedPlanet.diameter.replace(/[^0-9]/g, '')) / 12756) * 64))}px`,
+              background: getCelestialImage(selectedPlanet.id).fallbackGradient
+            }} />
+            <p className="text-xs font-medium" style={{ color: 'var(--text-primary)' }}>
+              {renderText(selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1), selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون')}
+            </p>
+            <p className="text-xs" style={{ color: 'var(--text-secondary)' }}>{selectedPlanet.diameter}</p>
+          </div>
+        </div>
+        <p className="text-xs italic mt-2 text-center" style={{ color: 'var(--text-secondary)' }}>
+          {renderText('Visual comparison — not to exact scale.', 'بصری موازنہ — بالکل حقیقی پیمانے پر نہیں۔')}
+        </p>
+      </section>
+
+      {/* SECTION 3.6: DISTANCE FROM SUN */}
+      <section>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          {renderText('Distance from the Sun', 'سورج سے فاصلہ')}
+        </h2>
+        <div className="p-6 rounded-xl" style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-full flex-shrink-0" style={{ background: 'radial-gradient(circle at 35% 35%, #fff7a0, #ffcc00 30%, #ff8c00 60%, #ff4500)', boxShadow: '0 0 20px #ff8c00' }} />
+            <div className="flex-1 h-2 rounded-full" style={{ background: 'linear-gradient(90deg, #ff8c00 0%, var(--accent) 100%)' }} />
+            <div className="w-10 h-10 rounded-full flex-shrink-0" style={{ background: getCelestialImage(selectedPlanet.id).fallbackGradient }} />
+          </div>
+          <p className="text-center mt-4 text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
+            {renderText(`Average distance: ${selectedPlanet.avgDistance}`, `اوسط فاصلہ: ${selectedPlanet.avgDistance}`)}
+          </p>
+        </div>
+        <p className="text-xs italic mt-2 text-center" style={{ color: 'var(--text-secondary)' }}>
+          {renderText('Diagram not to scale — shows relative position only.', 'ڈائریگرام حقیقی پیمانے پر نہیں — صرف نسبتی پوزیشن دکھاتا ہے۔')}
+        </p>
+      </section>
+
+      {/* SECTION 3.7: ROTATION AND ORBIT */}
+      <section>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          {renderText('Rotation and Orbit', 'گردش اور مدار')}
+        </h2>
+        <BilingualFlowchart
+          steps={[
+            { en: `Day: ${selectedPlanet.dayLength}`, ur: `دن: ${selectedPlanet.dayLength}` },
+            { en: 'One rotation on axis', ur: 'محور پر ایک گردش' },
+            { en: `Year: ${selectedPlanet.yearLength}`, ur: `سال: ${selectedPlanet.yearLength}` }
+          ]}
+        />
       </section>
 
       {/* SECTION 4-13: Detailed sections */}
@@ -219,6 +340,30 @@ export function PlanetDetailPage() {
         <p className="text-sm md:text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           {renderText(selectedPlanet.habitability.en, selectedPlanet.habitability.ur)}
         </p>
+      </section>
+
+      {/* SECTION 13.5: MISSIONS AND EXPLORATION */}
+      <section>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          {renderText('Missions and Exploration', 'مشنز اور دریافت')}
+        </h2>
+        <div className="space-y-3">
+          {selectedPlanet.missions.map((mission: any, i: number) => (
+            <div key={i} className="p-4 rounded-lg" style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
+              <div className="flex items-center gap-3 mb-2">
+                <span className="text-xs font-bold px-2 py-1 rounded" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>
+                  {mission.year}
+                </span>
+                <h3 className="font-semibold" style={{ color: 'var(--text-primary)' }}>
+                  {mission.name}
+                </h3>
+              </div>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                {renderText(mission.type.en, mission.type.ur)}
+              </p>
+            </div>
+          ))}
+        </div>
       </section>
 
       {/* SECTION 14: FUN FACTS */}
