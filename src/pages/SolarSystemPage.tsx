@@ -1,36 +1,85 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
-import { planets } from '../data/planets';
-import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause } from 'lucide-react';
+import { SolarSystem } from '../components/SolarSystem';
+import { PlanetModal } from '../components/PlanetModal';
+import { planets, PlanetData } from '../data/planets';
+import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from 'lucide-react';
 
-// Flowchart Component
-function Flowchart({ steps, isUrdu }: { steps: { en: string; ur: string }[]; isUrdu: boolean }) {
+// Enhanced Flowchart Component with clickable steps
+function InteractiveFlowchart({ steps }: { steps: { en: string; ur: string }[] }) {
+  const { language } = useApp();
+  const [activeStep, setActiveStep] = useState(0);
+
   return (
-    <div className="flex flex-wrap items-center justify-center gap-2 my-6">
-      {steps.map((step, i) => (
-        <React.Fragment key={i}>
-          <div className="px-3 py-2 rounded-lg text-sm font-medium text-center"
-            style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}>
-            {isUrdu ? <span className="font-urdu" dir="rtl">{step.ur}</span> : step.en}
-          </div>
-          {i < steps.length - 1 && (
-            <span className="text-lg" style={{ color: 'var(--accent)' }}>→</span>
+    <div className="my-6">
+      <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-2">
+        {steps.map((step, i) => (
+          <React.Fragment key={i}>
+            <button
+              onClick={() => setActiveStep(i)}
+              className={`px-4 py-3 rounded-lg text-sm font-medium text-center transition-all min-w-[140px] ${
+                activeStep === i ? 'scale-105 shadow-lg' : ''
+              }`}
+              style={{
+                backgroundColor: activeStep === i ? 'var(--accent)' : 'var(--surface-muted)',
+                color: activeStep === i ? '#fff' : 'var(--text-primary)',
+                border: `2px solid ${activeStep === i ? 'var(--accent)' : 'var(--border)'}`,
+                boxShadow: activeStep === i ? '0 4px 12px rgba(59, 130, 246, 0.3)' : 'none'
+              }}
+            >
+              {language === 'en' && step.en}
+              {language === 'ur' && <span className="font-urdu" dir="rtl">{step.ur}</span>}
+              {language === 'both' && (
+                <>
+                  {step.en}
+                  <span className="block font-urdu text-xs mt-1 opacity-90" dir="rtl">{step.ur}</span>
+                </>
+              )}
+            </button>
+            {i < steps.length - 1 && (
+              <ArrowRight size={20} className="hidden md:block" style={{ color: 'var(--accent)' }} />
+            )}
+            {i < steps.length - 1 && (
+              <div className="md:hidden h-6 w-0.5" style={{ backgroundColor: 'var(--accent)' }} />
+            )}
+          </React.Fragment>
+        ))}
+      </div>
+      <div className="mt-4 p-4 rounded-lg text-center" style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
+        <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+          {language === 'en' && steps[activeStep].en}
+          {language === 'ur' && <span className="font-urdu" dir="rtl">{steps[activeStep].ur}</span>}
+          {language === 'both' && (
+            <>
+              {steps[activeStep].en}
+              <span className="block font-urdu mt-1" dir="rtl">{steps[activeStep].ur}</span>
+            </>
           )}
-        </React.Fragment>
-      ))}
+        </p>
+      </div>
+      <p className="text-xs italic text-center mt-2" style={{ color: 'var(--text-secondary)' }}>
+        {language === 'en' && 'Educational diagram — not to scale.'}
+        {language === 'ur' && <span className="font-urdu" dir="rtl">تعلیمی خاکہ — حقیقی پیمانے پر نہیں۔</span>}
+        {language === 'both' && (
+          <>
+            Educational diagram — not to scale.
+            <br />
+            <span className="font-urdu" dir="rtl">تعلیمی خاکہ — حقیقی پیمانے پر نہیں۔</span>
+          </>
+        )}
+      </p>
     </div>
   );
 }
 
 // Image Card Component
-function ImageCard({ src, alt, captionEn, captionUr, credit, fallback }: {
+function ImageCard({ src, alt, captionEn, captionUr, credit }: {
   src: string;
   alt: string;
   captionEn: string;
   captionUr: string;
   credit: string;
-  fallback?: string;
 }) {
   const { language } = useApp();
   const [imgError, setImgError] = useState(false);
@@ -40,15 +89,10 @@ function ImageCard({ src, alt, captionEn, captionUr, credit, fallback }: {
       <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 min-h-[200px] flex items-center justify-center">
         {!imgError ? (
           <img src={src} alt={alt} className="w-full h-auto object-cover" onError={() => setImgError(true)} loading="lazy" />
-        ) : fallback ? (
-          <div className="p-8 text-center" style={{ color: 'var(--text-secondary)' }}>
-            <div className="text-4xl mb-2">🪐</div>
-            <p className="text-sm">{fallback}</p>
-          </div>
         ) : (
           <div className="p-8 text-center" style={{ color: 'var(--text-secondary)' }}>
-            <div className="text-4xl mb-2">🌍</div>
-            <p className="text-sm">Image unavailable</p>
+            <div className="w-32 h-32 mx-auto rounded-full mb-4" style={{ background: 'radial-gradient(circle at 35% 35%, #7ec8e3, #4a90d9 40%, #2d6b3f 60%, #1a3a5c)' }} />
+            <p className="text-sm">Educational diagram</p>
           </div>
         )}
       </div>
@@ -67,7 +111,123 @@ function ImageCard({ src, alt, captionEn, captionUr, credit, fallback }: {
   );
 }
 
-// Quiz Component
+// Image Carousel Component
+function ImageCarousel() {
+  const { language } = useApp();
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const slides = [
+    { src: 'https://images-assets.nasa.gov/image/PIA17463/PIA17463~medium.jpg', captionEn: 'The Sun', captionUr: 'سورج', credit: 'NASA/SDO' },
+    { src: 'https://images-assets.nasa.gov/image/PIA21188/PIA21188~medium.jpg', captionEn: 'Mercury', captionUr: 'عطارد', credit: 'NASA/MESSENGER' },
+    { src: 'https://images-assets.nasa.gov/image/PIA23792/PIA23792~medium.jpg', captionEn: 'Venus', captionUr: 'زہرہ', credit: 'NASA/JPL' },
+    { src: 'https://images-assets.nasa.gov/image/PIA18033/PIA18033~medium.jpg', captionEn: 'Earth', captionUr: 'زمین', credit: 'NASA/NOAA' },
+    { src: 'https://images-assets.nasa.gov/image/PIA22974/PIA22974~medium.jpg', captionEn: 'Mars', captionUr: 'مریخ', credit: 'NASA/MSSS' },
+    { src: 'https://images-assets.nasa.gov/image/PIA21774/PIA21774~medium.jpg', captionEn: 'Jupiter', captionUr: 'مشتری', credit: 'NASA/Juno' },
+    { src: 'https://images-assets.nasa.gov/image/PIA20029/PIA20029~medium.jpg', captionEn: 'Saturn and its rings', captionUr: 'زحل اور اس کے حلقے', credit: 'NASA/Cassini' },
+    { src: 'https://images-assets.nasa.gov/image/PIA01464/PIA01464~medium.jpg', captionEn: 'Uranus', captionUr: 'یورینس', credit: 'NASA/Voyager 2' },
+    { src: 'https://images-assets.nasa.gov/image/PIA01492/PIA01492~medium.jpg', captionEn: 'Neptune', captionUr: 'نیپچون', credit: 'NASA/Voyager 2' },
+    { src: 'https://images-assets.nasa.gov/image/PIA00465/PIA00465~medium.jpg', captionEn: "Earth's Moon", captionUr: 'زمین کا چاند', credit: 'NASA/Apollo' },
+    { src: 'https://images-assets.nasa.gov/image/PIA00777/PIA00777~medium.jpg', captionEn: 'Asteroid', captionUr: 'سیارچہ', credit: 'NASA/Galileo' },
+    { src: 'https://images-assets.nasa.gov/image/PIA00745/PIA00745~medium.jpg', captionEn: 'Comet', captionUr: 'دمدار ستارہ', credit: 'NASA/Hubble' },
+    { src: 'https://images-assets.nasa.gov/image/PIA01482/PIA01482~medium.jpg', captionEn: 'Pluto - dwarf planet', captionUr: 'پلوٹو - بونا سیارہ', credit: 'NASA/New Horizons' },
+    { src: 'https://images-assets.nasa.gov/image/PIA17463/PIA17463~medium.jpg', captionEn: 'Solar System formation disk (illustration)', captionUr: 'نظامِ شمسی کی تشکیل کی قرص (تصویر)', credit: 'Educational illustration' },
+    { src: 'https://images-assets.nasa.gov/image/PIA21474/PIA21474~medium.jpg', captionEn: 'Full Solar System diagram', captionUr: 'مکمل نظامِ شمسی کا خاکہ', credit: 'NASA' },
+    { src: 'https://images-assets.nasa.gov/image/PIA18033/PIA18033~medium.jpg', captionEn: 'Asteroid belt region', captionUr: 'سیارچوں کی پٹی کا علاقہ', credit: 'Educational diagram' }
+  ];
+
+  useEffect(() => {
+    if (!isPlaying) return;
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % slides.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [isPlaying, slides.length]);
+
+  const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % slides.length);
+  const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <div className="rounded-xl overflow-hidden border my-6" style={{ borderColor: 'var(--border)' }}>
+      <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 min-h-[300px] flex items-center justify-center">
+        {!imgError ? (
+          <img
+            src={slides[currentSlide].src}
+            alt={slides[currentSlide].captionEn}
+            className="w-full h-auto max-h-[400px] object-contain"
+            onError={() => setImgError(true)}
+            loading="lazy"
+          />
+        ) : (
+          <div className="p-8 text-center" style={{ color: 'var(--text-secondary)' }}>
+            <div className="w-40 h-40 mx-auto rounded-full mb-4" style={{ background: 'radial-gradient(circle at 35% 35%, #7ec8e3, #4a90d9 40%, #2d6b3f 60%, #1a3a5c)' }} />
+            <p className="text-sm">Educational diagram</p>
+          </div>
+        )}
+        <button
+          onClick={prevSlide}
+          className="absolute left-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white"
+          aria-label="Previous"
+        >
+          <ChevronLeft size={24} />
+        </button>
+        <button
+          onClick={nextSlide}
+          className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 text-white"
+          aria-label="Next"
+        >
+          <ChevronRight size={24} />
+        </button>
+      </div>
+      <div className="p-4" style={{ backgroundColor: 'var(--surface-muted)' }}>
+        <div className="flex items-center justify-between mb-2">
+          <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>
+            {currentSlide + 1} / {slides.length}
+          </span>
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="p-2 rounded-lg"
+            style={{ backgroundColor: 'var(--surface)', color: 'var(--text-primary)' }}
+            aria-label={isPlaying ? 'Pause' : 'Play'}
+          >
+            {isPlaying ? <Pause size={16} /> : <Play size={16} />}
+          </button>
+        </div>
+        <p className="text-sm text-center" style={{ color: 'var(--text-primary)' }}>
+          {language === 'en' && slides[currentSlide].captionEn}
+          {language === 'ur' && <span className="font-urdu" dir="rtl">{slides[currentSlide].captionUr}</span>}
+          {language === 'both' && (
+            <>
+              {slides[currentSlide].captionEn}
+              <span className="block font-urdu mt-1" dir="rtl">{slides[currentSlide].captionUr}</span>
+            </>
+          )}
+        </p>
+        <p className="text-xs text-center mt-1" style={{ color: 'var(--text-secondary)' }}>
+          {slides[currentSlide].credit}
+        </p>
+        <div className="flex justify-center gap-1 mt-3">
+          {slides.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrentSlide(i)}
+              className="w-2 h-2 rounded-full transition-all"
+              style={{
+                backgroundColor: i === currentSlide ? 'var(--accent)' : 'var(--border)',
+                transform: i === currentSlide ? 'scale(1.3)' : 'scale(1)'
+              }}
+              aria-label={`Slide ${i + 1}`}
+            />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Quiz Component with 18 questions
 interface QuizQuestion {
   question: { en: string; ur: string };
   options: { en: string; ur: string }[];
@@ -78,201 +238,111 @@ interface QuizQuestion {
 const quizQuestions: QuizQuestion[] = [
   {
     question: { en: 'What is at the center of the Solar System?', ur: 'نظامِ شمسی کے مرکز میں کیا ہے؟' },
-    options: [
-      { en: 'Earth', ur: 'زمین' },
-      { en: 'The Sun', ur: 'سورج' },
-      { en: 'Jupiter', ur: 'مشتری' },
-      { en: 'The Moon', ur: 'چاند' }
-    ],
+    options: [{ en: 'Earth', ur: 'زمین' }, { en: 'The Sun', ur: 'سورج' }, { en: 'Jupiter', ur: 'مشتری' }, { en: 'The Moon', ur: 'چاند' }],
     correct: 1,
     explanation: { en: 'The Sun is at the center of the Solar System.', ur: 'سورج نظامِ شمسی کے مرکز میں ہے۔' }
   },
   {
     question: { en: 'How many planets are in the Solar System?', ur: 'نظامِ شمسی میں کتنے سیارے ہیں؟' },
-    options: [
-      { en: '7', ur: '۷' },
-      { en: '8', ur: '۸' },
-      { en: '9', ur: '۹' },
-      { en: '10', ur: '۱۰' }
-    ],
+    options: [{ en: '7', ur: '۷' }, { en: '8', ur: '۸' }, { en: '9', ur: '۹' }, { en: '10', ur: '۱۰' }],
     correct: 1,
-    explanation: { en: 'There are 8 recognized planets in the Solar System.', ur: 'نظامِ شمسی میں ۸ تسلیم شدہ سیارے ہیں۔' }
+    explanation: { en: 'There are 8 recognized planets.', ur: '۸ تسلیم شدہ سیارے ہیں۔' }
   },
   {
     question: { en: 'Which planet is closest to the Sun?', ur: 'سورج کے سب سے قریب کون سا سیارہ ہے؟' },
-    options: [
-      { en: 'Venus', ur: 'زہرہ' },
-      { en: 'Earth', ur: 'زمین' },
-      { en: 'Mercury', ur: 'عطارد' },
-      { en: 'Mars', ur: 'مریخ' }
-    ],
+    options: [{ en: 'Venus', ur: 'زہرہ' }, { en: 'Earth', ur: 'زمین' }, { en: 'Mercury', ur: 'عطارد' }, { en: 'Mars', ur: 'مریخ' }],
     correct: 2,
-    explanation: { en: 'Mercury is the closest planet to the Sun.', ur: 'عطارد سورج کے سب سے قریب سیارہ ہے۔' }
+    explanation: { en: 'Mercury is closest to the Sun.', ur: 'عطارد سورج کے سب سے قریب ہے۔' }
   },
   {
     question: { en: 'Which is the hottest planet?', ur: 'سب سے گرم سیارہ کون سا ہے؟' },
-    options: [
-      { en: 'Mercury', ur: 'عطارد' },
-      { en: 'Venus', ur: 'زہرہ' },
-      { en: 'Earth', ur: 'زمین' },
-      { en: 'Mars', ur: 'مریخ' }
-    ],
+    options: [{ en: 'Mercury', ur: 'عطارد' }, { en: 'Venus', ur: 'زہرہ' }, { en: 'Earth', ur: 'زمین' }, { en: 'Mars', ur: 'مریخ' }],
     correct: 1,
-    explanation: { en: 'Venus is the hottest planet due to its thick atmosphere.', ur: 'زہرہ اپنی گھنی فضا کی وجہ سے سب سے گرم سیارہ ہے۔' }
+    explanation: { en: 'Venus is hottest due to thick atmosphere.', ur: 'زہرہ گھنی فضا کی وجہ سے سب سے گرم ہے۔' }
   },
   {
     question: { en: 'Which planet is known as the Red Planet?', ur: 'سرخ سیارہ کسے کہا جاتا ہے؟' },
-    options: [
-      { en: 'Jupiter', ur: 'مشتری' },
-      { en: 'Saturn', ur: 'زحل' },
-      { en: 'Mars', ur: 'مریخ' },
-      { en: 'Venus', ur: 'زہرہ' }
-    ],
+    options: [{ en: 'Jupiter', ur: 'مشتری' }, { en: 'Saturn', ur: 'زحل' }, { en: 'Mars', ur: 'مریخ' }, { en: 'Venus', ur: 'زہرہ' }],
     correct: 2,
-    explanation: { en: 'Mars is called the Red Planet due to iron-rich dust.', ur: 'مریخ کو لوہے سے بھرپور گرد کی وجہ سے سرخ سیارہ کہا جاتا ہے۔' }
+    explanation: { en: 'Mars is the Red Planet.', ur: 'مریخ سرخ سیارہ ہے۔' }
   },
   {
     question: { en: 'Which is the largest planet?', ur: 'سب سے بڑا سیارہ کون سا ہے؟' },
-    options: [
-      { en: 'Saturn', ur: 'زحل' },
-      { en: 'Jupiter', ur: 'مشتری' },
-      { en: 'Neptune', ur: 'نیپچون' },
-      { en: 'Uranus', ur: 'یورینس' }
-    ],
+    options: [{ en: 'Saturn', ur: 'زحل' }, { en: 'Jupiter', ur: 'مشتری' }, { en: 'Neptune', ur: 'نیپچون' }, { en: 'Uranus', ur: 'یورینس' }],
     correct: 1,
-    explanation: { en: 'Jupiter is the largest planet in the Solar System.', ur: 'مشتری نظامِ شمسی کا سب سے بڑا سیارہ ہے۔' }
+    explanation: { en: 'Jupiter is the largest planet.', ur: 'مشتری سب سے بڑا سیارہ ہے۔' }
   },
   {
     question: { en: 'Which planet has prominent rings?', ur: 'کس سیارے کے نمایاں حلقے ہیں؟' },
-    options: [
-      { en: 'Jupiter', ur: 'مشتری' },
-      { en: 'Uranus', ur: 'یورینس' },
-      { en: 'Saturn', ur: 'زحل' },
-      { en: 'Neptune', ur: 'نیپچون' }
-    ],
+    options: [{ en: 'Jupiter', ur: 'مشتری' }, { en: 'Uranus', ur: 'یورینس' }, { en: 'Saturn', ur: 'زحل' }, { en: 'Neptune', ur: 'نیپچون' }],
     correct: 2,
-    explanation: { en: 'Saturn is famous for its bright ring system.', ur: 'زحل اپنے روشن حلقوں کے نظام کی وجہ سے مشہور ہے۔' }
+    explanation: { en: 'Saturn has bright rings.', ur: 'زحل کے روشن حلقے ہیں۔' }
   },
   {
     question: { en: 'Which planets are gas giants?', ur: 'گیس دیو کون سے سیارے ہیں؟' },
-    options: [
-      { en: 'Earth and Mars', ur: 'زمین اور مریخ' },
-      { en: 'Jupiter and Saturn', ur: 'مشتری اور زحل' },
-      { en: 'Uranus and Neptune', ur: 'یورینس اور نیپچون' },
-      { en: 'Mercury and Venus', ur: 'عطارد اور زہرہ' }
-    ],
+    options: [{ en: 'Earth and Mars', ur: 'زمین اور مریخ' }, { en: 'Jupiter and Saturn', ur: 'مشتری اور زحل' }, { en: 'Uranus and Neptune', ur: 'یورینس اور نیپچون' }, { en: 'Mercury and Venus', ur: 'عطارد اور زہرہ' }],
     correct: 1,
     explanation: { en: 'Jupiter and Saturn are gas giants.', ur: 'مشتری اور زحل گیس دیو ہیں۔' }
   },
   {
-    question: { en: 'Which planets are ice giants?', ur: 'برفانی دیو کون سے سیارے ہیں؟' },
-    options: [
-      { en: 'Jupiter and Saturn', ur: 'مشتری اور زحل' },
-      { en: 'Earth and Mars', ur: 'زمین اور مریخ' },
-      { en: 'Uranus and Neptune', ur: 'یورینس اور نیپچون' },
-      { en: 'Mercury and Venus', ur: 'عطارد اور زہرہ' }
-    ],
+    question: { en: 'Which planets are ice giants?', ur: 'برفانی دیو کون سے ہیں؟' },
+    options: [{ en: 'Jupiter and Saturn', ur: 'مشتری اور زحل' }, { en: 'Earth and Mars', ur: 'زمین اور مریخ' }, { en: 'Uranus and Neptune', ur: 'یورینس اور نیپچون' }, { en: 'Mercury and Venus', ur: 'عطارد اور زہرہ' }],
     correct: 2,
     explanation: { en: 'Uranus and Neptune are ice giants.', ur: 'یورینس اور نیپچون برفانی دیو ہیں۔' }
   },
   {
-    question: { en: 'What is the asteroid belt located between?', ur: 'سیارچوں کی پٹی کہاں واقع ہے؟' },
-    options: [
-      { en: 'Earth and Mars', ur: 'زمین اور مریخ' },
-      { en: 'Mars and Jupiter', ur: 'مریخ اور مشتری' },
-      { en: 'Jupiter and Saturn', ur: 'مشتری اور زحل' },
-      { en: 'Saturn and Uranus', ur: 'زحل اور یورینس' }
-    ],
+    question: { en: 'What keeps planets in orbit?', ur: 'سیاروں کو مدار میں کیا رکھتا ہے؟' },
+    options: [{ en: 'Magnetism', ur: 'مقناطیسیت' }, { en: 'Gravity', ur: 'کششِ ثقل' }, { en: 'Wind', ur: 'ہوا' }, { en: 'Light', ur: 'روشنی' }],
     correct: 1,
-    explanation: { en: 'The asteroid belt is mainly between Mars and Jupiter.', ur: 'سیارچوں کی پٹی زیادہ تر مریخ اور مشتری کے درمیان ہے۔' }
+    explanation: { en: 'Gravity keeps planets in orbit.', ur: 'کششِ ثقل سیاروں کو مدار میں رکھتی ہے۔' }
   },
   {
-    question: { en: 'What happens when a comet approaches the Sun?', ur: 'جب دمدار ستارہ سورج کے قریب آتا ہے تو کیا ہوتا ہے؟' },
-    options: [
-      { en: 'It disappears', ur: 'یہ غائب ہو جاتا ہے' },
-      { en: 'It develops a tail', ur: 'اس کی دم بن جاتی ہے' },
-      { en: 'It becomes a planet', ur: 'یہ سیارہ بن جاتا ہے' },
-      { en: 'Nothing changes', ur: 'کچھ نہیں بدلتا' }
-    ],
+    question: { en: 'What is an orbit?', ur: 'مدار کیا ہے؟' },
+    options: [{ en: 'A straight line', ur: 'سیدھی لکیر' }, { en: 'A curved path around a larger object', ur: 'بڑے جسم کے گرد خمیدہ راستہ' }, { en: 'A circle in space', ur: 'خلا میں دائرہ' }, { en: 'A planet surface', ur: 'سیارے کی سطح' }],
     correct: 1,
-    explanation: { en: 'Comets develop glowing tails when near the Sun.', ur: 'دمدار ستارے سورج کے قریب آنے پر روشن دم بناتے ہیں۔' }
+    explanation: { en: 'An orbit is a curved path around a larger object.', ur: 'مدار بڑے جسم کے گرد خمیدہ راستہ ہے۔' }
+  },
+  {
+    question: { en: 'What creates a planet\'s day?', ur: 'سیارے کا دن کیا بناتا ہے؟' },
+    options: [{ en: 'Orbit around Sun', ur: 'سورج کے گرد مدار' }, { en: 'Rotation on axis', ur: 'محور پر گردش' }, { en: 'Moon orbit', ur: 'چاند کا مدار' }, { en: 'Sun movement', ur: 'سورج کی حرکت' }],
+    correct: 1,
+    explanation: { en: 'Rotation on axis creates a day.', ur: 'محور پر گردش دن بناتی ہے۔' }
+  },
+  {
+    question: { en: 'What creates a planet\'s year?', ur: 'سیارے کا سال کیا بناتا ہے؟' },
+    options: [{ en: 'Rotation', ur: 'گردش' }, { en: 'One orbit around Sun', ur: 'سورج کے گرد ایک مدار' }, { en: 'Moon phases', ur: 'چاند کے مراحل' }, { en: 'Seasons', ur: 'موسم' }],
+    correct: 1,
+    explanation: { en: 'One orbit around Sun creates a year.', ur: 'سورج کے گرد ایک مدار سال بناتا ہے۔' }
+  },
+  {
+    question: { en: 'Where is the asteroid belt?', ur: 'سیارچوں کی پٹی کہاں ہے؟' },
+    options: [{ en: 'Earth and Mars', ur: 'زمین اور مریخ' }, { en: 'Mars and Jupiter', ur: 'مریخ اور مشتری' }, { en: 'Jupiter and Saturn', ur: 'مشتری اور زحل' }, { en: 'Saturn and Uranus', ur: 'زحل اور یورینس' }],
+    correct: 1,
+    explanation: { en: 'Asteroid belt is between Mars and Jupiter.', ur: 'سیارچوں کی پٹی مریخ اور مشتری کے درمیان ہے۔' }
+  },
+  {
+    question: { en: 'What is a comet?', ur: 'دمدار ستارہ کیا ہے؟' },
+    options: [{ en: 'A star', ur: 'ستارہ' }, { en: 'An icy object that can develop a tail', ur: 'برفیلا جسم جس کی دم بن سکتی ہے' }, { en: 'A planet', ur: 'سیارہ' }, { en: 'A moon', ur: 'چاند' }],
+    correct: 1,
+    explanation: { en: 'Comets are icy objects that can develop tails.', ur: 'دمدار ستارے برفیلے اجسام ہیں جن کی دم بن سکتی ہے۔' }
   },
   {
     question: { en: 'What is a moon?', ur: 'چاند کیا ہے؟' },
-    options: [
-      { en: 'A star', ur: 'ایک ستارہ' },
-      { en: 'A natural satellite orbiting a planet', ur: 'سیارے کے گرد گردش کرنے والا قدرتی سیارہ نما' },
-      { en: 'A type of comet', ur: 'ایک قسم کا دمدار ستارہ' },
-      { en: 'A dwarf planet', ur: 'بونا سیارہ' }
-    ],
+    options: [{ en: 'A star', ur: 'ستارہ' }, { en: 'A natural satellite orbiting a planet', ur: 'سیارے کے گرد قدرتی سیارہ نما' }, { en: 'A comet', ur: 'دمدار ستارہ' }, { en: 'An asteroid', ur: 'سیارچہ' }],
     correct: 1,
-    explanation: { en: 'A moon is a natural satellite that orbits a planet.', ur: 'چاند ایک قدرتی سیارہ نما ہے جو سیارے کے گرد گردش کرتا ہے۔' }
+    explanation: { en: 'A moon is a natural satellite orbiting a planet.', ur: 'چاند سیارے کے گرد قدرتی سیارہ نما ہے۔' }
   },
   {
-    question: { en: 'What defines a dwarf planet?', ur: 'بونے سیارے کی تعریف کیا ہے؟' },
-    options: [
-      { en: 'It orbits the Sun and is round but has not cleared its orbit', ur: 'یہ سورج کے گرد گردش کرتا ہے اور گول ہے لیکن اس نے اپنا مدار صاف نہیں کیا' },
-      { en: 'It is smaller than all moons', ur: 'یہ تمام چاندوں سے چھوٹا ہے' },
-      { en: 'It has no gravity', ur: 'اس کی کوئی کششِ ثقل نہیں' },
-      { en: 'It is made of gas', ur: 'یہ گیس سے بنا ہے' }
-    ],
-    correct: 0,
-    explanation: { en: 'A dwarf planet orbits the Sun and is round but has not cleared its orbital neighborhood.', ur: 'بونا سیارہ سورج کے گرد گردش کرتا ہے اور گول ہے لیکن اس نے اپنے مداری علاقے سے دوسرے اجسام صاف نہیں کیے۔' }
+    question: { en: 'What is a dwarf planet?', ur: 'بونا سیارہ کیا ہے؟' },
+    options: [{ en: 'A small star', ur: 'چھوٹا ستارہ' }, { en: 'Orbits Sun but has not cleared its orbit', ur: 'سورج کے گرد گردش کرتا ہے لیکن مدار صاف نہیں کیا' }, { en: 'A moon', ur: 'چاند' }, { en: 'An asteroid', ur: 'سیارچہ' }],
+    correct: 1,
+    explanation: { en: 'Dwarf planet orbits Sun but has not cleared its orbit.', ur: 'بونا سیارہ سورج کے گرد گردش کرتا ہے لیکن اس نے مدار صاف نہیں کیا۔' }
   },
   {
     question: { en: 'How old is the Solar System?', ur: 'نظامِ شمسی کتنا پرانا ہے؟' },
-    options: [
-      { en: '1 billion years', ur: '۱ ارب سال' },
-      { en: '4.6 billion years', ur: '۴.۶ ارب سال' },
-      { en: '10 billion years', ur: '۱۰ ارب سال' },
-      { en: '100 million years', ur: '۱۰ کروڑ سال' }
-    ],
+    options: [{ en: '1 billion years', ur: '۱ ارب سال' }, { en: '4.6 billion years', ur: '۴.۶ ارب سال' }, { en: '10 billion years', ur: '۱۰ ارب سال' }, { en: '100 million years', ur: '۱۰ کروڑ سال' }],
     correct: 1,
-    explanation: { en: 'The Solar System formed about 4.6 billion years ago.', ur: 'نظامِ شمسی تقریباً ۴.۶ ارب سال پہلے بنا۔' }
-  },
-  {
-    question: { en: 'What causes a planet\'s year?', ur: 'سیارے کا سال کس کی وجہ سے ہوتا ہے؟' },
-    options: [
-      { en: 'Rotation on its axis', ur: 'اپنے محور پر گردش' },
-      { en: 'One complete orbit around the Sun', ur: 'سورج کے گرد ایک مکمل مدار' },
-      { en: 'The Moon\'s orbit', ur: 'چاند کا مدار' },
-      { en: 'The planet\'s tilt', ur: 'سیارے کا جھکاؤ' }
-    ],
-    correct: 1,
-    explanation: { en: 'A planet\'s year is one complete trip around the Sun.', ur: 'سیارے کا سال سورج کے گرد ایک مکمل سفر ہے۔' }
-  },
-  {
-    question: { en: 'Why do outer planets have longer years?', ur: 'بیرونی سیاروں کے سال لمبے کیوں ہوتے ہیں؟' },
-    options: [
-      { en: 'They rotate faster', ur: 'وہ تیز گردش کرتے ہیں' },
-      { en: 'They have larger orbits', ur: 'ان کے مدار بڑے ہوتے ہیں' },
-      { en: 'They are colder', ur: 'وہ زیادہ ٹھنڈے ہوتے ہیں' },
-      { en: 'They have more moons', ur: 'ان کے زیادہ چاند ہوتے ہیں' }
-    ],
-    correct: 1,
-    explanation: { en: 'Outer planets have larger orbits, so they take longer to complete a year.', ur: 'بیرونی سیاروں کے مدار بڑے ہوتے ہیں، اس لیے انہیں سال مکمل کرنے میں زیادہ وقت لگتا ہے۔' }
-  },
-  {
-    question: { en: 'What is the Sun mostly made of?', ur: 'سورج زیادہ تر کس سے بنا ہے؟' },
-    options: [
-      { en: 'Rock and metal', ur: 'چٹان اور دھات' },
-      { en: 'Hydrogen and helium', ur: 'ہائیڈروجن اور ہیلیم' },
-      { en: 'Ice and dust', ur: 'برف اور گرد' },
-      { en: 'Carbon dioxide', ur: 'کاربن ڈائی آکسائیڈ' }
-    ],
-    correct: 1,
-    explanation: { en: 'The Sun is mostly hydrogen and helium.', ur: 'سورج زیادہ تر ہائیڈروجن اور ہیلیم پر مشتمل ہے۔' }
-  },
-  {
-    question: { en: 'Which planet has the only known life?', ur: 'کس سیارے پر معلوم واحد زندگی ہے؟' },
-    options: [
-      { en: 'Mars', ur: 'مریخ' },
-      { en: 'Venus', ur: 'زہرہ' },
-      { en: 'Earth', ur: 'زمین' },
-      { en: 'Jupiter', ur: 'مشتری' }
-    ],
-    correct: 2,
-    explanation: { en: 'Earth is the only known world with life.', ur: 'زمین معلوم واحد دنیا ہے جہاں زندگی موجود ہے۔' }
+    explanation: { en: 'Solar System is about 4.6 billion years old.', ur: 'نظامِ شمسی تقریباً ۴.۶ ارب سال پرانا ہے۔' }
   }
 ];
 
@@ -284,6 +354,9 @@ function Quiz() {
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [bestScore, setBestScore] = useState(() => {
+    return parseInt(localStorage.getItem('sslh-solar-quiz-best') || '0');
+  });
 
   const question = quizQuestions[currentQ];
 
@@ -293,7 +366,12 @@ function Quiz() {
     setAnswered(true);
     setShowResult(true);
     if (idx === question.correct) {
-      setScore(score + 1);
+      const newScore = score + 1;
+      setScore(newScore);
+      if (newScore > bestScore) {
+        setBestScore(newScore);
+        localStorage.setItem('sslh-solar-quiz-best', newScore.toString());
+      }
     }
   };
 
@@ -323,35 +401,25 @@ function Quiz() {
         <h3 className="text-xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {language === 'en' && 'Quiz Complete!'}
           {language === 'ur' && <span className="font-urdu" dir="rtl">کوئز مکمل!</span>}
-          {language === 'both' && (
-            <>
-              Quiz Complete!
-              <span className="block font-urdu mt-1" dir="rtl">کوئز مکمل!</span>
-            </>
-          )}
+          {language === 'both' && <>Quiz Complete!<span className="block font-urdu mt-1" dir="rtl">کوئز مکمل!</span></>}
         </h3>
-        <div className="text-4xl font-bold mb-4" style={{ color: 'var(--accent)' }}>
+        <div className="text-4xl font-bold mb-2" style={{ color: 'var(--accent)' }}>
           {score} / {quizQuestions.length}
         </div>
+        <p className="text-sm mb-2" style={{ color: 'var(--text-secondary)' }}>
+          {language === 'en' && `Best score: ${bestScore}`}
+          {language === 'ur' && <span className="font-urdu" dir="rtl">بہترین اسکور: {bestScore}</span>}
+          {language === 'both' && <>Best score: {bestScore}<span className="block font-urdu mt-1" dir="rtl">بہترین اسکور: {bestScore}</span></>}
+        </p>
         <p className="mb-4" style={{ color: 'var(--text-secondary)' }}>
-          {language === 'en' && `You answered ${score} out of ${quizQuestions.length} questions correctly.`}
-          {language === 'ur' && <span className="font-urdu" dir="rtl">آپ نے {quizQuestions.length} میں سے {score} سوالات کے درست جواب دیے۔</span>}
-          {language === 'both' && (
-            <>
-              You answered {score} out of {quizQuestions.length} questions correctly.
-              <span className="block font-urdu mt-1" dir="rtl">آپ نے {quizQuestions.length} میں سے {score} سوالات کے درست جواب دیے۔</span>
-            </>
-          )}
+          {language === 'en' && `You answered ${score} out of ${quizQuestions.length} correctly.`}
+          {language === 'ur' && <span className="font-urdu" dir="rtl">آپ نے {quizQuestions.length} میں سے {score} درست جواب دیے۔</span>}
+          {language === 'both' && <>You answered {score} out of {quizQuestions.length} correctly.<span className="block font-urdu mt-1" dir="rtl">آپ نے {quizQuestions.length} میں سے {score} درست جواب دیے۔</span></>}
         </p>
         <button onClick={handleRetry} className="px-6 py-2 rounded-lg font-medium" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>
           {language === 'en' && 'Retry Quiz'}
-          {language === 'ur' && <span className="font-urdu" dir="rtl">دوبارہ کوشش کریں</span>}
-          {language === 'both' && (
-            <>
-              Retry Quiz
-              <span className="block font-urdu mt-1" dir="rtl">دوبارہ کوشش کریں</span>
-            </>
-          )}
+          {language === 'ur' && <span className="font-urdu" dir="rtl">دوبارہ کوشش</span>}
+          {language === 'both' && <>Retry Quiz<span className="block font-urdu text-sm mt-1" dir="rtl">دوبارہ کوشش</span></>}
         </button>
       </div>
     );
@@ -363,34 +431,19 @@ function Quiz() {
         <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
           {language === 'en' && `Question ${currentQ + 1} of ${quizQuestions.length}`}
           {language === 'ur' && <span className="font-urdu" dir="rtl">سوال {currentQ + 1} از {quizQuestions.length}</span>}
-          {language === 'both' && (
-            <>
-              Question {currentQ + 1} of {quizQuestions.length}
-              <span className="block font-urdu text-xs" dir="rtl">سوال {currentQ + 1} از {quizQuestions.length}</span>
-            </>
-          )}
+          {language === 'both' && <>Question {currentQ + 1} of {quizQuestions.length}<span className="block font-urdu text-xs" dir="rtl">سوال {currentQ + 1} از {quizQuestions.length}</span></>}
         </span>
         <span className="text-sm font-medium" style={{ color: 'var(--accent)' }}>
           {language === 'en' && `Score: ${score}`}
           {language === 'ur' && <span className="font-urdu" dir="rtl">اسکور: {score}</span>}
-          {language === 'both' && (
-            <>
-              Score: {score}
-              <span className="block font-urdu text-xs" dir="rtl">اسکور: {score}</span>
-            </>
-          )}
+          {language === 'both' && <>Score: {score}<span className="block font-urdu text-xs" dir="rtl">اسکور: {score}</span></>}
         </span>
       </div>
 
       <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>
         {language === 'en' && question.question.en}
         {language === 'ur' && <span className="font-urdu" dir="rtl">{question.question.ur}</span>}
-        {language === 'both' && (
-          <>
-            {question.question.en}
-            <span className="block font-urdu mt-1" dir="rtl">{question.question.ur}</span>
-          </>
-        )}
+        {language === 'both' && <>{question.question.en}<span className="block font-urdu mt-1" dir="rtl">{question.question.ur}</span></>}
       </h3>
 
       <div className="space-y-2 mb-4">
@@ -402,8 +455,6 @@ function Quiz() {
             } else if (idx === selected && idx !== question.correct) {
               style = { backgroundColor: '#ef444420', borderColor: '#ef4444', color: '#ef4444' };
             }
-          } else if (idx === selected) {
-            style = { backgroundColor: 'var(--accent)', borderColor: 'var(--accent)', color: '#fff' };
           }
 
           return (
@@ -416,12 +467,7 @@ function Quiz() {
             >
               {language === 'en' && opt.en}
               {language === 'ur' && <span className="font-urdu" dir="rtl">{opt.ur}</span>}
-              {language === 'both' && (
-                <>
-                  {opt.en}
-                  <span className="block font-urdu text-sm mt-0.5" dir="rtl">{opt.ur}</span>
-                </>
-              )}
+              {language === 'both' && <>{opt.en}<span className="block font-urdu text-sm mt-0.5" dir="rtl">{opt.ur}</span></>}
             </button>
           );
         })}
@@ -430,31 +476,18 @@ function Quiz() {
       {showResult && (
         <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: selected === question.correct ? '#10b98115' : '#ef444415', border: `1px solid ${selected === question.correct ? '#10b981' : '#ef4444'}` }}>
           <div className="flex items-center gap-2 mb-2">
-            {selected === question.correct ? (
-              <CheckCircle size={20} style={{ color: '#10b981' }} />
-            ) : (
-              <XCircle size={20} style={{ color: '#ef4444' }} />
-            )}
+            {selected === question.correct ? <CheckCircle size={20} style={{ color: '#10b981' }} /> : <XCircle size={20} style={{ color: '#ef4444' }} />}
             <span className="font-semibold" style={{ color: selected === question.correct ? '#10b981' : '#ef4444' }}>
               {selected === question.correct
                 ? (language === 'en' ? 'Correct!' : language === 'ur' ? 'درست!' : 'Correct!')
                 : (language === 'en' ? 'Incorrect' : language === 'ur' ? 'غلط' : 'Incorrect')}
-              {language === 'both' && (
-                <span className="font-urdu ml-2" dir="rtl">
-                  {selected === question.correct ? 'درست!' : 'غلط'}
-                </span>
-              )}
+              {language === 'both' && <span className="font-urdu ml-2" dir="rtl">{selected === question.correct ? 'درست!' : 'غلط'}</span>}
             </span>
           </div>
           <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
             {language === 'en' && question.explanation.en}
             {language === 'ur' && <span className="font-urdu" dir="rtl">{question.explanation.ur}</span>}
-            {language === 'both' && (
-              <>
-                {question.explanation.en}
-                <span className="block font-urdu mt-1" dir="rtl">{question.explanation.ur}</span>
-              </>
-            )}
+            {language === 'both' && <>{question.explanation.en}<span className="block font-urdu mt-1" dir="rtl">{question.explanation.ur}</span></>}
           </p>
         </div>
       )}
@@ -462,13 +495,8 @@ function Quiz() {
       {answered && (
         <button onClick={handleNext} className="w-full py-2 rounded-lg font-medium" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>
           {language === 'en' && (currentQ < quizQuestions.length - 1 ? 'Next Question' : 'Finish Quiz')}
-          {language === 'ur' && <span className="font-urdu" dir="rtl">{currentQ < quizQuestions.length - 1 ? 'اگلا سوال' : 'کوئز مکمل کریں'}</span>}
-          {language === 'both' && (
-            <>
-              {currentQ < quizQuestions.length - 1 ? 'Next Question' : 'Finish Quiz'}
-              <span className="block font-urdu text-sm mt-0.5" dir="rtl">{currentQ < quizQuestions.length - 1 ? 'اگلا سوال' : 'کوئز مکمل کریں'}</span>
-            </>
-          )}
+          {language === 'ur' && <span className="font-urdu" dir="rtl">{currentQ < quizQuestions.length - 1 ? 'اگلا سوال' : 'کوئز مکمل'}</span>}
+          {language === 'both' && <>{currentQ < quizQuestions.length - 1 ? 'Next Question' : 'Finish Quiz'}<span className="block font-urdu text-sm mt-0.5" dir="rtl">{currentQ < quizQuestions.length - 1 ? 'اگلا سوال' : 'کوئز مکمل'}</span></>}
         </button>
       )}
     </div>
@@ -478,17 +506,24 @@ function Quiz() {
 export function SolarSystemPage() {
   const { language } = useApp();
   const navigate = useNavigate();
+  const [selectedPlanet, setSelectedPlanet] = useState<PlanetData | null>(null);
 
   const renderText = (en: string, ur: string) => {
     if (language === 'en') return <>{en}</>;
     if (language === 'ur') return <span className="font-urdu" dir="rtl">{ur}</span>;
-    return (
-      <>
-        <span>{en}</span>
-        <span className="block font-urdu mt-2" dir="rtl">{ur}</span>
-      </>
-    );
+    return <><span>{en}</span><span className="block font-urdu mt-2" dir="rtl">{ur}</span></>;
   };
+
+  const planetFacts = [
+    { en: 'Mercury is the closest planet to the Sun and the smallest of the eight planets.', ur: 'عطارد سورج کے سب سے قریب اور آٹھ سیاروں میں سب سے چھوٹا سیارہ ہے۔' },
+    { en: 'Venus has a thick carbon-dioxide atmosphere that traps heat, making it the hottest planet.', ur: 'زہرہ کی گھنی کاربن ڈائی آکسائیڈ فضا حرارت کو روک لیتی ہے، جس کی وجہ سے یہ سب سے گرم سیارہ ہے۔' },
+    { en: 'Earth has liquid water, a protective atmosphere and the only known life in the Solar System.', ur: 'زمین پر مائع پانی، حفاظتی فضا اور نظامِ شمسی میں معلوم واحد زندگی موجود ہے۔' },
+    { en: 'Mars is known as the Red Planet because iron-rich dust gives it a reddish color.', ur: 'مریخ کو سرخ سیارہ کہا جاتا ہے کیونکہ لوہے سے بھرپور گرد اسے سرخی مائل رنگ دیتی ہے۔' },
+    { en: 'Jupiter is the largest planet and has a powerful magnetic field, many moons and faint rings.', ur: 'مشتری سب سے بڑا سیارہ ہے اور اس کا مقناطیسی میدان طاقتور، کئی چاند اور مدھم حلقے ہیں۔' },
+    { en: 'Saturn is famous for its bright ring system made mostly of ice particles mixed with rock and dust.', ur: 'زحل اپنے روشن حلقوں کے نظام کی وجہ سے مشہور ہے جو زیادہ تر برف کے ذرات کے ساتھ چٹان اور گرد سے بنا ہے۔' },
+    { en: 'Uranus is an ice giant that rotates with an extreme tilt, appearing to roll on its side.', ur: 'یورینس ایک برفانی دیو ہے جو بہت زیادہ جھکاؤ کے ساتھ گردش کرتا ہے اور پہلو کے بل گھومتا ہوا دکھائی دیتا ہے۔' },
+    { en: 'Neptune is the farthest major planet and has extremely fast winds in its atmosphere.', ur: 'نیپچون سب سے دور بڑا سیارہ ہے اور اس کی فضا میں بہت تیز ہوائیں چلتی ہیں۔' }
+  ];
 
   return (
     <div className="space-y-12 pb-8">
@@ -499,7 +534,7 @@ export function SolarSystemPage() {
         </h1>
       </div>
 
-      {/* Hero Section */}
+      {/* Section 1: Hero */}
       <section className="rounded-2xl overflow-hidden border" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
         <div className="p-6 md:p-8">
           <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
@@ -513,7 +548,7 @@ export function SolarSystemPage() {
           </p>
           <ImageCard
             src="https://images-assets.nasa.gov/image/PIA21474/PIA21474~medium.jpg"
-            alt="Solar System illustration"
+            alt="Solar System"
             captionEn="A simplified view of the Solar System."
             captionUr="نظامِ شمسی کا ایک سادہ منظر۔"
             credit="Educational illustration — not to scale"
@@ -521,88 +556,54 @@ export function SolarSystemPage() {
         </div>
       </section>
 
-      {/* Section 1: What Is the Solar System? */}
+      {/* Section 2: Interactive Animation */}
       <section>
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-          {renderText('What Is the Solar System?', 'نظامِ شمسی کیا ہے؟')}
+          {renderText('Watch the Solar System in Motion', 'نظامِ شمسی کو حرکت میں دیکھیں')}
         </h2>
         <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
           {renderText(
-            'The Solar System is the group of objects that orbit the Sun because of its gravity. The Sun contains almost all the mass in the Solar System, so its gravity strongly affects the motion of planets, moons, asteroids and comets. The planets do not travel through empty space alone. They are part of a connected system of worlds, moons, rocks, ice and dust.',
-            'نظامِ شمسی ان اجسام کا مجموعہ ہے جو سورج کی کششِ ثقل کی وجہ سے اس کے گرد گردش کرتے ہیں۔ سورج میں نظامِ شمسی کی تقریباً ساری کمیت موجود ہے، اس لیے اس کی کششِ ثقل سیاروں، چاندوں، سیارچوں اور دمدار ستاروں کی حرکت پر مضبوط اثر ڈالتی ہے۔ سیارے خالی خلا میں اکیلے سفر نہیں کرتے۔ وہ دنیاؤں، چاندوں، چٹانوں، برف اور گرد کے ایک باہم جڑے ہوئے نظام کا حصہ ہیں۔'
+            'The planets travel around the Sun because of gravity. Each planet follows its own orbit and takes a different amount of time to complete one journey around the Sun.',
+            'سیارے کششِ ثقل کی وجہ سے سورج کے گرد حرکت کرتے ہیں۔ ہر سیارہ اپنا الگ مدار رکھتا ہے اور سورج کے گرد ایک چکر مکمل کرنے میں مختلف وقت لیتا ہے۔'
+          )}
+        </p>
+        <SolarSystem onPlanetClick={setSelectedPlanet} />
+        <PlanetModal planet={selectedPlanet} onClose={() => setSelectedPlanet(null)} />
+      </section>
+
+      {/* Section 3: Why Planets Orbit */}
+      <section>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          {renderText('Why Do Planets Orbit the Sun?', 'سیارے سورج کے گرد کیوں گردش کرتے ہیں؟')}
+        </h2>
+        <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
+          {renderText(
+            'Gravity is the force that attracts objects with mass toward each other. The Sun has far more mass than any planet, so its gravity pulls planets inward. At the same time, each planet is moving forward through space. The combination of forward motion and the Sun\'s gravitational pull creates a curved path called an orbit.',
+            'کششِ ثقل وہ قوت ہے جو کمیت رکھنے والے اجسام کو ایک دوسرے کی طرف کھینچتی ہے۔ سورج کی کمیت کسی بھی سیارے سے بہت زیادہ ہے، اس لیے اس کی کششِ ثقل سیاروں کو اپنی طرف کھینچتی ہے۔ اسی وقت ہر سیارہ خلا میں آگے کی سمت حرکت کر رہا ہوتا ہے۔ آگے کی حرکت اور سورج کی کششِ ثقل مل کر ایک خمیدہ راستہ بناتی ہیں جسے مدار کہتے ہیں۔'
           )}
         </p>
         <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-          {renderText('How Gravity Creates Orbits', 'کششِ ثقل مدار کیسے بناتی ہے')}
+          {renderText('How Orbits Form', 'مدار کیسے بنتے ہیں')}
         </h3>
-        <Flowchart
-          isUrdu={language === 'ur'}
+        <InteractiveFlowchart
           steps={[
-            { en: "Sun's gravity", ur: 'سورج کی کششِ ثقل' },
-            { en: 'Objects move forward', ur: 'اجسام آگے حرکت کرتے ہیں' },
-            { en: 'Gravity bends paths', ur: 'کششِ ثقل راستے موڑتی ہے' },
-            { en: 'Curved orbits form', ur: 'خمیدہ مدار بنتے ہیں' },
-            { en: 'Objects orbit the Sun', ur: 'اجسام سورج کے گرد گردش کرتے ہیں' }
+            { en: 'Planet moves forward', ur: 'سیارہ آگے حرکت کرتا ہے' },
+            { en: "Sun's gravity pulls inward", ur: 'سورج کی کششِ ثقل اندر کھینچتی ہے' },
+            { en: 'Curved path forms', ur: 'خمیدہ راستہ بنتا ہے' },
+            { en: 'Planet stays in orbit', ur: 'سیارہ مدار میں رہتا ہے' }
           ]}
         />
       </section>
 
-      {/* Section 2: The Sun */}
-      <section>
-        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-          {renderText('The Sun — The Heart of the Solar System', 'سورج — نظامِ شمسی کا مرکز')}
-        </h2>
-        <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
-          {renderText(
-            'The Sun is a star at the center of the Solar System. It provides light and heat, and its gravity helps keep planets in orbit. The Sun is made mostly of hydrogen and helium. Deep inside its core, nuclear fusion releases energy that slowly travels outward and leaves the Sun as sunlight and heat.',
-            'سورج نظامِ شمسی کے مرکز میں موجود ایک ستارہ ہے۔ یہ روشنی اور حرارت فراہم کرتا ہے، اور اس کی کششِ ثقل سیاروں کو مدار میں رکھنے میں مدد دیتی ہے۔ سورج زیادہ تر ہائیڈروجن اور ہیلیم پر مشتمل ہے۔ اس کے گہرے مرکز میں جوہری ملاپ توانائی خارج کرتا ہے جو آہستہ آہستہ باہر کی طرف جاتی ہے اور سورج سے روشنی اور حرارت کی صورت میں نکلتی ہے۔'
-          )}
-        </p>
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 my-4">
-          {[
-            { en: 'Type: G-type star', ur: 'قسم: جی قسم کا ستارہ' },
-            { en: 'Diameter: ~1,392,700 km', ur: 'قطر: تقریباً ۱۳،۹۲،۷۰۰ کلومیٹر' },
-            { en: 'Age: ~4.6 billion years', ur: 'عمر: تقریباً ۴.۶ ارب سال' },
-            { en: 'Surface: ~5,500°C', ur: 'سطح: تقریباً ۵،۵۰۰ ڈگری' },
-            { en: 'Core: ~15 million°C', ur: 'مرکز: تقریباً ۱.۵ کروڑ ڈگری' },
-            { en: 'Mass: 99.8% of Solar System', ur: 'کمیت: نظامِ شمسی کا ۹۹.۸٪' }
-          ].map((fact, i) => (
-            <div key={i} className="p-3 rounded-lg text-sm" style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-primary)' }}>
-              {language === 'en' && fact.en}
-              {language === 'ur' && <span className="font-urdu" dir="rtl">{fact.ur}</span>}
-              {language === 'both' && (
-                <>
-                  {fact.en}
-                  <span className="block font-urdu text-xs mt-1" dir="rtl">{fact.ur}</span>
-                </>
-              )}
-            </div>
-          ))}
-        </div>
-        <h3 className="text-lg font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-          {renderText('Nuclear Fusion in the Sun', 'سورج میں جوہری ملاپ')}
-        </h3>
-        <Flowchart
-          isUrdu={language === 'ur'}
-          steps={[
-            { en: 'Hydrogen nuclei', ur: 'ہائیڈروجن کے مرکزے' },
-            { en: 'Nuclear fusion', ur: 'جوہری ملاپ' },
-            { en: 'Helium + energy', ur: 'ہیلیم + توانائی' },
-            { en: 'Energy moves outward', ur: 'توانائی باہر جاتی ہے' },
-            { en: 'Sunlight and heat', ur: 'روشنی اور حرارت' }
-          ]}
-        />
-      </section>
-
-      {/* Section 3: Eight Planets */}
+      {/* Section 4: Eight Planets */}
       <section>
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('The Eight Planets in Order', 'ترتیب کے ساتھ آٹھ سیارے')}
         </h2>
         <p className="text-sm md:text-base leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
           {renderText(
-            'The eight planets travel around the Sun in a specific order. The four inner planets are Mercury, Venus, Earth and Mars. They are rocky worlds with solid surfaces. The four outer planets are Jupiter, Saturn, Uranus and Neptune. Jupiter and Saturn are gas giants, while Uranus and Neptune are ice giants.',
-            'آٹھ سیارے سورج کے گرد ایک خاص ترتیب میں گردش کرتے ہیں۔ اندرونی چار سیارے عطارد، زہرہ، زمین اور مریخ ہیں۔ یہ پتھریلی دنیائیں ہیں جن کی ٹھوس سطحیں ہیں۔ بیرونی چار سیارے مشتری، زحل، یورینس اور نیپچون ہیں۔ مشتری اور زحل گیس دیو ہیں، جبکہ یورینس اور نیپچون برفانی دیو ہیں۔'
+            'The planets travel around the Sun in a specific order. Mercury, Venus, Earth and Mars are the inner rocky planets. Jupiter and Saturn are gas giants. Uranus and Neptune are ice giants.',
+            'سیارے سورج کے گرد ایک خاص ترتیب میں گردش کرتے ہیں۔ عطارد، زہرہ، زمین اور مریخ اندرونی پتھریلے سیارے ہیں۔ مشتری اور زحل گیس دیو ہیں۔ یورینس اور نیپچون برفانی دیو ہیں۔'
           )}
         </p>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -610,21 +611,21 @@ export function SolarSystemPage() {
             <div key={planet.id} className="rounded-xl p-4 border" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="w-16 h-16 rounded-full overflow-hidden" style={{ background: planet.gradient }}>
+                  <div className="w-20 h-20 rounded-full overflow-hidden" style={{ background: planet.gradient }}>
                     <img src={planet.imageUrl} alt={planet.name.en} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
                   </div>
                 </div>
                 <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="flex items-center gap-2 mb-2">
                     <span className="text-xs font-bold px-2 py-0.5 rounded" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>{i + 1}</span>
                     <h3 className="font-bold" style={{ color: 'var(--text-primary)' }}>
                       {language === 'ur' ? planet.name.ur : planet.name.en}
                       {language === 'both' && <span className="font-urdu font-normal text-sm ml-2" dir="rtl">{planet.name.ur}</span>}
                     </h3>
                   </div>
-                  <p className="text-xs mb-2" style={{ color: 'var(--text-secondary)' }}>
-                    {language === 'ur' ? planet.fact.ur : planet.fact.en}
-                    {language === 'both' && <span className="block font-urdu mt-0.5" dir="rtl">{planet.fact.ur}</span>}
+                  <p className="text-xs mb-3" style={{ color: 'var(--text-secondary)' }}>
+                    {language === 'ur' ? planetFacts[i].ur : planetFacts[i].en}
+                    {language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{planetFacts[i].ur}</span>}
                   </p>
                   <button onClick={() => navigate('/planets')} className="text-xs px-3 py-1 rounded-full font-medium" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>
                     {language === 'en' && 'Explore Planet'}
@@ -638,93 +639,130 @@ export function SolarSystemPage() {
         </div>
       </section>
 
-      {/* Continue with more sections... */}
-      {/* Section 4: Inner and Outer Planets */}
+      {/* Section 5: Inner vs Outer */}
       <section>
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('Inner Planets and Outer Planets', 'اندرونی اور بیرونی سیارے')}
         </h2>
-        <p className="text-sm md:text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
+        <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
           {renderText(
-            'The inner planets are closer to the Sun and are smaller rocky worlds. Mercury, Venus, Earth and Mars have solid surfaces. The outer planets are farther away and much larger. Jupiter and Saturn are gas giants, while Uranus and Neptune are ice giants.',
-            'اندرونی سیارے سورج کے زیادہ قریب ہوتے ہیں اور نسبتاً چھوٹی پتھریلی دنیائیں ہیں۔ عطارد، زہرہ، زمین اور مریخ کی ٹھوس سطحیں ہیں۔ بیرونی سیارے زیادہ دور اور بہت بڑے ہیں۔ مشتری اور زحل گیس دیو ہیں، جبکہ یورینس اور نیپچون برفانی دیو ہیں۔'
+            'The inner planets are Mercury, Venus, Earth and Mars. They are rocky and have solid surfaces. The outer planets are much larger. Jupiter and Saturn are gas giants, while Uranus and Neptune are ice giants.',
+            'اندرونی سیارے عطارد، زہرہ، زمین اور مریخ ہیں۔ یہ پتھریلے ہیں اور ان کی ٹھوس سطحیں ہیں۔ بیرونی سیارے بہت بڑے ہیں۔ مشتری اور زحل گیس دیو ہیں، جبکہ یورینس اور نیپچون برفانی دیو ہیں۔'
           )}
         </p>
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm border-collapse" style={{ color: 'var(--text-primary)' }}>
+            <thead>
+              <tr style={{ backgroundColor: 'var(--surface-muted)' }}>
+                <th className="p-3 text-left border" style={{ borderColor: 'var(--border)' }}>
+                  {language === 'en' && 'Feature'}
+                  {language === 'ur' && <span className="font-urdu" dir="rtl">خصوصیت</span>}
+                  {language === 'both' && <>Feature<span className="block font-urdu text-xs" dir="rtl">خصوصیت</span></>}
+                </th>
+                <th className="p-3 text-left border" style={{ borderColor: 'var(--border)' }}>
+                  {language === 'en' && 'Inner Planets'}
+                  {language === 'ur' && <span className="font-urdu" dir="rtl">اندرونی سیارے</span>}
+                  {language === 'both' && <>Inner Planets<span className="block font-urdu text-xs" dir="rtl">اندرونی سیارے</span></>}
+                </th>
+                <th className="p-3 text-left border" style={{ borderColor: 'var(--border)' }}>
+                  {language === 'en' && 'Outer Planets'}
+                  {language === 'ur' && <span className="font-urdu" dir="rtl">بیرونی سیارے</span>}
+                  {language === 'both' && <>Outer Planets<span className="block font-urdu text-xs" dir="rtl">بیرونی سیارے</span></>}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                { en: ['Planets', 'Mercury, Venus, Earth, Mars', 'Jupiter, Saturn, Uranus, Neptune'], ur: ['سیارے', 'عطارد، زہرہ، زمین، مریخ', 'مشتری، زحل، یورینس، نیپچون'] },
+                { en: ['Type', 'Rocky', 'Gas/Ice giants'], ur: ['قسم', 'پتھریلے', 'گیس/برفانی دیو'] },
+                { en: ['Surface', 'Solid', 'No solid surface'], ur: ['سطح', 'ٹھوس', 'کوئی ٹھوس سطح نہیں'] },
+                { en: ['Size', 'Smaller', 'Much larger'], ur: ['سائز', 'چھوٹے', 'بہت بڑے'] }
+              ].map((row, i) => (
+                <tr key={i} style={{ backgroundColor: i % 2 === 0 ? 'var(--surface)' : 'var(--surface-muted)' }}>
+                  <td className="p-3 border font-medium" style={{ borderColor: 'var(--border)' }}>
+                    {language === 'en' && row.en[0]}
+                    {language === 'ur' && <span className="font-urdu" dir="rtl">{row.ur[0]}</span>}
+                    {language === 'both' && <>{row.en[0]}<span className="block font-urdu text-xs" dir="rtl">{row.ur[0]}</span></>}
+                  </td>
+                  <td className="p-3 border" style={{ borderColor: 'var(--border)' }}>
+                    {language === 'en' && row.en[1]}
+                    {language === 'ur' && <span className="font-urdu" dir="rtl">{row.ur[1]}</span>}
+                    {language === 'both' && <>{row.en[1]}<span className="block font-urdu text-xs" dir="rtl">{row.ur[1]}</span></>}
+                  </td>
+                  <td className="p-3 border" style={{ borderColor: 'var(--border)' }}>
+                    {language === 'en' && row.en[2]}
+                    {language === 'ur' && <span className="font-urdu" dir="rtl">{row.ur[2]}</span>}
+                    {language === 'both' && <>{row.en[2]}<span className="block font-urdu text-xs" dir="rtl">{row.ur[2]}</span></>}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </section>
 
-      {/* Section 5: Orbits and Days/Years */}
+      {/* Section 6: Day and Year */}
       <section>
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('Why Do Planets Have Different Days and Years?', 'سیاروں کے دن اور سال مختلف کیوں ہوتے ہیں؟')}
         </h2>
         <p className="text-sm md:text-base leading-relaxed mb-4" style={{ color: 'var(--text-secondary)' }}>
           {renderText(
-            "A planet's day is linked to how long it takes to rotate once on its axis. A planet's year is linked to how long it takes to travel once around the Sun.",
-            "کسی سیارے کا دن اس وقت سے متعلق ہے جو وہ اپنے محور کے گرد ایک چکر مکمل کرنے میں لیتا ہے۔ کسی سیارے کا سال اس وقت سے متعلق ہے جو وہ سورج کے گرد ایک چکر مکمل کرنے میں لیتا ہے۔"
+            'A planet\'s day is the time it takes to rotate once on its axis. A planet\'s year is the time it takes to complete one orbit around the Sun.',
+            'کسی سیارے کا دن وہ وقت ہے جو اسے اپنے محور کے گرد ایک چکر مکمل کرنے میں لگتا ہے۔ کسی سیارے کا سال وہ وقت ہے جو اسے سورج کے گرد ایک چکر مکمل کرنے میں لگتا ہے۔'
           )}
         </p>
-        <Flowchart
-          isUrdu={language === 'ur'}
+        <InteractiveFlowchart
           steps={[
             { en: 'Planet rotation', ur: 'سیارے کی گردش' },
             { en: 'One complete spin', ur: 'ایک مکمل چکر' },
-            { en: 'Length of a day', ur: 'دن کی مدت' }
+            { en: 'Length of day', ur: 'دن کی مدت' }
           ]}
         />
+        <div className="mt-4 p-4 rounded-lg text-center" style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
+          <p className="text-sm font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+            {renderText('Earth Example', 'زمین کی مثال')}
+          </p>
+          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            {renderText(
+              'Earth rotation ≈ 24 hours (one day)',
+              'زمین کی گردش ≈ ۲۴ گھنٹے (ایک دن)'
+            )}
+          </p>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
+            {renderText(
+              'Earth orbit ≈ 365.25 days (one year)',
+              'زمین کا مدار ≈ ۳۶۵.۲۵ دن (ایک سال)'
+            )}
+          </p>
+        </div>
       </section>
 
-      {/* Section 6: Gravity */}
+      {/* Section 7: Other Objects */}
       <section>
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-          {renderText('Gravity Holds the Solar System Together', 'کششِ ثقل نظامِ شمسی کو ایک ساتھ رکھتی ہے')}
+          {renderText('More Than Just Planets', 'سیاروں کے علاوہ بھی بہت کچھ')}
         </h2>
-        <p className="text-sm md:text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
-          {renderText(
-            "Gravity is the force that attracts objects with mass toward each other. The Sun has far more mass than any planet, so it has the strongest gravitational influence.",
-            "کششِ ثقل وہ قوت ہے جو کمیت رکھنے والے اجسام کو ایک دوسرے کی طرف کھینچتی ہے۔ سورج کی کمیت کسی بھی سیارے سے بہت زیادہ ہے، اس لیے نظامِ شمسی میں اس کا کششی اثر سب سے مضبوط ہے۔"
-          )}
-        </p>
-      </section>
-
-      {/* Section 7: Other Members */}
-      <section>
-        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-          {renderText('Other Members of the Solar System', 'نظامِ شمسی کے دوسرے ارکان')}
-        </h2>
-        <div className="space-y-4">
-          <div className="rounded-lg p-4" style={{ backgroundColor: 'var(--surface-muted)' }}>
-            <h3 className="font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-              {renderText('Moons', 'چاند')}
-            </h3>
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              {renderText(
-                'Moons are natural satellites that orbit planets or dwarf planets.',
-                'چاند قدرتی سیارہ نما ساتھی ہوتے ہیں جو سیاروں یا بونے سیاروں کے گرد گردش کرتے ہیں۔'
-              )}
-            </p>
-          </div>
-          <div className="rounded-lg p-4" style={{ backgroundColor: 'var(--surface-muted)' }}>
-            <h3 className="font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-              {renderText('Asteroids', 'سیارچے')}
-            </h3>
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              {renderText(
-                'Asteroids are rocky objects that orbit the Sun.',
-                'سیارچے پتھریلے اجسام ہیں جو سورج کے گرد گردش کرتے ہیں۔'
-              )}
-            </p>
-          </div>
-          <div className="rounded-lg p-4" style={{ backgroundColor: 'var(--surface-muted)' }}>
-            <h3 className="font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
-              {renderText('Comets', 'دمدار ستارے')}
-            </h3>
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              {renderText(
-                'Comets are icy objects that orbit the Sun.',
-                'دمدار ستارے برفیلے اجسام ہیں جو سورج کے گرد گردش کرتے ہیں۔'
-              )}
-            </p>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[
+            { title: { en: 'Moons', ur: 'چاند' }, desc: { en: 'Moons are natural satellites that orbit planets.', ur: 'چاند قدرتی سیارہ نما ہیں جو سیاروں کے گرد گردش کرتے ہیں۔' } },
+            { title: { en: 'Asteroids', ur: 'سیارچے' }, desc: { en: 'Asteroids are rocky objects that orbit the Sun.', ur: 'سیارچے پتھریلے اجسام ہیں جو سورج کے گرد گردش کرتے ہیں۔' } },
+            { title: { en: 'Comets', ur: 'دمدار ستارے' }, desc: { en: 'Comets are icy objects that can develop tails near the Sun.', ur: 'دمدار ستارے برفیلے اجسام ہیں جو سورج کے قریب دم بنا سکتے ہیں۔' } },
+            { title: { en: 'Dwarf Planets', ur: 'بونے سیارے' }, desc: { en: 'Dwarf planets orbit the Sun but have not cleared their orbit.', ur: 'بونے سیارے سورج کے گرد گردش کرتے ہیں لیکن انہوں نے اپنا مدار صاف نہیں کیا۔' } }
+          ].map((item, i) => (
+            <div key={i} className="rounded-lg p-4" style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
+              <h3 className="font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>
+                {language === 'en' && item.title.en}
+                {language === 'ur' && <span className="font-urdu" dir="rtl">{item.title.ur}</span>}
+                {language === 'both' && <>{item.title.en}<span className="block font-urdu text-sm mt-1" dir="rtl">{item.title.ur}</span></>}
+              </h3>
+              <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+                {language === 'en' && item.desc.en}
+                {language === 'ur' && <span className="font-urdu" dir="rtl">{item.desc.ur}</span>}
+                {language === 'both' && <>{item.desc.en}<span className="block font-urdu mt-1" dir="rtl">{item.desc.ur}</span></>}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
@@ -741,13 +779,31 @@ export function SolarSystemPage() {
         </p>
         <p className="text-xs italic mb-4" style={{ color: 'var(--text-secondary)' }}>
           {renderText(
-            'Educational formation model — simplified.',
-            'نظامِ شمسی کی تشکیل کا سادہ تعلیمی نمونہ۔'
+            'Simplified scientific formation model.',
+            'نظامِ شمسی کی تشکیل کا سادہ سائنسی نمونہ۔'
           )}
         </p>
+        <InteractiveFlowchart
+          steps={[
+            { en: 'Giant cloud of gas and dust', ur: 'گیس اور گرد کا بہت بڑا بادل' },
+            { en: 'Gravity pulls inward', ur: 'کششِ ثقل اندر کھینچتی ہے' },
+            { en: 'Young Sun forms', ur: 'نوجوان سورج بنتا ہے' },
+            { en: 'Spinning disk forms', ur: 'گھومتی قرص بنتی ہے' },
+            { en: 'Particles collide', ur: 'ذرات ٹکراتے ہیں' },
+            { en: 'Planets form', ur: 'سیارے بنتے ہیں' }
+          ]}
+        />
       </section>
 
-      {/* Section 9-10: Fun Facts */}
+      {/* Section 9: Image Carousel */}
+      <section>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          {renderText('Solar System Image Gallery', 'نظامِ شمسی کی تصاویر')}
+        </h2>
+        <ImageCarousel />
+      </section>
+
+      {/* Section 10: Fun Facts */}
       <section>
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('Fun Facts', 'دلچسپ حقائق')}
@@ -759,19 +815,22 @@ export function SolarSystemPage() {
             { en: 'Mercury is closest to the Sun.', ur: 'عطارد سورج کے سب سے قریب ہے۔' },
             { en: 'Venus is the hottest planet.', ur: 'زہرہ سب سے گرم سیارہ ہے۔' },
             { en: 'Earth is the only known world with life.', ur: 'زمین معلوم واحد دنیا ہے جہاں زندگی ہے۔' },
+            { en: 'Mars has two small moons.', ur: 'مریخ کے دو چھوٹے چاند ہیں۔' },
             { en: 'Jupiter is the largest planet.', ur: 'مشتری سب سے بڑا سیارہ ہے۔' },
             { en: 'Saturn has a bright ring system.', ur: 'زحل کے روشن حلقے ہیں۔' },
-            { en: 'The Solar System is about 4.6 billion years old.', ur: 'نظامِ شمسی تقریباً ۴.۶ ارب سال پرانا ہے۔' }
+            { en: 'Uranus rotates with a strong tilt.', ur: 'یورینس بہت زیادہ جھکاؤ کے ساتھ گردش کرتا ہے۔' },
+            { en: 'Neptune is the farthest major planet.', ur: 'نیپچون سب سے دور بڑا سیارہ ہے۔' },
+            { en: 'A planet\'s day and year are different measurements.', ur: 'سیارے کا دن اور سال الگ پیمائشیں ہیں۔' },
+            { en: 'Gravity helps keep planets in orbit.', ur: 'کششِ ثقل سیاروں کو مدار میں رکھتی ہے۔' },
+            { en: 'The asteroid belt lies between Mars and Jupiter.', ur: 'سیارچوں کی پٹی مریخ اور مشتری کے درمیان ہے۔' },
+            { en: 'Comets can develop tails near the Sun.', ur: 'دمدار ستارے سورج کے قریب دم بنا سکتے ہیں۔' },
+            { en: 'Dwarf planets orbit the Sun but have not cleared their orbit.', ur: 'بونے سیارے سورج کے گرد گردش کرتے ہیں لیکن مدار صاف نہیں کیا۔' },
+            { en: 'The Solar System formed about 4.6 billion years ago.', ur: 'نظامِ شمسی تقریباً ۴.۶ ارب سال پہلے بنا۔' }
           ].map((fact, i) => (
-            <div key={i} className="p-3 rounded-lg text-sm" style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-primary)' }}>
+            <div key={i} className="p-3 rounded-lg text-sm" style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}>
               {language === 'en' && fact.en}
               {language === 'ur' && <span className="font-urdu" dir="rtl">{fact.ur}</span>}
-              {language === 'both' && (
-                <>
-                  {fact.en}
-                  <span className="block font-urdu text-xs mt-1" dir="rtl">{fact.ur}</span>
-                </>
-              )}
+              {language === 'both' && <>{fact.en}<span className="block font-urdu text-xs mt-1" dir="rtl">{fact.ur}</span></>}
             </div>
           ))}
         </div>
@@ -798,7 +857,7 @@ export function SolarSystemPage() {
         </p>
         <div className="space-y-2">
           {['NASA Science', 'NASA Solar System Exploration', 'NASA Planetary Fact Sheets', 'NASA Photojournal'].map((source, i) => (
-            <div key={i} className="p-3 rounded-lg text-sm" style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-primary)' }}>
+            <div key={i} className="p-3 rounded-lg text-sm" style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}>
               {source}
             </div>
           ))}
