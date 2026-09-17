@@ -28,13 +28,13 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   mercury: {
     id: 'mercury',
-    fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA21188/PIA21188~medium.jpg',
-    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA21188/PIA21188~thumb.jpg',
-    altText: { en: 'Mercury - closest planet to the Sun', ur: 'عطارد — سورج کے سب سے قریب سیارہ' },
-    caption: { en: 'Mercury as seen in scientific imagery from MESSENGER.', ur: 'سائنسی تصویر میں نظر آنے والا عطارد۔' },
-    credit: 'NASA/JPL-Caltech/MESSENGER',
-    sourceName: 'NASA Science',
-    sourceUrl: 'https://science.nasa.gov/mercury/',
+    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg',
+    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Mercury_in_true_color.jpg/500px-Mercury_in_true_color.jpg',
+    altText: { en: 'Mercury in true color - photographed by MESSENGER in 2008', ur: 'عطارد اصلی رنگ میں — میسنجر نے 2008 میں تصویر لی' },
+    caption: { en: 'Mercury in true color as seen by MESSENGER spacecraft.', ur: 'میسنجر خلائی جہاز سے نظر آنے والا عطارد اصلی رنگ میں۔' },
+    credit: 'NASA/Johns Hopkins University APL/Arizona State University/Carnegie Institution',
+    sourceName: 'Wikimedia Commons (Public Domain)',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Mercury_in_true_color.jpg',
     fallbackGradient: 'radial-gradient(circle at 35% 35%, #c8beb0, #8c7e6d 40%, #5a4e42 70%, #3d352c)'
   },
   venus: {
@@ -61,13 +61,13 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   mars: {
     id: 'mars',
-    fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA22974/PIA22974~medium.jpg',
-    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA22974/PIA22974~thumb.jpg',
-    altText: { en: 'Mars - the Red Planet', ur: 'مریخ — سرخ سیارہ' },
-    caption: { en: 'Mars as seen in scientific imagery.', ur: 'سائنسی تصویر میں نظر آنے والا مریخ۔' },
-    credit: 'NASA/JPL-Caltech/MSSS',
-    sourceName: 'NASA Science',
-    sourceUrl: 'https://science.nasa.gov/mars/',
+    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/76/Mars_Hubble.jpg',
+    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Mars_Hubble.jpg/500px-Mars_Hubble.jpg',
+    altText: { en: 'Mars as seen by Hubble Space Telescope in 2001', ur: 'ہبل خلائی دوربین سے 2001 میں نظر آنے والا مریخ' },
+    caption: { en: 'Mars as captured by Hubble Space Telescope, showing dust storms and polar caps.', ur: 'ہبل خلائی دوربین سے لی گئی مریخ کی تصویر، جس میں طوفانِ گرد اور قطبی برف نظر آ رہی ہے۔' },
+    credit: 'NASA and The Hubble Heritage Team (STScI/AURA)',
+    sourceName: 'Wikimedia Commons (Public Domain)',
+    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Mars_Hubble.jpg',
     fallbackGradient: 'radial-gradient(circle at 35% 35%, #e8845a, #c1440e 40%, #8b2500 70%, #5c1800)'
   },
   jupiter: {
