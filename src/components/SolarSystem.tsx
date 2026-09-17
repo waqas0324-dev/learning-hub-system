@@ -143,27 +143,28 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
         style={{
           width: '100%',
           maxWidth: '1440px',
-          aspectRatio: '16 / 9',
-          minHeight: '400px',
-          maxHeight: '700px',
-          backgroundColor: '#030810',
-          borderColor: 'var(--border)',
-          boxShadow: '0 4px 20px rgba(59, 130, 246, 0.15), inset 0 0 80px rgba(0,0,0,0.6)'
+          aspectRatio: '16 / 10',
+          minHeight: '450px',
+          maxHeight: '750px',
+          backgroundColor: '#020510',
+          borderColor: 'rgba(100, 150, 255, 0.3)',
+          boxShadow: '0 4px 30px rgba(59, 130, 246, 0.2), inset 0 0 100px rgba(0,0,0,0.7)'
         }}
       >
         {/* Stars background */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {Array.from({ length: 100 }).map((_, i) => (
+          {Array.from({ length: 120 }).map((_, i) => (
             <div
               key={i}
               className="absolute rounded-full"
               style={{
-                width: Math.random() * 2 + 0.5,
-                height: Math.random() * 2 + 0.5,
+                width: Math.random() * 2.5 + 0.5,
+                height: Math.random() * 2.5 + 0.5,
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
-                backgroundColor: i % 5 === 0 ? '#aaccff' : '#ffffff',
-                opacity: Math.random() * 0.6 + 0.2
+                backgroundColor: i % 7 === 0 ? '#aaddff' : i % 5 === 0 ? '#ccddff' : '#ffffff',
+                opacity: Math.random() * 0.7 + 0.3,
+                boxShadow: i % 10 === 0 ? '0 0 3px rgba(200, 220, 255, 0.5)' : 'none'
               }}
             />
           ))}
@@ -190,12 +191,12 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
             <div
               className="absolute rounded-full"
               style={{
-                width: 52,
-                height: 52,
-                top: -26,
-                left: -26,
+                width: 60,
+                height: 60,
+                top: -30,
+                left: -30,
                 background: 'radial-gradient(circle at 35% 35%, #fff7a0, #ffcc00 30%, #ff8c00 60%, #ff4500 85%, #cc2200)',
-                boxShadow: '0 0 25px #ff8c00, 0 0 50px #ff450060, 0 0 70px #ff220030',
+                boxShadow: '0 0 40px #ff8c00, 0 0 80px #ff450080, 0 0 120px #ff220040',
                 zIndex: 10,
                 animation: 'sunGlow 4s ease-in-out infinite'
               }}
@@ -236,7 +237,8 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
                     height: planet.orbitRadius * 2,
                     top: -planet.orbitRadius,
                     left: -planet.orbitRadius,
-                    border: '1px solid rgba(100, 150, 255, 0.15)',
+                    border: '1.5px solid rgba(100, 180, 255, 0.25)',
+                    boxShadow: '0 0 8px rgba(100, 180, 255, 0.15)',
                   }}
                 />
                 
@@ -327,15 +329,17 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
 
                       {/* Label with background pill */}
                       <div
-                        className="absolute left-1/2 -translate-x-1/2 text-center whitespace-nowrap pointer-events-none px-2 py-0.5 rounded-full"
+                        className="absolute left-1/2 -translate-x-1/2 text-center whitespace-nowrap pointer-events-none px-2.5 py-1 rounded-full"
                         style={{
-                          top: planet.size * planetSizeMultiplier + 6,
-                          color: selectedId === planet.id ? '#93c5fd' : '#e2e8f0',
-                          textShadow: '0 0 8px rgba(0,0,0,1), 0 1px 4px rgba(0,0,0,0.9)',
-                          fontWeight: selectedId === planet.id ? 700 : 500,
-                          backgroundColor: 'rgba(0,0,0,0.6)',
-                          backdropFilter: 'blur(4px)',
-                          border: selectedId === planet.id ? '1px solid #60a5fa' : '1px solid rgba(255,255,255,0.1)',
+                          top: planet.size * planetSizeMultiplier + 8,
+                          color: selectedId === planet.id ? '#93c5fd' : '#f0f4ff',
+                          textShadow: '0 0 10px rgba(0,0,0,1), 0 1px 5px rgba(0,0,0,0.9)',
+                          fontWeight: selectedId === planet.id ? 700 : 600,
+                          fontSize: '11px',
+                          backgroundColor: 'rgba(0,0,0,0.75)',
+                          backdropFilter: 'blur(6px)',
+                          border: selectedId === planet.id ? '1.5px solid #60a5fa' : '1px solid rgba(255,255,255,0.2)',
+                          boxShadow: selectedId === planet.id ? '0 0 12px rgba(96, 165, 250, 0.5)' : '0 2px 8px rgba(0,0,0,0.5)',
                         }}
                       >
                         {renderLabel(planet)}

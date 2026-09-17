@@ -5,6 +5,7 @@ import { Header } from './components/Header';
 import { Sidebar } from './components/Sidebar';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/Home';
+import { SolarSystemPage } from './pages/SolarSystemPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import {
   Globe, Rocket, BarChart3, Calculator, Sun, Target, Users,
@@ -22,9 +23,7 @@ function AppLayout() {
       <main className="flex-1 pt-20 pb-8 max-w-6xl mx-auto w-full px-4">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/solar-system" element={
-            <PlaceholderPage title={{ en: 'Solar System', ur: 'نظامِ شمسی' }} icon={<Rocket size={48} />} />
-          } />
+          <Route path="/solar-system" element={<SolarSystemPage />} />
           <Route path="/planets" element={
             <PlaceholderPage title={{ en: 'Planets', ur: 'سیارے' }} icon={<Globe size={48} />} />
           } />
