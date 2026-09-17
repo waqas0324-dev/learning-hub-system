@@ -3,170 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import { planets, PlanetData } from '../data/planets';
 import { PlanetImage } from '../components/PlanetImage';
+import { EducationalCarousel } from '../components/EducationalCarousel';
+import { BilingualFlowchart } from '../components/BilingualFlowchart';
+import { InteractiveDiagram } from '../components/InteractiveDiagram';
 import { getCelestialImage } from '../data/imageManifest';
 import { ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from 'lucide-react';
 
-// Interactive Flowchart Component
-function InteractiveFlowchart({ steps }: { steps: { en: string; ur: string }[] }) {
-  const { language } = useApp();
-  const [activeStep, setActiveStep] = useState(0);
 
-  return (
-    <div className="my-6 p-4 rounded-xl" style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-2 md:gap-1">
-        {steps.map((step, i) => (
-          <React.Fragment key={i}>
-            <button
-              onClick={() => setActiveStep(i)}
-              className={`relative px-4 py-3 rounded-lg text-sm font-medium text-center transition-all min-w-[120px] flex-1 ${
-                activeStep === i ? 'ring-2 ring-blue-500 ring-offset-2' : ''
-              }`}
-              style={{
-                backgroundColor: activeStep === i ? 'var(--accent)' : 'var(--surface)',
-                color: activeStep === i ? '#fff' : 'var(--text-primary)',
-                border: `2px solid ${activeStep === i ? 'var(--accent)' : 'var(--border)'}`,
-                boxShadow: activeStep === i ? '0 4px 12px rgba(59, 130, 246, 0.3)' : 'none'
-              }}
-            >
-              <div className="text-xs opacity-70 mb-1">Step {i + 1}</div>
-              {language === 'en' && step.en}
-              {language === 'ur' && <span className="font-urdu" dir="rtl">{step.ur}</span>}
-              {language === 'both' && (
-                <>
-                  {step.en}
-                  <span className="block font-urdu text-xs mt-1 opacity-90" dir="rtl">{step.ur}</span>
-                </>
-              )}
-            </button>
-            {i < steps.length - 1 && (
-              <div className="hidden md:flex items-center justify-center px-1">
-                <ArrowRight size={20} style={{ color: 'var(--accent)' }} />
-              </div>
-            )}
-            {i < steps.length - 1 && (
-              <div className="md:hidden flex justify-center py-1">
-                <div className="w-0.5 h-4" style={{ backgroundColor: 'var(--accent)' }} />
-              </div>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-      <div className="mt-4 p-3 rounded-lg text-center text-sm" style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}>
-        {language === 'en' && steps[activeStep].en}
-        {language === 'ur' && <span className="font-urdu" dir="rtl">{steps[activeStep].ur}</span>}
-        {language === 'both' && (
-          <>
-            {steps[activeStep].en}
-            <span className="block font-urdu mt-1" dir="rtl">{steps[activeStep].ur}</span>
-          </>
-        )}
-      </div>
-    </div>
-  );
-}
 
-// Planet Carousel Component
-function PlanetCarousel() {
-  const { language } = useApp();
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
 
-  useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % planets.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [isPlaying]);
-
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') setCurrentSlide((p) => (p - 1 + planets.length) % planets.length);
-      if (e.key === 'ArrowRight') setCurrentSlide((p) => (p + 1) % planets.length);
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, []);
-
-  const planet = planets[currentSlide];
-  const imageData = getCelestialImage(planet.imageId);
-
-  return (
-    <div className="rounded-xl overflow-hidden border my-6" style={{ borderColor: 'var(--border)' }}>
-      <div className="relative bg-gradient-to-br from-slate-900 to-black min-h-[400px] flex items-center justify-center p-8">
-        <div className="text-center">
-          <PlanetImage planetId={planet.imageId} size={200} />
-          <h3 className="text-2xl font-bold mt-4" style={{ color: 'var(--text-primary)' }}>
-            {language === 'en' && planet.name.en}
-            {language === 'ur' && <span className="font-urdu" dir="rtl">{planet.name.ur}</span>}
-            {language === 'both' && (
-              <>
-                {planet.name.en}
-                <span className="block font-urdu text-xl mt-1" dir="rtl">{planet.name.ur}</span>
-              </>
-            )}
-          </h3>
-          <p className="text-sm mt-2 max-w-md mx-auto" style={{ color: 'var(--text-secondary)' }}>
-            {language === 'en' && planet.fact.en}
-            {language === 'ur' && <span className="font-urdu" dir="rtl">{planet.fact.ur}</span>}
-            {language === 'both' && (
-              <>
-                {planet.fact.en}
-                <span className="block font-urdu mt-1" dir="rtl">{planet.fact.ur}</span>
-              </>
-            )}
-          </p>
-        </div>
-        <button
-          onClick={() => setCurrentSlide((prev) => (prev - 1 + planets.length) % planets.length)}
-          className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-black/80 text-white"
-          aria-label="Previous"
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button
-          onClick={() => setCurrentSlide((prev) => (prev + 1) % planets.length)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/60 hover:bg-black/80 text-white"
-          aria-label="Next"
-        >
-          <ChevronRight size={24} />
-        </button>
-      </div>
-      <div className="p-4" style={{ backgroundColor: 'var(--surface-muted)' }}>
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-            {currentSlide + 1} / {planets.length}
-          </span>
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="p-2 rounded-lg"
-            style={{ backgroundColor: 'var(--surface)', color: 'var(--text-primary)', border: '1px solid var(--border)' }}
-          >
-            {isPlaying ? <Pause size={16} /> : <Play size={16} />}
-          </button>
-        </div>
-        <div className="grid grid-cols-4 md:grid-cols-8 gap-2">
-          {planets.map((p, i) => (
-            <button
-              key={p.id}
-              onClick={() => setCurrentSlide(i)}
-              className="p-2 rounded-lg text-center transition-all"
-              style={{
-                backgroundColor: i === currentSlide ? 'var(--accent)' : 'var(--surface)',
-                color: i === currentSlide ? '#fff' : 'var(--text-primary)',
-                border: `1px solid ${i === currentSlide ? 'var(--accent)' : 'var(--border)'}`
-              }}
-            >
-              <div className="text-xs font-medium">
-                {language === 'en' ? p.name.en : language === 'ur' ? p.name.ur : p.name.en}
-              </div>
-            </button>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 
 
@@ -200,7 +45,15 @@ export function PlanetsPage() {
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('Planet Gallery', 'سیاروں کی گیلری')}
         </h2>
-        <PlanetCarousel />
+        <EducationalCarousel
+          slides={planets.map(planet => ({
+            imageUrl: getCelestialImage(planet.imageId).fullDiskImageUrl,
+            captionEn: `${planet.name.en} - ${planet.fact.en}`,
+            captionUr: `${planet.name.ur} - ${planet.fact.ur}`,
+            credit: getCelestialImage(planet.imageId).credit,
+            fallbackGradient: planet.gradient
+          }))}
+        />
       </section>
 
       {/* Planet Order Flowchart */}
@@ -208,7 +61,7 @@ export function PlanetsPage() {
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('Order of Planets from the Sun', 'سورج سے سیاروں کی ترتیب')}
         </h2>
-        <InteractiveFlowchart
+        <BilingualFlowchart
           steps={planets.map(p => ({ en: p.name.en, ur: p.name.ur }))}
         />
       </section>
@@ -259,7 +112,7 @@ export function PlanetsPage() {
             'نظامِ شمسی دو گروپوں میں تقسیم ہے: اندرونی پتھریلے سیارے (عطارد، زہرہ، زمین، مریخ) اور بیرونی دیو سیارے (مشتری، زحل، یورینس، نیپچون)۔'
           )}
         </p>
-        <InteractiveFlowchart
+        <BilingualFlowchart
           steps={[
             { en: 'Inner Rocky Planets', ur: 'اندرونی پتھریلے سیارے' },
             { en: 'Asteroid Belt', ur: 'سیارچوں کی پٹی' },
@@ -313,7 +166,7 @@ export function PlanetsPage() {
             'تقریباً 4.6 ارب سال پہلے، گیس اور گرد کا ایک بہت بڑا بادل کششِ ثقل کی وجہ سے سکڑنے لگا۔ زیادہ تر مادہ مرکز میں سورج بنا، جبکہ باقی مادہ گھومتی ہوئی قرص بن گیا۔ چھوٹے ذرات آپس میں ٹکرائے اور جڑتے گئے، اور آہستہ آہستہ بڑے اجسام بنے جو سیارے بن گئے۔'
           )}
         </p>
-        <InteractiveFlowchart
+        <BilingualFlowchart
           steps={[
             { en: 'Giant cloud collapses', ur: 'بڑا بادل سکڑتا ہے' },
             { en: 'Sun forms at center', ur: 'مرکز میں سورج بنتا ہے' },

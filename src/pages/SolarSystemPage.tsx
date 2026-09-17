@@ -4,81 +4,14 @@ import { useApp } from '../contexts/AppContext';
 import { SolarSystem } from '../components/SolarSystem';
 import { PlanetModal } from '../components/PlanetModal';
 import { PlanetImage } from '../components/PlanetImage';
+import { EducationalCarousel } from '../components/EducationalCarousel';
+import { BilingualFlowchart } from '../components/BilingualFlowchart';
+import { InteractiveDiagram } from '../components/InteractiveDiagram';
 import { planets, PlanetData } from '../data/planets';
 import { getCelestialImage } from '../data/imageManifest';
 import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause, ArrowRight, RotateCw, Orbit } from 'lucide-react';
 
-// ============================================
-// INTERACTIVE FLOWCHART COMPONENT
-// ============================================
-function InteractiveFlowchart({ steps }: { steps: { en: string; ur: string }[] }) {
-  const { language } = useApp();
-  const [activeStep, setActiveStep] = useState(0);
 
-  return (
-    <div className="my-6 p-4 rounded-xl" style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
-      <div className="flex flex-col md:flex-row items-stretch md:items-center justify-center gap-2 md:gap-1">
-        {steps.map((step, i) => (
-          <React.Fragment key={i}>
-            <button
-              onClick={() => setActiveStep(i)}
-              className={`relative px-4 py-3 rounded-lg text-sm font-medium text-center transition-all min-w-[120px] flex-1 ${
-                activeStep === i ? 'ring-2 ring-blue-500 ring-offset-2' : ''
-              }`}
-              style={{
-                backgroundColor: activeStep === i ? 'var(--accent)' : 'var(--surface)',
-                color: activeStep === i ? '#fff' : 'var(--text-primary)',
-                border: `2px solid ${activeStep === i ? 'var(--accent)' : 'var(--border)'}`,
-                boxShadow: activeStep === i ? '0 4px 12px rgba(59, 130, 246, 0.3)' : 'none'
-              }}
-            >
-              <div className="text-xs opacity-70 mb-1">Step {i + 1}</div>
-              {language === 'en' && step.en}
-              {language === 'ur' && <span className="font-urdu" dir="rtl">{step.ur}</span>}
-              {language === 'both' && (
-                <>
-                  {step.en}
-                  <span className="block font-urdu text-xs mt-1 opacity-90" dir="rtl">{step.ur}</span>
-                </>
-              )}
-            </button>
-            {i < steps.length - 1 && (
-              <div className="hidden md:flex items-center justify-center px-1">
-                <ArrowRight size={20} style={{ color: 'var(--accent)' }} />
-              </div>
-            )}
-            {i < steps.length - 1 && (
-              <div className="md:hidden flex justify-center py-1">
-                <div className="w-0.5 h-4" style={{ backgroundColor: 'var(--accent)' }} />
-              </div>
-            )}
-          </React.Fragment>
-        ))}
-      </div>
-      <div className="mt-4 p-3 rounded-lg text-center text-sm" style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--text-secondary)' }}>
-        {language === 'en' && steps[activeStep].en}
-        {language === 'ur' && <span className="font-urdu" dir="rtl">{steps[activeStep].ur}</span>}
-        {language === 'both' && (
-          <>
-            {steps[activeStep].en}
-            <span className="block font-urdu mt-1" dir="rtl">{steps[activeStep].ur}</span>
-          </>
-        )}
-      </div>
-      <p className="text-xs italic text-center mt-2" style={{ color: 'var(--text-secondary)' }}>
-        {language === 'en' && 'Educational diagram — not to scale.'}
-        {language === 'ur' && <span className="font-urdu" dir="rtl">تعلیمی خاکہ — حقیقی پیمانے پر نہیں۔</span>}
-        {language === 'both' && (
-          <>
-            Educational diagram — not to scale.
-            <br />
-            <span className="font-urdu" dir="rtl">تعلیمی خاکہ — حقیقی پیمانے پر نہیں۔</span>
-          </>
-        )}
-      </p>
-    </div>
-  );
-}
 
 // ============================================
 // IMAGE CARD COMPONENT WITH FALLBACK
@@ -592,6 +525,23 @@ export function SolarSystemPage() {
         <PlanetModal planet={selectedPlanet} onClose={() => setSelectedPlanet(null)} />
       </section>
 
+      {/* SECTION 2.5: PLANET IMAGE CAROUSEL */}
+      <section>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          {renderText('Planet Gallery', 'سیاروں کی گیلری')}
+        </h2>
+        <EducationalCarousel
+          slides={planets.map(planet => ({
+            imageUrl: getCelestialImage(planet.imageId).fullDiskImageUrl,
+            captionEn: `${planet.name.en} - ${planet.fact.en}`,
+            captionUr: `${planet.name.ur} - ${planet.fact.ur}`,
+            credit: getCelestialImage(planet.imageId).credit,
+            fallbackGradient: planet.gradient,
+            link: `/planets/${planet.id}`
+          }))}
+        />
+      </section>
+
       {/* SECTION 3: WHY PLANETS ORBIT */}
       <section>
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
@@ -603,7 +553,7 @@ export function SolarSystemPage() {
             "کششِ ثقل وہ قوت ہے جو کمیت رکھنے والے اجسام کو ایک دوسرے کی طرف کھینچتی ہے۔ سورج کی کمیت کسی بھی سیارے سے بہت زیادہ ہے، اس لیے اس کی کششِ ثقل سیاروں کو اپنی طرف کھینچتی ہے۔ اسی وقت ہر سیارہ خلا میں آگے کی سمت حرکت کر رہا ہوتا ہے۔ آگے کی حرکت اور سورج کی کششِ ثقل مل کر ایک خمیدہ راستہ بناتی ہیں جسے مدار کہتے ہیں۔"
           )}
         </p>
-        <InteractiveFlowchart
+        <BilingualFlowchart
           steps={[
             { en: 'Planet moves forward', ur: 'سیارہ آگے حرکت کرتا ہے' },
             { en: "Sun's gravity pulls inward", ur: 'سورج کی کششِ ثقل اندر کھینچتی ہے' },
@@ -653,7 +603,7 @@ export function SolarSystemPage() {
             'اندرونی سیارے عطارد، زہرہ، زمین اور مریخ ہیں۔ یہ پتھریلے ہیں اور ان کی ٹھوس سطحیں ہیں۔ بیرونی سیارے بہت بڑے ہیں۔ مشتری اور زحل گیس دیو ہیں، جبکہ یورینس اور نیپچون برفانی دیو ہیں۔ دیو سیاروں کی زمین جیسی عام ٹھوس سطح موجود نہیں جس پر انسان کھڑا ہو سکے۔'
           )}
         </p>
-        <InteractiveFlowchart
+        <BilingualFlowchart
           steps={[
             { en: 'Closer to Sun', ur: 'سورج کے قریب' },
             { en: 'Inner rocky planets', ur: 'اندرونی پتھریلے سیارے' },
@@ -702,14 +652,14 @@ export function SolarSystemPage() {
           )}
         </p>
         <DayYearAnimation />
-        <InteractiveFlowchart
+        <BilingualFlowchart
           steps={[
             { en: 'Planet rotation', ur: 'سیارے کی محوری گردش' },
             { en: 'One complete spin', ur: 'ایک مکمل چکر' },
             { en: 'Length of day', ur: 'دن کی مدت' }
           ]}
         />
-        <InteractiveFlowchart
+        <BilingualFlowchart
           steps={[
             { en: 'Planet orbit', ur: 'سیارے کا مدار' },
             { en: 'One trip around Sun', ur: 'سورج کے گرد ایک سفر' },
@@ -761,7 +711,7 @@ export function SolarSystemPage() {
         <p className="text-xs italic mb-4" style={{ color: 'var(--text-secondary)' }}>
           {renderText('Simplified scientific formation model.', 'نظامِ شمسی کی تشکیل کا سادہ سائنسی نمونہ۔')}
         </p>
-        <InteractiveFlowchart
+        <BilingualFlowchart
           steps={[
             { en: 'Giant cloud of gas and dust', ur: 'گیس اور گرد کا بہت بڑا بادل' },
             { en: 'Gravity pulls inward', ur: 'کششِ ثقل اندر کھینچتی ہے' },

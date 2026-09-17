@@ -4,6 +4,9 @@ import { useApp } from '../contexts/AppContext';
 import { planetDetails } from '../data/planetDetails';
 import { getCelestialImage } from '../data/imageManifest';
 import { PlanetImage } from '../components/PlanetImage';
+import { ScientificImage } from '../components/ScientificImage';
+import { EducationalCarousel } from '../components/EducationalCarousel';
+import { InteractiveDiagram } from '../components/InteractiveDiagram';
 import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from 'lucide-react';
 
 export function PlanetDetailPage() {
@@ -41,7 +44,13 @@ export function PlanetDetailPage() {
           <div className="flex flex-col md:flex-row items-center gap-6">
             <div className="flex-shrink-0">
               <div className="relative">
-                <PlanetImage planetId={selectedPlanet.id} size={200} />
+                <ScientificImage 
+                  subjectId={selectedPlanet.id} 
+                  size={200} 
+                  enableLightbox={true}
+                  showCaption={true}
+                  showCredit={true}
+                />
                 <div className="absolute inset-0 rounded-full pointer-events-none" style={{ boxShadow: `0 0 60px ${selectedPlanet.id === 'earth' ? '#4a90d9' : selectedPlanet.id === 'mars' ? '#c1440e' : selectedPlanet.id === 'jupiter' ? '#c88b3a' : selectedPlanet.id === 'saturn' ? '#e8d088' : selectedPlanet.id === 'uranus' ? '#7ec8e3' : selectedPlanet.id === 'neptune' ? '#3355cc' : selectedPlanet.id === 'venus' ? '#e8c468' : '#8c7e6d'}40` }} />
               </div>
             </div>
@@ -75,6 +84,31 @@ export function PlanetDetailPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* SECTION 1.5: PLANET IMAGE CAROUSEL */}
+      <section>
+        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
+          {renderText('Image Gallery', 'تصاویر کی گیلری')}
+        </h2>
+        <EducationalCarousel
+          slides={[
+            {
+              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
+              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Full disk view`,
+              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - مکمل کرہ نما منظر`,
+              credit: getCelestialImage(selectedPlanet.id).credit,
+              fallbackGradient: selectedPlanet.id === 'earth' ? 'radial-gradient(circle at 35% 35%, #7ec8e3, #4a90d9 30%, #2d6b3f 50%, #1a3a5c)' :
+                               selectedPlanet.id === 'mars' ? 'radial-gradient(circle at 35% 35%, #e8845a, #c1440e 40%, #5c1800)' :
+                               selectedPlanet.id === 'jupiter' ? 'radial-gradient(ellipse at 40% 40%, #f0d8a8, #c88b3a 25%, #6b4010)' :
+                               selectedPlanet.id === 'saturn' ? 'radial-gradient(ellipse at 40% 40%, #f5ecc8, #e8d088 30%, #786020)' :
+                               selectedPlanet.id === 'uranus' ? 'radial-gradient(circle at 35% 35%, #b8e8f0, #7ec8e3 40%, #2a6888)' :
+                               selectedPlanet.id === 'neptune' ? 'radial-gradient(circle at 35% 35%, #6688ee, #3355cc 40%, #112266)' :
+                               selectedPlanet.id === 'venus' ? 'radial-gradient(circle at 35% 35%, #f5e6a8, #e8c468 35%, #8b6914)' :
+                               'radial-gradient(circle at 35% 35%, #c8beb0, #8c7e6d 40%, #3d352c)'
+            }
+          ]}
+        />
       </section>
 
       {/* SECTION 2: WHAT IS THIS PLANET? */}
@@ -127,6 +161,19 @@ export function PlanetDetailPage() {
         <p className="text-sm md:text-base leading-relaxed" style={{ color: 'var(--text-secondary)' }}>
           {renderText(selectedPlanet.surfaceSection.en, selectedPlanet.surfaceSection.ur)}
         </p>
+        {/* Interactive diagram for planet structure */}
+        <InteractiveDiagram
+          labels={[
+            { id: 'core', x: 50, y: 50, en: 'Core', ur: 'مرکز', description: { en: 'The dense center of the planet', ur: 'سیارے کا گھنا مرکز' } },
+            { id: 'mantle', x: 30, y: 30, en: 'Mantle', ur: 'رداء', description: { en: 'Layer surrounding the core', ur: 'مرکز کے گرد کی تہہ' } },
+            { id: 'crust', x: 70, y: 20, en: 'Crust', ur: 'پوست', description: { en: 'Outer solid layer', ur: 'بیرونی ٹھوس تہہ' } }
+          ]}
+          title={{ en: 'Planet Structure', ur: 'سیارے کی ساخت' }}
+          showNotToScale={true}
+          fallbackGradient={selectedPlanet.id === 'earth' ? 'radial-gradient(circle at 50% 50%, #ff6b35, #4a90d9 40%, #2d6b3f 70%, #1a3a5c)' :
+                           selectedPlanet.id === 'mars' ? 'radial-gradient(circle at 50% 50%, #c1440e, #8b2500 50%, #5c1800)' :
+                           'radial-gradient(circle at 50% 50%, #c88b3a, #6b4010 50%, #3d2510)'}
+        />
       </section>
 
       <section>

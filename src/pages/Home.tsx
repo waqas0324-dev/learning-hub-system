@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { useApp } from '../contexts/AppContext';
 import { SolarSystem } from '../components/SolarSystem';
 import { PlanetModal } from '../components/PlanetModal';
-import { PlanetData } from '../data/planets';
+import { EducationalCarousel } from '../components/EducationalCarousel';
+import { PlanetData, planets } from '../data/planets';
+import { getCelestialImage } from '../data/imageManifest';
 
 export function HomePage() {
   const { language, t, tBoth } = useApp();
@@ -37,6 +39,22 @@ export function HomePage() {
       {/* SECTION 2: SOLAR SYSTEM ANIMATION - MAIN FEATURE */}
       <section className="px-2 md:px-4">
         <SolarSystem onPlanetClick={setSelectedPlanet} />
+      </section>
+
+      {/* SECTION 2.5: PLANET IMAGE CAROUSEL */}
+      <section className="px-2 md:px-4">
+        <h2 className="text-xl md:text-2xl font-bold text-center mb-4" style={{ color: 'var(--text-primary)' }}>
+          {renderText('Planet Gallery', 'سیاروں کی گیلری')}
+        </h2>
+        <EducationalCarousel
+          slides={planets.map(planet => ({
+            imageUrl: getCelestialImage(planet.imageId).fullDiskImageUrl,
+            captionEn: planet.name.en,
+            captionUr: planet.name.ur,
+            credit: getCelestialImage(planet.imageId).credit,
+            fallbackGradient: planet.gradient
+          }))}
+        />
       </section>
 
       {/* SECTION 3: SHORT ABOUT SECTION */}
