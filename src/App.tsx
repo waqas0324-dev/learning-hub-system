@@ -8,6 +8,7 @@ import { HomePage } from './pages/Home';
 import { SolarSystemPage } from './pages/SolarSystemPage';
 import { PlanetDetailPage } from './pages/PlanetDetailPage';
 import { PlanetsPage } from './pages/PlanetsPage';
+import { ComparisonPage } from './pages/ComparisonPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import {
   Globe, Rocket, BarChart3, Calculator, Sun, Target, Users,
@@ -28,9 +29,7 @@ function AppLayout() {
           <Route path="/solar-system" element={<SolarSystemPage />} />
           <Route path="/planets" element={<PlanetsPage />} />
           <Route path="/planets/:planetId" element={<PlanetDetailPage />} />
-          <Route path="/comparison" element={
-            <PlaceholderPage title={{ en: 'Planet Comparison', ur: 'سیاروں کا موازنہ' }} icon={<BarChart3 size={48} />} />
-          } />
+          <Route path="/comparison" element={<ComparisonPage />} />
           <Route path="/calculator" element={
             <PlaceholderPage title={{ en: 'Age & Weight Calculator', ur: 'عمر اور وزن کیلکولیٹر' }} icon={<Calculator size={48} />} />
           } />
