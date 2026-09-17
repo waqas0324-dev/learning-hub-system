@@ -6,6 +6,7 @@ import { Sidebar } from './components/Sidebar';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/Home';
 import { SolarSystemPage } from './pages/SolarSystemPage';
+import { PlanetDetailPage } from './pages/PlanetDetailPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import {
   Globe, Rocket, BarChart3, Calculator, Sun, Target, Users,
@@ -27,6 +28,7 @@ function AppLayout() {
           <Route path="/planets" element={
             <PlaceholderPage title={{ en: 'Planets', ur: 'سیارے' }} icon={<Globe size={48} />} />
           } />
+          <Route path="/planets/:planetId" element={<PlanetDetailPage />} />
           <Route path="/comparison" element={
             <PlaceholderPage title={{ en: 'Planet Comparison', ur: 'سیاروں کا موازنہ' }} icon={<BarChart3 size={48} />} />
           } />

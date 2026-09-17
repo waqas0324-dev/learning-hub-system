@@ -35,7 +35,7 @@ export function PlanetModal({ planet, onClose }: PlanetModalProps) {
 
   const handleOpenLesson = () => {
     onClose();
-    navigate('/planets');
+    navigate(`/planets/${planet.id}`);
   };
 
   const renderText = (en: string, ur: string) => {

@@ -670,7 +670,7 @@ export function SolarSystemPage() {
                     {language === 'ur' ? planetFacts[i].ur : planetFacts[i].en}
                     {language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{planetFacts[i].ur}</span>}
                   </p>
-                  <button onClick={() => navigate('/planets')} className="text-xs px-3 py-1 rounded-full font-medium" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>
+                  <button onClick={() => navigate(`/planets/${planet.id}`)} className="text-xs px-3 py-1 rounded-full font-medium" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>
                     {renderText('Explore Planet', 'سیارہ دریافت کریں')}
                   </button>
                 </div>
