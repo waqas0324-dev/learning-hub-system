@@ -107,6 +107,11 @@ body {
   50% { box-shadow: 0 0 25px #ff8c00, 0 0 50px #ff450070, 0 0 70px #ff220040; }
 }
 
+@keyframes counter-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
 /* Planet glow effect */
 .planet-glow {
   box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
