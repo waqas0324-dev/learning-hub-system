@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import { planets, PlanetData } from '../data/planets';
 import { PlanetImage } from '../components/PlanetImage';
@@ -167,83 +168,11 @@ function PlanetCarousel() {
   );
 }
 
-// Planet Detail Card Component
-function PlanetDetailCard({ planet, index }: { planet: PlanetData; index: number }) {
-  const { language } = useApp();
-  const imageData = getCelestialImage(planet.imageId);
 
-  return (
-    <div className="rounded-xl overflow-hidden border" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-      <div className="p-6">
-        <div className="flex flex-col md:flex-row gap-6">
-          <div className="flex-shrink-0 flex justify-center">
-            <PlanetImage planetId={planet.imageId} size={180} showCaption={true} showCredit={true} />
-          </div>
-          <div className="flex-1">
-            <div className="flex items-center gap-3 mb-3">
-              <span className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>{index + 1}</span>
-              <h3 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>
-                {language === 'en' && planet.name.en}
-                {language === 'ur' && <span className="font-urdu" dir="rtl">{planet.name.ur}</span>}
-                {language === 'both' && (
-                  <>
-                    {planet.name.en}
-                    <span className="block font-urdu text-xl font-normal" dir="rtl">{planet.name.ur}</span>
-                  </>
-                )}
-              </h3>
-            </div>
-            <p className="text-sm mb-4" style={{ color: 'var(--text-secondary)' }}>
-              {language === 'en' && planet.fact.en}
-              {language === 'ur' && <span className="font-urdu" dir="rtl">{planet.fact.ur}</span>}
-              {language === 'both' && (
-                <>
-                  {planet.fact.en}
-                  <span className="block font-urdu mt-1" dir="rtl">{planet.fact.ur}</span>
-                </>
-              )}
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-              <div className="p-3 rounded-lg" style={{ backgroundColor: 'var(--surface-muted)' }}>
-                <div className="text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>
-                  {language === 'en' && 'Diameter'}
-                  {language === 'ur' && <span className="font-urdu" dir="rtl">قطر</span>}
-                  {language === 'both' && <>Diameter<span className="block font-urdu" dir="rtl">قطر</span></>}
-                </div>
-                <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
-                  {planet.diameter}
-                </div>
-              </div>
-              <div className="p-3 rounded-lg" style={{ backgroundColor: 'var(--surface-muted)' }}>
-                <div className="text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>
-                  {language === 'en' && 'Distance from Sun'}
-                  {language === 'ur' && <span className="font-urdu" dir="rtl">سورج سے فاصلہ</span>}
-                  {language === 'both' && <>Distance from Sun<span className="block font-urdu" dir="rtl">سورج سے فاصلہ</span></>}
-                </div>
-                <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
-                  {planet.avgDistance}
-                </div>
-              </div>
-              <div className="p-3 rounded-lg" style={{ backgroundColor: 'var(--surface-muted)' }}>
-                <div className="text-xs font-medium mb-1" style={{ color: 'var(--text-secondary)' }}>
-                  {language === 'en' && 'Orbital Period'}
-                  {language === 'ur' && <span className="font-urdu" dir="rtl">مداری مدت</span>}
-                  {language === 'both' && <>Orbital Period<span className="block font-urdu" dir="rtl">مداری مدت</span></>}
-                </div>
-                <div className="text-sm font-semibold" style={{ color: 'var(--text-primary)' }}>
-                  {planet.orbitalPeriod}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export function PlanetsPage() {
   const { language } = useApp();
+  const navigate = useNavigate();
 
   const renderText = (en: string, ur: string) => {
     if (language === 'en') return <>{en}</>;
@@ -284,14 +213,37 @@ export function PlanetsPage() {
         />
       </section>
 
-      {/* All Planet Details */}
+      {/* All Planet Details - Simple Grid */}
       <section>
         <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--text-primary)' }}>
-          {renderText('Detailed Planet Information', 'سیاروں کی تفصیلی معلومات')}
+          {renderText('Explore Each Planet', 'ہر سیارے کو دریافت کریں')}
         </h2>
-        <div className="space-y-6">
+        <p className="text-sm md:text-base leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
+          {renderText(
+            'Click on any planet to see its complete details, images, and facts.',
+            'کسی بھی سیارے پر کلک کریں اور اس کی مکمل تفصیلات، تصاویر اور حقائق دیکھیں۔'
+          )}
+        </p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {planets.map((planet, index) => (
-            <PlanetDetailCard key={planet.id} planet={planet} index={index} />
+            <button
+              key={planet.id}
+              onClick={() => navigate(`/planets/${planet.id}`)}
+              className="rounded-xl p-4 border transition-all hover:shadow-lg hover:scale-105 text-center"
+              style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+            >
+              <div className="flex flex-col items-center">
+                <span className="text-2xl font-bold mb-2" style={{ color: 'var(--accent)' }}>{index + 1}</span>
+                <PlanetImage planetId={planet.imageId} size={120} />
+                <h3 className="font-bold mt-3" style={{ color: 'var(--text-primary)' }}>
+                  {language === 'ur' ? planet.name.ur : planet.name.en}
+                  {language === 'both' && <span className="block font-urdu text-sm mt-1" dir="rtl">{planet.name.ur}</span>}
+                </h3>
+                <p className="text-xs mt-2" style={{ color: 'var(--text-secondary)' }}>
+                  {renderText('Click to explore', 'دریافت کرنے کے لیے کلک کریں')}
+                </p>
+              </div>
+            </button>
           ))}
         </div>
       </section>

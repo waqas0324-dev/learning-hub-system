@@ -534,28 +534,6 @@ export function SolarSystemPage() {
     return <><span>{en}</span><span className="block font-urdu mt-2" dir="rtl">{ur}</span></>;
   };
 
-  const planetFacts = [
-    { en: 'Mercury is the closest planet to the Sun and the smallest of the eight planets.', ur: 'عطارد سورج کے سب سے قریب اور آٹھ سیاروں میں سب سے چھوٹا سیارہ ہے۔' },
-    { en: 'Venus has a thick carbon-dioxide atmosphere that traps heat, making it the hottest planet.', ur: 'زہرہ کی گھنی کاربن ڈائی آکسائیڈ فضا حرارت کو روک لیتی ہے، جس کی وجہ سے یہ سب سے گرم سیارہ ہے۔' },
-    { en: 'Earth has liquid water, a protective atmosphere and the only known life in the Solar System.', ur: 'زمین پر مائع پانی، حفاظتی فضا اور نظامِ شمسی میں معلوم واحد زندگی موجود ہے۔' },
-    { en: 'Mars is known as the Red Planet because iron-rich dust gives it a reddish color.', ur: 'مریخ کو سرخ سیارہ کہا جاتا ہے کیونکہ لوہے سے بھرپور گرد اسے سرخی مائل رنگ دیتی ہے۔' },
-    { en: 'Jupiter is the largest planet and has a powerful magnetic field, many moons and faint rings.', ur: 'مشتری سب سے بڑا سیارہ ہے اور اس کا مقناطیسی میدان طاقتور، کئی چاند اور مدھم حلقے ہیں۔' },
-    { en: 'Saturn is famous for its bright ring system made mostly of ice particles mixed with rock and dust.', ur: 'زحل اپنے روشن حلقوں کے نظام کی وجہ سے مشہور ہے جو زیادہ تر برف کے ذرات کے ساتھ چٹان اور گرد سے بنا ہے۔' },
-    { en: 'Uranus is an ice giant that rotates with an extreme tilt, appearing to roll on its side.', ur: 'یورینس ایک برفانی دیو ہے جو بہت زیادہ جھکاؤ کے ساتھ گردش کرتا ہے اور پہلو کے بل گھومتا ہوا دکھائی دیتا ہے۔' },
-    { en: 'Neptune is the farthest major planet and has extremely fast winds in its atmosphere.', ur: 'نیپچون سب سے دور بڑا سیارہ ہے اور اس کی فضا میں بہت تیز ہوائیں چلتی ہیں۔' }
-  ];
-
-  const planetTypes = [
-    { en: 'Rocky planet', ur: 'پتھریلا سیارہ' },
-    { en: 'Rocky planet', ur: 'پتھریلا سیارہ' },
-    { en: 'Rocky planet', ur: 'پتھریلا سیارہ' },
-    { en: 'Rocky planet', ur: 'پتھریلا سیارہ' },
-    { en: 'Gas giant', ur: 'گیس دیو' },
-    { en: 'Gas giant', ur: 'گیس دیو' },
-    { en: 'Ice giant', ur: 'برفانی دیو' },
-    { en: 'Ice giant', ur: 'برفانی دیو' }
-  ];
-
   return (
     <div className="space-y-12 pb-8">
       {/* Page Title */}
@@ -635,47 +613,31 @@ export function SolarSystemPage() {
         />
       </section>
 
-      {/* SECTION 4: EIGHT PLANETS */}
+      {/* SECTION 4: EIGHT PLANETS - Simple Preview */}
       <section>
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-          {renderText('The Eight Planets in Order', 'ترتیب کے ساتھ آٹھ سیارے')}
+          {renderText('The Eight Planets', 'آٹھ سیارے')}
         </h2>
         <p className="text-sm md:text-base leading-relaxed mb-6" style={{ color: 'var(--text-secondary)' }}>
           {renderText(
-            'The planets travel around the Sun in a specific order. Mercury, Venus, Earth and Mars are the inner rocky planets. Jupiter and Saturn are gas giants. Uranus and Neptune are ice giants. The outer planets are much farther from the Sun than the inner planets.',
-            'سیارے سورج کے گرد ایک خاص ترتیب میں گردش کرتے ہیں۔ عطارد، زہرہ، زمین اور مریخ اندرونی پتھریلے سیارے ہیں۔ مشتری اور زحل گیس دیو ہیں۔ یورینس اور نیپچون برفانی دیو ہیں۔ بیرونی سیارے اندرونی سیاروں کے مقابلے میں سورج سے بہت زیادہ دور ہیں۔'
+            'Click on any planet to learn more about it.',
+            'کسی بھی سیارے پر کلک کریں اور اس کے بارے میں مزید جانیں۔'
           )}
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {planets.map((planet, i) => (
-            <div key={planet.id} className="rounded-xl p-4 border transition-all hover:shadow-lg" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-              <div className="flex items-start gap-4">
-                <div className="flex-shrink-0">
-                  {/* Uses PlanetImage component with stable imageId mapping */}
-                  <PlanetImage planetId={planet.imageId} size={80} />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-bold px-2 py-0.5 rounded flex-shrink-0" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>{i + 1}</span>
-                    <h3 className="font-bold truncate" style={{ color: 'var(--text-primary)' }}>
-                      {language === 'ur' ? planet.name.ur : planet.name.en}
-                      {language === 'both' && <span className="font-urdu font-normal text-sm ml-2" dir="rtl">{planet.name.ur}</span>}
-                    </h3>
-                  </div>
-                  <p className="text-xs mb-1" style={{ color: 'var(--accent)' }}>
-                    {language === 'ur' ? planetTypes[i].ur : planetTypes[i].en}
-                    {language === 'both' && <span className="font-urdu ml-1" dir="rtl">{planetTypes[i].ur}</span>}
-                  </p>
-                  <p className="text-xs mb-3" style={{ color: 'var(--text-secondary)' }}>
-                    {language === 'ur' ? planetFacts[i].ur : planetFacts[i].en}
-                    {language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{planetFacts[i].ur}</span>}
-                  </p>
-                  <button onClick={() => navigate(`/planets/${planet.id}`)} className="text-xs px-3 py-1 rounded-full font-medium" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>
-                    {renderText('Explore Planet', 'سیارہ دریافت کریں')}
-                  </button>
-                </div>
-              </div>
-            </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {planets.map((planet) => (
+            <button
+              key={planet.id}
+              onClick={() => navigate(`/planets/${planet.id}`)}
+              className="rounded-xl p-4 border transition-all hover:shadow-lg hover:scale-105 text-center"
+              style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+            >
+              <PlanetImage planetId={planet.imageId} size={100} />
+              <h3 className="font-bold mt-3 text-sm" style={{ color: 'var(--text-primary)' }}>
+                {language === 'ur' ? planet.name.ur : planet.name.en}
+                {language === 'both' && <span className="block font-urdu text-xs mt-1" dir="rtl">{planet.name.ur}</span>}
+              </h3>
+            </button>
           ))}
         </div>
       </section>
