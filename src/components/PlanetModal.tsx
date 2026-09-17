@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import { PlanetData } from '../data/planets';
+import { getCelestialImage } from '../data/imageManifest';
 import { X } from 'lucide-react';
 
 interface PlanetModalProps {
@@ -29,6 +30,8 @@ export function PlanetModal({ planet, onClose }: PlanetModalProps) {
   }, [onClose]);
 
   if (!planet) return null;
+
+  const imageData = getCelestialImage(planet.imageId);
 
   const handleOpenLesson = () => {
     onClose();
@@ -59,7 +62,7 @@ export function PlanetModal({ planet, onClose }: PlanetModalProps) {
           <X size={18} />
         </button>
 
-        {/* Planet image */}
+        {/* Planet image - uses stable imageId mapping */}
         <div className="flex justify-center mb-4">
           <div className="relative">
             <div
@@ -67,15 +70,17 @@ export function PlanetModal({ planet, onClose }: PlanetModalProps) {
               style={{
                 width: 120,
                 height: 120,
-                background: planet.gradient,
+                aspectRatio: '1 / 1',
+                background: imageData.fallbackGradient,
                 boxShadow: `0 0 30px ${planet.color}60, 0 0 60px ${planet.color}30`
               }}
             >
               {!imgError && (
                 <img
-                  src={planet.imageUrl}
-                  alt={planet.name.en}
-                  className="w-full h-full object-cover"
+                  src={imageData.fullDiskImageUrl}
+                  alt={language === 'ur' ? imageData.altText.ur : imageData.altText.en}
+                  className="w-full h-full object-contain"
+                  style={{ objectPosition: 'center' }}
                   onError={() => setImgError(true)}
                   draggable={false}
                 />
@@ -122,9 +127,26 @@ export function PlanetModal({ planet, onClose }: PlanetModalProps) {
           )}
         </h3>
 
-        {/* Image credit */}
-        <p className="text-center text-[10px] mb-4" style={{ color: 'var(--text-secondary)' }}>
-          {planet.imageCredit}
+        {/* Image credit - from NASA image manifest */}
+        <p className="text-center text-[10px] mb-1" style={{ color: 'var(--text-secondary)' }}>
+          {language === 'en' && `Image credit: ${imageData.credit}`}
+          {language === 'ur' && <span className="font-urdu" dir="rtl">تصویر کا حوالہ: {imageData.credit}</span>}
+          {language === 'both' && (
+            <>
+              Image credit: {imageData.credit}
+              <span className="block font-urdu mt-0.5" dir="rtl">تصویر کا حوالہ: {imageData.credit}</span>
+            </>
+          )}
+        </p>
+        <p className="text-center text-[10px] mb-4 opacity-70" style={{ color: 'var(--text-secondary)' }}>
+          {language === 'en' && `Source: ${imageData.sourceName}`}
+          {language === 'ur' && <span className="font-urdu" dir="rtl">ماخذ: {imageData.sourceName}</span>}
+          {language === 'both' && (
+            <>
+              Source: {imageData.sourceName}
+              <span className="block font-urdu mt-0.5" dir="rtl">ماخذ: {imageData.sourceName}</span>
+            </>
+          )}
         </p>
 
         {/* Data */}

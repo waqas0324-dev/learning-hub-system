@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import { SolarSystem } from '../components/SolarSystem';
 import { PlanetModal } from '../components/PlanetModal';
+import { PlanetImage } from '../components/PlanetImage';
 import { planets, PlanetData } from '../data/planets';
+import { getCelestialImage } from '../data/imageManifest';
 import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause, ArrowRight, RotateCw, Orbit } from 'lucide-react';
 
 // ============================================
@@ -580,9 +582,20 @@ export function SolarSystemPage() {
             alt="Solar System overview"
             captionEn="A simplified view of the Solar System."
             captionUr="نظامِ شمسی کا ایک سادہ منظر۔"
-            credit="Educational illustration — not to scale"
+            credit="Educational illustration — not to scale | Source: NASA Science"
             fallbackGradient="radial-gradient(circle at 40% 40%, #ffcc00, #ff8c00 20%, #4a90d9 40%, #1a3a5c 60%, #0a0e27)"
           />
+          <p className="text-xs italic text-center mt-2" style={{ color: 'var(--text-secondary)' }}>
+            {language === 'en' && 'Educational illustration — not to scale.'}
+            {language === 'ur' && <span className="font-urdu" dir="rtl">تعلیمی خاکہ — حقیقی پیمانے پر نہیں۔</span>}
+            {language === 'both' && (
+              <>
+                Educational illustration — not to scale.
+                <br />
+                <span className="font-urdu" dir="rtl">تعلیمی خاکہ — حقیقی پیمانے پر نہیں۔</span>
+              </>
+            )}
+          </p>
         </div>
       </section>
 
@@ -638,9 +651,8 @@ export function SolarSystemPage() {
             <div key={planet.id} className="rounded-xl p-4 border transition-all hover:shadow-lg" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
               <div className="flex items-start gap-4">
                 <div className="flex-shrink-0">
-                  <div className="w-20 h-20 rounded-full overflow-hidden" style={{ background: planet.gradient, boxShadow: `0 0 15px ${planet.color}40` }}>
-                    <img src={planet.imageUrl} alt={planet.name.en} className="w-full h-full object-cover" onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-                  </div>
+                  {/* Uses PlanetImage component with stable imageId mapping */}
+                  <PlanetImage planetId={planet.imageId} size={80} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">

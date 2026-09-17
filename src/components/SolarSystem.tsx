@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useApp } from '../contexts/AppContext';
 import { planets, PlanetData } from '../data/planets';
+import { getCelestialImage } from '../data/imageManifest';
 import { Play, Pause, RotateCcw, Maximize2 } from 'lucide-react';
 
 interface SolarSystemProps {
   onPlanetClick?: (planet: PlanetData) => void;
 }
 
+// Planet texture component - uses stable imageId mapping from imageManifest
+// Ensures correct planet image is always shown, never wrong planet
 function PlanetTexture({ planet, size }: { planet: PlanetData; size: number }) {
   const [imgError, setImgError] = useState(false);
+  const imageData = getCelestialImage(planet.imageId);
 
   return (
     <div
@@ -16,14 +20,16 @@ function PlanetTexture({ planet, size }: { planet: PlanetData; size: number }) {
       style={{
         width: size,
         height: size,
-        background: planet.gradient,
+        aspectRatio: '1 / 1',
+        background: imageData.fallbackGradient,
       }}
     >
       {!imgError && (
         <img
-          src={planet.imageUrl}
+          src={imageData.fullDiskImageUrl}
           alt={planet.name.en}
-          className="absolute inset-0 w-full h-full object-cover rounded-full"
+          className="absolute inset-0 w-full h-full object-contain"
+          style={{ objectPosition: 'center' }}
           onError={() => setImgError(true)}
           loading="lazy"
           draggable={false}

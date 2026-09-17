@@ -12,6 +12,7 @@ export interface PlanetData {
   startAngle: number; // initial angle offset in degrees
   labelOffset: { x: number; y: number }; // label position offset from planet center
   fact: { en: string; ur: string };
+  imageId: string; // Stable ID mapping to imageManifest
   imageUrl: string;
   imageCredit: string;
 }
@@ -31,6 +32,7 @@ export const planets: PlanetData[] = [
     startAngle: 45,
     labelOffset: { x: 0, y: -18 },
     fact: { en: 'Closest planet to the Sun.', ur: 'سورج کے سب سے قریب سیارہ۔' },
+    imageId: 'mercury',
     imageUrl: 'https://images-assets.nasa.gov/image/PIA21188/PIA21188~small.jpg',
     imageCredit: 'NASA/JPL-Caltech/MESSENGER'
   },
@@ -48,6 +50,7 @@ export const planets: PlanetData[] = [
     startAngle: 160,
     labelOffset: { x: 0, y: -20 },
     fact: { en: 'The hottest planet in the Solar System.', ur: 'سولر سسٹم کا سب سے گرم سیارہ۔' },
+    imageId: 'venus',
     imageUrl: 'https://images-assets.nasa.gov/image/PIA23792/PIA23792~small.jpg',
     imageCredit: 'NASA/JPL-Caltech'
   },
@@ -65,6 +68,7 @@ export const planets: PlanetData[] = [
     startAngle: 280,
     labelOffset: { x: 0, y: -20 },
     fact: { en: 'The only known world with life.', ur: 'اب تک معلوم واحد دنیا جہاں زندگی موجود ہے۔' },
+    imageId: 'earth',
     imageUrl: 'https://images-assets.nasa.gov/image/PIA18033/PIA18033~small.jpg',
     imageCredit: 'NASA/NOAA/ESFC'
   },
@@ -82,6 +86,7 @@ export const planets: PlanetData[] = [
     startAngle: 90,
     labelOffset: { x: 0, y: -18 },
     fact: { en: 'Known as the Red Planet.', ur: 'سرخ سیارے کے نام سے مشہور ہے۔' },
+    imageId: 'mars',
     imageUrl: 'https://images-assets.nasa.gov/image/PIA22974/PIA22974~small.jpg',
     imageCredit: 'NASA/JPL-Caltech/MSSS'
   },
@@ -99,6 +104,7 @@ export const planets: PlanetData[] = [
     startAngle: 210,
     labelOffset: { x: 0, y: -28 },
     fact: { en: 'The largest planet in the Solar System.', ur: 'سولر سسٹم کا سب سے بڑا سیارہ۔' },
+    imageId: 'jupiter',
     imageUrl: 'https://images-assets.nasa.gov/image/PIA21774/PIA21774~small.jpg',
     imageCredit: 'NASA/JPL-Caltech/SwRI/MSSS'
   },
@@ -116,6 +122,7 @@ export const planets: PlanetData[] = [
     startAngle: 330,
     labelOffset: { x: 0, y: -26 },
     fact: { en: 'Famous for its bright ring system.', ur: 'اپنے روشن حلقوں کے نظام کی وجہ سے مشہور ہے۔' },
+    imageId: 'saturn',
     imageUrl: 'https://images-assets.nasa.gov/image/PIA20029/PIA20029~small.jpg',
     imageCredit: 'NASA/JPL-Caltech/Space Science Institute'
   },
@@ -133,6 +140,7 @@ export const planets: PlanetData[] = [
     startAngle: 120,
     labelOffset: { x: 0, y: -22 },
     fact: { en: 'Rotates with an extreme tilt.', ur: 'بہت زیادہ جھکاؤ کے ساتھ گردش کرتا ہے۔' },
+    imageId: 'uranus',
     imageUrl: 'https://images-assets.nasa.gov/image/PIA01464/PIA01464~small.jpg',
     imageCredit: 'NASA/JPL-Caltech/Voyager 2'
   },
@@ -150,6 +158,7 @@ export const planets: PlanetData[] = [
     startAngle: 250,
     labelOffset: { x: 0, y: -22 },
     fact: { en: 'The farthest major planet from the Sun.', ur: 'سورج سے سب سے دور بڑا سیارہ۔' },
+    imageId: 'neptune',
     imageUrl: 'https://images-assets.nasa.gov/image/PIA01492/PIA01492~small.jpg',
     imageCredit: 'NASA/JPL-Caltech/Voyager 2'
   }
