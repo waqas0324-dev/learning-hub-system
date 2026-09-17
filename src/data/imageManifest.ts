@@ -28,13 +28,13 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   mercury: {
     id: 'mercury',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Mercury_in_true_color.jpg/500px-Mercury_in_true_color.jpg',
-    altText: { en: 'Mercury in true color - photographed by MESSENGER in 2008', ur: 'عطارد اصلی رنگ میں — میسنجر نے 2008 میں تصویر لی' },
-    caption: { en: 'Mercury in true color as seen by MESSENGER spacecraft.', ur: 'میسنجر خلائی جہاز سے نظر آنے والا عطارد اصلی رنگ میں۔' },
-    credit: 'NASA/Johns Hopkins University APL/Arizona State University/Carnegie Institution',
-    sourceName: 'Wikimedia Commons (Public Domain)',
-    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Mercury_in_true_color.jpg',
+    fullDiskImageUrl: 'https://science.nasa.gov/wp-content/uploads/2023/11/mercury-messenger-globe-pia15162.jpg',
+    thumbnailUrl: 'https://science.nasa.gov/wp-content/uploads/2023/11/mercury-messenger-globe-pia15162.jpg?w=150',
+    altText: { en: 'Mercury - full globe view from MESSENGER', ur: 'عطارد — میسنجر سے مکمل کرہ نما منظر' },
+    caption: { en: 'Mercury as seen by NASA MESSENGER spacecraft showing craters and surface features.', ur: 'NASA میسنجر خلائی جہاز سے نظر آنے والا عطارد جس میں گڑھے اور سطحی خصوصیات نظر آ رہی ہیں۔' },
+    credit: 'NASA/Johns Hopkins University APL/Carnegie Institution of Washington',
+    sourceName: 'NASA Science',
+    sourceUrl: 'https://science.nasa.gov/mercury/',
     fallbackGradient: 'radial-gradient(circle at 35% 35%, #c8beb0, #8c7e6d 40%, #5a4e42 70%, #3d352c)'
   },
   venus: {
@@ -61,13 +61,13 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   mars: {
     id: 'mars',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/76/Mars_Hubble.jpg',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Mars_Hubble.jpg/500px-Mars_Hubble.jpg',
-    altText: { en: 'Mars as seen by Hubble Space Telescope in 2001', ur: 'ہبل خلائی دوربین سے 2001 میں نظر آنے والا مریخ' },
-    caption: { en: 'Mars as captured by Hubble Space Telescope, showing dust storms and polar caps.', ur: 'ہبل خلائی دوربین سے لی گئی مریخ کی تصویر، جس میں طوفانِ گرد اور قطبی برف نظر آ رہی ہے۔' },
-    credit: 'NASA and The Hubble Heritage Team (STScI/AURA)',
-    sourceName: 'Wikimedia Commons (Public Domain)',
-    sourceUrl: 'https://commons.wikimedia.org/wiki/File:Mars_Hubble.jpg',
+    fullDiskImageUrl: 'https://science.nasa.gov/wp-content/uploads/2024/03/pia04304-mars.jpg',
+    thumbnailUrl: 'https://science.nasa.gov/wp-content/uploads/2024/03/pia04304-mars.jpg?w=150',
+    altText: { en: 'Mars - full disk view showing Valles Marineris', ur: 'مریخ — مکمل کرہ نما منظر جس میں ویلیز میرینیرس نظر آ رہا ہے' },
+    caption: { en: 'Mars as seen from Viking orbiter showing the Valles Marineris canyon system.', ur: 'Viking orbiter سے نظر آنے والا مریخ جس میں ویلیز میرینیرس وادی کا نظام نظر آ رہا ہے۔' },
+    credit: 'NASA/JPL-Caltech',
+    sourceName: 'NASA Science',
+    sourceUrl: 'https://science.nasa.gov/mars/',
     fallbackGradient: 'radial-gradient(circle at 35% 35%, #e8845a, #c1440e 40%, #8b2500 70%, #5c1800)'
   },
   jupiter: {

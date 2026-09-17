@@ -33,8 +33,8 @@ export const planets: PlanetData[] = [
     labelOffset: { x: 0, y: -18 },
     fact: { en: 'Closest planet to the Sun.', ur: 'سورج کے سب سے قریب سیارہ۔' },
     imageId: 'mercury',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg',
-    imageCredit: 'NASA/Johns Hopkins University APL/Arizona State University'
+    imageUrl: 'https://science.nasa.gov/wp-content/uploads/2023/11/mercury-messenger-globe-pia15162.jpg',
+    imageCredit: 'NASA/Johns Hopkins University APL/Carnegie Institution'
   },
   {
     id: 'venus',
@@ -87,8 +87,8 @@ export const planets: PlanetData[] = [
     labelOffset: { x: 0, y: -18 },
     fact: { en: 'Known as the Red Planet.', ur: 'سرخ سیارے کے نام سے مشہور ہے۔' },
     imageId: 'mars',
-    imageUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/76/Mars_Hubble.jpg',
-    imageCredit: 'NASA and The Hubble Heritage Team (STScI/AURA)'
+    imageUrl: 'https://science.nasa.gov/wp-content/uploads/2024/03/pia04304-mars.jpg',
+    imageCredit: 'NASA/JPL-Caltech'
   },
   {
     id: 'jupiter',
