@@ -174,7 +174,7 @@ export function PlanetModal({ planet, onClose }: PlanetModalProps) {
           className="w-full mt-5 py-2.5 rounded-lg text-sm font-semibold transition-colors hover:opacity-90"
           style={{ backgroundColor: 'var(--accent)', color: '#fff' }}
         >
-          {renderText('Open Planet Lesson', 'سیارے کا مکمل سبق کھولیں')}
+          {renderText(tBoth('explorePlanet').en, tBoth('explorePlanet').ur)}
         </button>
       </div>
     </div>

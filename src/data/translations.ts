@@ -90,6 +90,26 @@ export const translations = {
   decreaseFont: { en: "Decrease text size", ur: "ٹیکسٹ کا سائز کم کریں" },
   resetFont: { en: "Reset text size", ur: "ٹیکسٹ کا سائز دوبارہ ترتیب دیں" },
   increaseFont: { en: "Increase text size", ur: "ٹیکسٹ کا سائز بڑھائیں" },
+  // Orbit controls
+  planetDisplaySize: { en: "Planet Display Size", ur: "سیاروں کا ظاہری سائز" },
+  smaller: { en: "Smaller", ur: "چھوٹا" },
+  normal: { en: "Normal", ur: "معمول" },
+  larger: { en: "Larger", ur: "بڑا" },
+  orbitViewZoom: { en: "Orbit View Zoom", ur: "مدار کا منظر" },
+  zoomOut: { en: "Zoom Out", ur: "دور کریں" },
+  resetView: { en: "Reset View", ur: "منظر بحال کریں" },
+  zoomIn: { en: "Zoom In", ur: "قریب کریں" },
+  // About section
+  aboutThisWebsite: { en: "About This Learning Website", ur: "اس تعلیمی ویب سائٹ کے بارے میں" },
+  aboutWebsiteContent: {
+    en: "Solar System Learning Hub helps you learn about the Solar System, Earth, water, weather, energy, scientists and space missions. Open the sidebar to visit each topic page and explore detailed explanations, real images, diagrams, flowcharts, quizzes and interactive activities.",
+    ur: "سولر سسٹم لرننگ ہب آپ کو سولر سسٹم، زمین، پانی، موسم، توانائی، سائنسدانوں اور خلائی مشنز کے بارے میں سیکھنے میں مدد دیتا ہے۔ ہر موضوع کے صفحے پر جانے کے لیے سائیڈ بار کھولیں، جہاں تفصیلی وضاحتیں، اصل تصاویر، خاکے، فلو چارٹس، کوئزز اور تفاعلی سرگرمیاں موجود ہوں گی۔"
+  },
+  explorePlanet: { en: "Explore Planet", ur: "سیارہ دریافت کریں" },
+  useSidebarHint: {
+    en: "Use the sidebar (☰) to explore all topics, lessons, quizzes and tools.",
+    ur: "تمام موضوعات، اسباق، کوئزز اور ٹولز دریافت کرنے کے لیے سائیڈ بار (☰) استعمال کریں۔"
+  },
   darkMode: { en: "Dark mode", ur: "ڈارک موڈ" },
   lightMode: { en: "Light mode", ur: "لائٹ موڈ" },
   backHome: { en: "Back to Home", ur: "ہوم پر واپس جائیں" },

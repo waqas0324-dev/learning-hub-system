@@ -39,9 +39,28 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
   const [speed, setSpeed] = useState(1);
   const [scale, setScale] = useState(1);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [planetSizeMultiplier, setPlanetSizeMultiplier] = useState(1);
+  const [zoomLevel, setZoomLevel] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const speeds = [0.25, 0.5, 1, 2, 5];
+
+  // Load saved preferences
+  useEffect(() => {
+    const savedSize = localStorage.getItem('sslh-planet-size');
+    const savedZoom = localStorage.getItem('sslh-orbit-zoom');
+    if (savedSize) setPlanetSizeMultiplier(parseFloat(savedSize));
+    if (savedZoom) setZoomLevel(parseFloat(savedZoom));
+  }, []);
+
+  // Save preferences
+  useEffect(() => {
+    localStorage.setItem('sslh-planet-size', planetSizeMultiplier.toString());
+  }, [planetSizeMultiplier]);
+
+  useEffect(() => {
+    localStorage.setItem('sslh-orbit-zoom', zoomLevel.toString());
+  }, [zoomLevel]);
 
   const handleFitAll = useCallback(() => {
     if (containerRef.current) {
@@ -49,18 +68,32 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
       const containerWidth = rect.width;
       const containerHeight = rect.height;
       
-      // Neptune orbit is 480px radius, need 480*2 + planet size + padding
-      const maxOrbitRadius = 480;
-      const maxPlanetSize = 44; // Jupiter
-      const neededDiameter = maxOrbitRadius * 2 + maxPlanetSize + 40;
+      // Neptune orbit is 580px radius, need 580*2 + planet size + padding
+      const maxOrbitRadius = 580;
+      const maxPlanetSize = 42 * planetSizeMultiplier; // Jupiter with size multiplier
+      const neededDiameter = maxOrbitRadius * 2 + maxPlanetSize + 60;
       
       const scaleX = (containerWidth - 40) / neededDiameter;
       const scaleY = (containerHeight - 40) / neededDiameter;
       const newScale = Math.min(1, Math.min(scaleX, scaleY));
       
       setScale(newScale);
+      setZoomLevel(1);
     }
-  }, []);
+  }, [planetSizeMultiplier]);
+
+  const handleZoomIn = () => {
+    setZoomLevel(prev => Math.min(2, prev + 0.2));
+  };
+
+  const handleZoomOut = () => {
+    setZoomLevel(prev => Math.max(0.5, prev - 0.2));
+  };
+
+  const handleResetView = () => {
+    setZoomLevel(1);
+    handleFitAll();
+  };
 
   useEffect(() => {
     handleFitAll();
@@ -136,12 +169,11 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
           ))}
         </div>
 
-        {/* Scaled container - centered */}
-        <div
-          className="absolute inset-0 flex items-center justify-center"
-          style={{ transform: `scale(${scale})`, transformOrigin: 'center center' }}
-        >
-          {/* Sun */}
+      {/* Scaled container - centered */}
+      <div
+        className="absolute inset-0 flex items-center justify-center"
+        style={{ transform: `scale(${scale * zoomLevel})`, transformOrigin: 'center center' }}
+      >          {/* Sun */}
           <div className="absolute" style={{ width: 0, height: 0 }}>
             {/* Sun glow */}
             <div
@@ -239,16 +271,16 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
                     {/* Counter-rotating wrapper to keep planet and label upright */}
                     <div
                       style={{
-                        width: planet.size + 20,
-                        height: planet.size + 40,
+                        width: planet.size * planetSizeMultiplier + 20,
+                        height: planet.size * planetSizeMultiplier + 40,
                         animation: `counter-orbit ${planet.speed / speed}s linear infinite`,
                         animationDelay: `-${(planet.startAngle / 360) * (planet.speed / speed)}s`,
                         animationPlayState: isPlaying ? 'running' : 'paused',
                       }}
                     >
                       {/* Planet body with texture */}
-                      <div className="relative" style={{ width: planet.size, height: planet.size }}>
-                        <PlanetTexture planet={planet} size={planet.size} />
+                      <div className="relative" style={{ width: planet.size * planetSizeMultiplier, height: planet.size * planetSizeMultiplier }}>
+                        <PlanetTexture planet={planet} size={planet.size * planetSizeMultiplier} />
                         
                         {/* Saturn rings */}
                         {planet.id === 'saturn' && (
@@ -256,14 +288,14 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
                             className="absolute top-1/2 left-1/2 pointer-events-none"
                             style={{
                               transform: 'translate(-50%, -50%) rotateX(65deg)',
-                              width: planet.size * 2.2,
-                              height: planet.size * 2.2,
+                              width: planet.size * planetSizeMultiplier * 2.2,
+                              height: planet.size * planetSizeMultiplier * 2.2,
                             }}
                           >
                             <div
                               className="absolute inset-0 rounded-full"
                               style={{
-                                border: `${planet.size * 0.15}px solid rgba(210, 180, 100, 0.6)`,
+                                border: `${planet.size * planetSizeMultiplier * 0.15}px solid rgba(210, 180, 100, 0.6)`,
                                 boxShadow: 'inset 0 0 6px rgba(210, 180, 100, 0.4)',
                               }}
                             />
@@ -274,7 +306,7 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
                                 left: '12%',
                                 right: '12%',
                                 bottom: '12%',
-                                border: `${planet.size * 0.1}px solid rgba(180, 150, 80, 0.4)`,
+                                border: `${planet.size * planetSizeMultiplier * 0.1}px solid rgba(180, 150, 80, 0.4)`,
                               }}
                             />
                           </div>
@@ -297,7 +329,7 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
                       <div
                         className="absolute left-1/2 -translate-x-1/2 text-center whitespace-nowrap pointer-events-none px-2 py-0.5 rounded-full"
                         style={{
-                          top: planet.size + 6,
+                          top: planet.size * planetSizeMultiplier + 6,
                           color: selectedId === planet.id ? '#93c5fd' : '#e2e8f0',
                           textShadow: '0 0 8px rgba(0,0,0,1), 0 1px 4px rgba(0,0,0,0.9)',
                           fontWeight: selectedId === planet.id ? 700 : 500,
@@ -318,55 +350,142 @@ export function SolarSystem({ onPlanetClick }: SolarSystemProps) {
       </div>
 
       {/* Controls below animation */}
-      <div className="flex flex-wrap items-center gap-2 justify-center max-w-4xl mx-auto">
-        <button
-          onClick={() => setIsPlaying(!isPlaying)}
-          className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-          style={{ backgroundColor: 'var(--accent)', color: '#fff' }}
-          aria-label={isPlaying ? t('pause') : t('play')}
-        >
-          {isPlaying ? <Pause size={14} /> : <Play size={14} />}
-          {isPlaying ? t('pause') : t('play')}
-        </button>
+      <div className="space-y-3 max-w-5xl mx-auto px-2">
+        {/* Main controls row */}
+        <div className="flex flex-wrap items-center gap-2 justify-center">
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            style={{ backgroundColor: 'var(--accent)', color: '#fff' }}
+            aria-label={isPlaying ? t('pause') : t('play')}
+          >
+            {isPlaying ? <Pause size={14} /> : <Play size={14} />}
+            {isPlaying ? t('pause') : t('play')}
+          </button>
 
-        <div className="flex items-center gap-1">
-          <span className="text-xs mr-1" style={{ color: 'var(--text-secondary)' }}>{t('speed')}:</span>
-          {speeds.map(s => (
-            <button
-              key={s}
-              onClick={() => setSpeed(s)}
-              className={`px-2 py-1.5 rounded text-xs font-medium transition-colors ${speed === s ? 'font-bold' : ''}`}
-              style={{
-                backgroundColor: speed === s ? 'var(--accent)' : 'var(--surface-muted)',
-                color: speed === s ? '#fff' : 'var(--text-primary)',
-                border: `1px solid ${speed === s ? 'var(--accent)' : 'var(--border)'}`
-              }}
-              aria-label={`${t('speed')} ${s}x`}
-            >
-              {s}x
-            </button>
-          ))}
+          <div className="flex items-center gap-1">
+            <span className="text-xs mr-1" style={{ color: 'var(--text-secondary)' }}>{t('speed')}:</span>
+            {speeds.map(s => (
+              <button
+                key={s}
+                onClick={() => setSpeed(s)}
+                className={`px-2 py-1.5 rounded text-xs font-medium transition-colors ${speed === s ? 'font-bold' : ''}`}
+                style={{
+                  backgroundColor: speed === s ? 'var(--accent)' : 'var(--surface-muted)',
+                  color: speed === s ? '#fff' : 'var(--text-primary)',
+                  border: `1px solid ${speed === s ? 'var(--accent)' : 'var(--border)'}`
+                }}
+                aria-label={`${t('speed')} ${s}x`}
+              >
+                {s}x
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={handleReset}
+            className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-colors border"
+            style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-primary)', borderColor: 'var(--border)' }}
+            aria-label={t('reset')}
+          >
+            <RotateCcw size={14} />
+            {t('reset')}
+          </button>
+
+          <button
+            onClick={handleFitAll}
+            className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-colors border"
+            style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-primary)', borderColor: 'var(--border)' }}
+            aria-label={t('fitAll')}
+          >
+            <Maximize2 size={14} />
+            {t('fitAll')}
+          </button>
         </div>
 
-        <button
-          onClick={handleReset}
-          className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-colors border"
-          style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-primary)', borderColor: 'var(--border)' }}
-          aria-label={t('reset')}
-        >
-          <RotateCcw size={14} />
-          {t('reset')}
-        </button>
+        {/* Planet Display Size control */}
+        <div className="flex flex-wrap items-center gap-2 justify-center">
+          <span className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
+            {t('planetDisplaySize')}
+          </span>
+          <div className="flex gap-1">
+            <button
+              onClick={() => setPlanetSizeMultiplier(0.7)}
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${planetSizeMultiplier === 0.7 ? 'font-bold' : ''}`}
+              style={{
+                backgroundColor: planetSizeMultiplier === 0.7 ? 'var(--accent)' : 'var(--surface-muted)',
+                color: planetSizeMultiplier === 0.7 ? '#fff' : 'var(--text-primary)',
+                border: `1px solid ${planetSizeMultiplier === 0.7 ? 'var(--accent)' : 'var(--border)'}`
+              }}
+            >
+              {t('smaller')}
+            </button>
+            <button
+              onClick={() => setPlanetSizeMultiplier(1)}
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${planetSizeMultiplier === 1 ? 'font-bold' : ''}`}
+              style={{
+                backgroundColor: planetSizeMultiplier === 1 ? 'var(--accent)' : 'var(--surface-muted)',
+                color: planetSizeMultiplier === 1 ? '#fff' : 'var(--text-primary)',
+                border: `1px solid ${planetSizeMultiplier === 1 ? 'var(--accent)' : 'var(--border)'}`
+              }}
+            >
+              {t('normal')}
+            </button>
+            <button
+              onClick={() => setPlanetSizeMultiplier(1.3)}
+              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${planetSizeMultiplier === 1.3 ? 'font-bold' : ''}`}
+              style={{
+                backgroundColor: planetSizeMultiplier === 1.3 ? 'var(--accent)' : 'var(--surface-muted)',
+                color: planetSizeMultiplier === 1.3 ? '#fff' : 'var(--text-primary)',
+                border: `1px solid ${planetSizeMultiplier === 1.3 ? 'var(--accent)' : 'var(--border)'}`
+              }}
+            >
+              {t('larger')}
+            </button>
+          </div>
+        </div>
 
-        <button
-          onClick={handleFitAll}
-          className="flex items-center gap-1 px-3 py-2 rounded-lg text-sm transition-colors border"
-          style={{ backgroundColor: 'var(--surface-muted)', color: 'var(--text-primary)', borderColor: 'var(--border)' }}
-          aria-label={t('fitAll')}
-        >
-          <Maximize2 size={14} />
-          {t('fitAll')}
-        </button>
+        {/* Orbit View Zoom control */}
+        <div className="flex flex-wrap items-center gap-2 justify-center">
+          <span className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
+            {t('orbitViewZoom')}
+          </span>
+          <div className="flex gap-1">
+            <button
+              onClick={handleZoomOut}
+              className="px-3 py-1.5 rounded text-xs font-medium transition-colors border"
+              style={{
+                backgroundColor: 'var(--surface-muted)',
+                color: 'var(--text-primary)',
+                borderColor: 'var(--border)'
+              }}
+            >
+              {t('zoomOut')}
+            </button>
+            <button
+              onClick={handleResetView}
+              className="px-3 py-1.5 rounded text-xs font-medium transition-colors border"
+              style={{
+                backgroundColor: 'var(--surface-muted)',
+                color: 'var(--text-primary)',
+                borderColor: 'var(--border)'
+              }}
+            >
+              {t('resetView')}
+            </button>
+            <button
+              onClick={handleZoomIn}
+              className="px-3 py-1.5 rounded text-xs font-medium transition-colors border"
+              style={{
+                backgroundColor: 'var(--surface-muted)',
+                color: 'var(--text-primary)',
+                borderColor: 'var(--border)'
+              }}
+            >
+              {t('zoomIn')}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Note */}
