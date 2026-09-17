@@ -97,12 +97,14 @@ body {
   to { transform: rotate(360deg); }
 }
 
-.orbit-animation {
-  animation: orbit var(--orbit-duration, 10s) linear infinite;
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
 }
 
-.orbit-paused {
-  animation-play-state: paused;
+@keyframes sunGlow {
+  0%, 100% { box-shadow: 0 0 20px #ff8c00, 0 0 40px #ff450060, 0 0 60px #ff220030; }
+  50% { box-shadow: 0 0 25px #ff8c00, 0 0 50px #ff450070, 0 0 70px #ff220040; }
 }
 
 /* Planet glow effect */

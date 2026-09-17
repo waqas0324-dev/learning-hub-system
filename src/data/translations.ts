@@ -23,7 +23,7 @@ export const translations = {
   },
   planetQuickCards: { en: "Planet Quick Facts", ur: "سیاروں کے مختصر حقائق" },
   explore: { en: "Explore", ur: "دریافت کریں" },
-  openPlanetLesson: { en: "Open Planet Lesson", ur: "سیارے کا سبق کھولیں" },
+  openPlanetLesson: { en: "Open Planet Lesson", ur: "سیارے کا مکمل سبق کھولیں" },
   diameter: { en: "Diameter", ur: "قطر" },
   avgDistance: { en: "Avg. Distance from Sun", ur: "سورج سے اوسط فاصلہ" },
   orbitalPeriod: { en: "Orbital Period", ur: "مداری مدت" },
