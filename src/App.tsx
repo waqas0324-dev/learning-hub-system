@@ -10,6 +10,7 @@ import { PlanetDetailPage } from './pages/PlanetDetailPage';
 import { PlanetsPage } from './pages/PlanetsPage';
 import { ComparisonPage } from './pages/ComparisonPage';
 import { CalculatorPage } from './pages/CalculatorPage';
+import { MoonSunStarsPage } from './pages/MoonSunStarsPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import {
   Globe, Rocket, BarChart3, Calculator, Sun, Target, Users,
@@ -32,9 +33,7 @@ function AppLayout() {
           <Route path="/planets/:planetId" element={<PlanetDetailPage />} />
           <Route path="/comparison" element={<ComparisonPage />} />
           <Route path="/calculator" element={<CalculatorPage />} />
-          <Route path="/moon-sun-stars" element={
-            <PlaceholderPage title={{ en: 'Moon, Sun & Stars', ur: 'چاند، سورج اور تارے' }} icon={<Sun size={48} />} />
-          } />
+          <Route path="/moon-sun-stars" element={<MoonSunStarsPage />} />
           <Route path="/eclipses" element={
             <PlaceholderPage title={{ en: 'Eclipses', ur: 'گرہن' }} icon={<Target size={48} />} />
           } />
