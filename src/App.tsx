@@ -9,6 +9,11 @@ import { SolarSystemPage } from './pages/SolarSystemPage';
 import { PlanetDetailPage } from './pages/PlanetDetailPage';
 import { PlanetsPage } from './pages/PlanetsPage';
 import { ComparisonPage } from './pages/ComparisonPage';
+import { CalculatorPage } from './pages/CalculatorPage';
+import { MoonSunStarsPage } from './pages/MoonSunStarsPage';
+import { EclipsesPage } from './pages/EclipsesPage';
+import { ScientistsMissionsPage } from './pages/ScientistsMissionsPage';
+import { EarthExplorerPage } from './pages/EarthExplorerPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import {
   Globe, Rocket, BarChart3, Calculator, Sun, Target, Users,
@@ -30,21 +35,11 @@ function AppLayout() {
           <Route path="/planets" element={<PlanetsPage />} />
           <Route path="/planets/:planetId" element={<PlanetDetailPage />} />
           <Route path="/comparison" element={<ComparisonPage />} />
-          <Route path="/calculator" element={
-            <PlaceholderPage title={{ en: 'Age & Weight Calculator', ur: 'عمر اور وزن کیلکولیٹر' }} icon={<Calculator size={48} />} />
-          } />
-          <Route path="/moon-sun-stars" element={
-            <PlaceholderPage title={{ en: 'Moon, Sun & Stars', ur: 'چاند، سورج اور تارے' }} icon={<Sun size={48} />} />
-          } />
-          <Route path="/eclipses" element={
-            <PlaceholderPage title={{ en: 'Eclipses', ur: 'گرہن' }} icon={<Target size={48} />} />
-          } />
-          <Route path="/scientists" element={
-            <PlaceholderPage title={{ en: 'Scientists & Missions', ur: 'سائنسدان اور مشنز' }} icon={<Users size={48} />} />
-          } />
-          <Route path="/earth" element={
-            <PlaceholderPage title={{ en: 'Earth Explorer', ur: 'زمین کو جانیں' }} icon={<Mountain size={48} />} />
-          } />
+          <Route path="/calculator" element={<CalculatorPage />} />
+          <Route path="/moon-sun-stars" element={<MoonSunStarsPage />} />
+          <Route path="/eclipses" element={<EclipsesPage />} />
+          <Route path="/scientists" element={<ScientistsMissionsPage />} />
+          <Route path="/earth" element={<EarthExplorerPage />} />
           <Route path="/oceans" element={
             <PlaceholderPage title={{ en: 'Oceans & Water Cycle', ur: 'سمندر اور آبی چکر' }} icon={<Waves size={48} />} />
           } />
