@@ -12,6 +12,7 @@ import { ComparisonPage } from './pages/ComparisonPage';
 import { CalculatorPage } from './pages/CalculatorPage';
 import { MoonSunStarsPage } from './pages/MoonSunStarsPage';
 import { EclipsesPage } from './pages/EclipsesPage';
+import { ScientistsMissionsPage } from './pages/ScientistsMissionsPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import {
   Globe, Rocket, BarChart3, Calculator, Sun, Target, Users,
@@ -36,9 +37,7 @@ function AppLayout() {
           <Route path="/calculator" element={<CalculatorPage />} />
           <Route path="/moon-sun-stars" element={<MoonSunStarsPage />} />
           <Route path="/eclipses" element={<EclipsesPage />} />
-          <Route path="/scientists" element={
-            <PlaceholderPage title={{ en: 'Scientists & Missions', ur: 'سائنسدان اور مشنز' }} icon={<Users size={48} />} />
-          } />
+          <Route path="/scientists" element={<ScientistsMissionsPage />} />
           <Route path="/earth" element={
             <PlaceholderPage title={{ en: 'Earth Explorer', ur: 'زمین کو جانیں' }} icon={<Mountain size={48} />} />
           } />
