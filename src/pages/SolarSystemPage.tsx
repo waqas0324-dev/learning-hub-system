@@ -75,22 +75,22 @@ function ImageCarousel() {
   const touchStartX = useRef(0);
 
   const slides = [
-    { src: 'https://images-assets.nasa.gov/image/PIA17463/PIA17463~medium.jpg', captionEn: 'The Sun — our nearest star', captionUr: 'سورج — ہمارا قریب ترین ستارہ', credit: 'NASA/SDO', gradient: 'radial-gradient(circle, #fff7a0, #ff8c00, #cc2200)' },
+    { src: 'https://images-assets.nasa.gov/image/PIA25628/PIA25628~medium.jpg', captionEn: 'The Sun — our nearest star', captionUr: 'سورج — ہمارا قریب ترین ستارہ', credit: 'NASA/SDO', gradient: 'radial-gradient(circle, #fff7a0, #ff8c00, #cc2200)' },
     { src: 'https://science.nasa.gov/wp-content/uploads/2023/11/mercury-messenger-globe-pia15162.jpg', captionEn: 'Mercury — full globe view from MESSENGER', captionUr: 'عطارد — میسنجر سے مکمل کرہ نما منظر', credit: 'NASA/JHU APL/Carnegie Institution', gradient: 'radial-gradient(circle at 35% 35%, #b8a898, #8c7e6d 40%, #3d352c)' },
-    { src: 'https://images-assets.nasa.gov/image/PIA23792/PIA23792~medium.jpg', captionEn: 'Venus — the hottest planet', captionUr: 'زہرہ — سب سے گرم سیارہ', credit: 'NASA/JPL', gradient: 'radial-gradient(circle at 35% 35%, #f5e6a8, #e8c468 35%, #8b6914)' },
+    { src: 'https://images-assets.nasa.gov/image/PIA00159/PIA00159~medium.jpg', captionEn: 'Venus — the hottest planet', captionUr: 'زہرہ — سب سے گرم سیارہ', credit: 'NASA/JPL', gradient: 'radial-gradient(circle at 35% 35%, #f5e6a8, #e8c468 35%, #8b6914)' },
     { src: 'https://images-assets.nasa.gov/image/PIA18033/PIA18033~medium.jpg', captionEn: 'Earth — our home world', captionUr: 'زمین — ہماری دنیا', credit: 'NASA/NOAA', gradient: 'radial-gradient(circle at 35% 35%, #7ec8e3, #4a90d9 30%, #2d6b3f 50%, #1a3a5c)' },
     { src: 'https://science.nasa.gov/wp-content/uploads/2024/03/pia04304-mars.jpg', captionEn: 'Mars — full disk view from Viking orbiter', captionUr: 'مریخ — Viking orbiter سے مکمل کرہ نما منظر', credit: 'NASA/JPL-Caltech', gradient: 'radial-gradient(circle at 35% 35%, #e8845a, #c1440e 40%, #5c1800)' },
-    { src: 'https://images-assets.nasa.gov/image/PIA00777/PIA00777~medium.jpg', captionEn: 'Asteroid belt region', captionUr: 'سیارچوں کی پٹی کا علاقہ', credit: 'NASA/Galileo', gradient: 'radial-gradient(circle, #8b7355, #5a4a3a, #2d2520)' },
+    { src: 'https://images-assets.nasa.gov/image/PIA24471/PIA24471~medium.jpg', captionEn: 'Asteroid belt region', captionUr: 'سیارچوں کی پٹی کا علاقہ', credit: 'NASA/Galileo', gradient: 'radial-gradient(circle, #8b7355, #5a4a3a, #2d2520)' },
     { src: 'https://images-assets.nasa.gov/image/PIA21774/PIA21774~medium.jpg', captionEn: 'Jupiter — the largest planet', captionUr: 'مشتری — سب سے بڑا سیارہ', credit: 'NASA/Juno', gradient: 'radial-gradient(ellipse at 40% 40%, #f0d8a8, #c88b3a 25%, #6b4010)' },
-    { src: 'https://images-assets.nasa.gov/image/PIA20029/PIA20029~medium.jpg', captionEn: 'Saturn and its rings', captionUr: 'زحل اور اس کے حلقے', credit: 'NASA/Cassini', gradient: 'radial-gradient(ellipse at 40% 40%, #f5ecc8, #e8d088 30%, #786020)' },
-    { src: 'https://images-assets.nasa.gov/image/PIA01464/PIA01464~medium.jpg', captionEn: 'Uranus — the tilted ice giant', captionUr: 'یورینس — جھکا ہوا برفانی دیو', credit: 'NASA/Voyager 2', gradient: 'radial-gradient(circle at 35% 35%, #b8e8f0, #7ec8e3 40%, #2a6888)' },
+    { src: 'https://images-assets.nasa.gov/image/PIA05425/PIA05425~medium.jpg', captionEn: 'Saturn and its rings', captionUr: 'زحل اور اس کے حلقے', credit: 'NASA/Cassini', gradient: 'radial-gradient(ellipse at 40% 40%, #f5ecc8, #e8d088 30%, #786020)' },
+    { src: 'https://images-assets.nasa.gov/image/PIA18182/PIA18182~medium.jpg', captionEn: 'Uranus — the tilted ice giant', captionUr: 'یورینس — جھکا ہوا برفانی دیو', credit: 'NASA/Voyager 2', gradient: 'radial-gradient(circle at 35% 35%, #b8e8f0, #7ec8e3 40%, #2a6888)' },
     { src: 'https://images-assets.nasa.gov/image/PIA01492/PIA01492~medium.jpg', captionEn: 'Neptune — the farthest major planet', captionUr: 'نیپچون — سب سے دور بڑا سیارہ', credit: 'NASA/Voyager 2', gradient: 'radial-gradient(circle at 35% 35%, #6688ee, #3355cc 40%, #112266)' },
-    { src: 'https://images-assets.nasa.gov/image/PIA00465/PIA00465~medium.jpg', captionEn: "Earth's Moon", captionUr: 'زمین کا چاند', credit: 'NASA/Apollo', gradient: 'radial-gradient(circle at 35% 35%, #d4d4d4, #a0a0a0 40%, #505050)' },
-    { src: 'https://images-assets.nasa.gov/image/PIA00777/PIA00777~medium.jpg', captionEn: 'Asteroid — rocky space object', captionUr: 'سیارچہ — خلائی پتھریلا جسم', credit: 'NASA/Galileo', gradient: 'radial-gradient(circle at 35% 35%, #a08060, #6b5040 40%, #3d2d20)' },
-    { src: 'https://images-assets.nasa.gov/image/PIA00745/PIA00745~medium.jpg', captionEn: 'Comet — icy traveler', captionUr: 'دمدار ستارہ — برفیلا مسافر', credit: 'NASA/Hubble', gradient: 'radial-gradient(circle at 30% 30%, #e0e8ff, #8090c0 40%, #203060)' },
-    { src: 'https://images-assets.nasa.gov/image/PIA01482/PIA01482~medium.jpg', captionEn: 'Pluto — dwarf planet', captionUr: 'پلوٹو — بونا سیارہ', credit: 'NASA/New Horizons', gradient: 'radial-gradient(circle at 35% 35%, #d4c4a8, #a08868 40%, #504030)' },
-    { src: 'https://images-assets.nasa.gov/image/PIA21474/PIA21474~medium.jpg', captionEn: 'Solar System overview diagram', captionUr: 'نظامِ شمسی کا جائزہ خاکہ', credit: 'NASA — Educational illustration', gradient: 'radial-gradient(circle at 40% 40%, #ffcc00, #ff8c00 30%, #1a3a5c 70%, #0a0e27)' },
-    { src: 'https://images-assets.nasa.gov/image/PIA18033/PIA18033~medium.jpg', captionEn: 'Full Solar System — educational view', captionUr: 'مکمل نظامِ شمسی — تعلیمی منظر', credit: 'Educational diagram — not to scale', gradient: 'radial-gradient(circle at 40% 40%, #ffcc00, #4a90d9 30%, #0a0e27 70%)' }
+    { src: 'https://images-assets.nasa.gov/image/PIA00405/PIA00405~medium.jpg', captionEn: "Earth's Moon", captionUr: 'زمین کا چاند', credit: 'NASA/Apollo', gradient: 'radial-gradient(circle at 35% 35%, #d4d4d4, #a0a0a0 40%, #505050)' },
+    { src: 'https://images-assets.nasa.gov/image/PIA24471/PIA24471~medium.jpg', captionEn: 'Asteroid — rocky space object', captionUr: 'سیارچہ — خلائی پتھریلا جسم', credit: 'NASA/Galileo', gradient: 'radial-gradient(circle at 35% 35%, #a08060, #6b5040 40%, #3d2d20)' },
+    { src: 'https://images-assets.nasa.gov/image/PIA23165/PIA23165~medium.jpg', captionEn: 'Comet — icy traveler', captionUr: 'دمدار ستارہ — برفیلا مسافر', credit: 'NASA/Hubble', gradient: 'radial-gradient(circle at 30% 30%, #e0e8ff, #8090c0 40%, #203060)' },
+    { src: 'https://images-assets.nasa.gov/image/PIA20038/PIA20038~medium.jpg', captionEn: 'Pluto — dwarf planet', captionUr: 'پلوٹو — بونا سیارہ', credit: 'NASA/New Horizons', gradient: 'radial-gradient(circle at 35% 35%, #d4c4a8, #a08868 40%, #504030)' },
+    { src: 'https://science.nasa.gov/wp-content/uploads/2023/10/solar-system-model.jpg', captionEn: 'Solar System overview diagram', captionUr: 'نظامِ شمسی کا جائزہ خاکہ', credit: 'NASA — Educational illustration', gradient: 'radial-gradient(circle at 40% 40%, #ffcc00, #ff8c00 30%, #1a3a5c 70%, #0a0e27)' },
+    { src: 'https://images-assets.nasa.gov/image/PIA01341/PIA01341~medium.jpg', captionEn: 'Solar System planetary montage', captionUr: 'نظامِ شمسی کے سیاروں کا حقیقی مونٹیج', credit: 'NASA/JPL', gradient: 'radial-gradient(circle at 40% 40%, #ffcc00, #4a90d9 30%, #0a0e27 70%)' }
   ];
 
   useEffect(() => {
@@ -489,7 +489,7 @@ export function SolarSystemPage() {
             )}
           </p>
           <ImageCard
-            src="https://images-assets.nasa.gov/image/PIA21474/PIA21474~medium.jpg"
+            src="https://science.nasa.gov/wp-content/uploads/2023/10/solar-system-model.jpg"
             alt="Solar System overview"
             captionEn="A simplified view of the Solar System."
             captionUr="نظامِ شمسی کا ایک سادہ منظر۔"
