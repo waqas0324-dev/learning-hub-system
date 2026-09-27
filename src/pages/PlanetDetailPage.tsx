@@ -8,6 +8,7 @@ import { ScientificImage } from '../components/ScientificImage';
 import { EducationalCarousel } from '../components/EducationalCarousel';
 import { InteractiveDiagram } from '../components/InteractiveDiagram';
 import { BilingualFlowchart } from '../components/BilingualFlowchart';
+import { VisualLearningPanel } from '../components/VisualLearningPanel';
 import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from 'lucide-react';
 
 export function PlanetDetailPage() {
@@ -86,6 +87,16 @@ export function PlanetDetailPage() {
           </div>
         </div>
       </section>
+
+      {/* SECTION 1.25: DEFINITION + VISUAL EXPLANATION */}
+      <VisualLearningPanel
+        planetId={selectedPlanet.id}
+        definition={selectedPlanet.coreDescription}
+        description={selectedPlanet.detailedDescription}
+        avgDistance={selectedPlanet.avgDistance}
+        orbitalPeriod={selectedPlanet.yearLength}
+        diameter={selectedPlanet.diameter}
+      />
 
       {/* SECTION 1.5: PLANET IMAGE CAROUSEL - 10 SLIDES */}
       <section>
