@@ -18,7 +18,7 @@ export const celestialImages: Record<string, CelestialImage> = {
   sun: {
     id: 'sun',
     fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA25628/PIA25628~small.jpg',
-    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA17463/PIA17463~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA25628/PIA25628~small.jpg',
     altText: { en: 'The Sun - our nearest star', ur: 'سورج — ہمارا قریب ترین ستارہ' },
     caption: { en: 'The Sun as seen from space by NASA.', ur: 'خلا سے نظر آنے والا سورج — ناسا کی تصویر۔' },
     credit: 'NASA',
@@ -40,7 +40,7 @@ export const celestialImages: Record<string, CelestialImage> = {
   venus: {
     id: 'venus',
     fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA00159/PIA00159~small.jpg',
-    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA23792/PIA23792~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA00159/PIA00159~small.jpg',
     altText: { en: 'Venus - Mariner 10 image', ur: 'زہرہ — میرینر 10 کی تصویر' },
     caption: { en: 'Venus as seen by NASA Mariner 10 spacecraft.', ur: 'NASA میرینر 10 خلائی جہاز سے نظر آنے والی زہرہ۔' },
     credit: 'NASA/JPL',
@@ -84,7 +84,7 @@ export const celestialImages: Record<string, CelestialImage> = {
   saturn: {
     id: 'saturn',
     fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA05425/PIA05425~small.jpg',
-    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA20029/PIA20029~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA05425/PIA05425~small.jpg',
     altText: { en: 'Saturn - Cassini mission image', ur: 'زحل — کاسینی مشن کی تصویر' },
     caption: { en: 'Saturn and its rings during equinox as seen by NASA Cassini.', ur: 'NASA کاسینی سے نظر آنے والا زحل اور اس کے حلقے اعتدال کے وقت۔' },
     credit: 'NASA/JPL-Caltech/Space Science Institute',
@@ -95,7 +95,7 @@ export const celestialImages: Record<string, CelestialImage> = {
   uranus: {
     id: 'uranus',
     fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA18182/PIA18182~small.jpg',
-    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA01464/PIA01464~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA18182/PIA18182~small.jpg',
     altText: { en: 'Uranus - Voyager 2 image', ur: 'یورینس — وائجر 2 کی تصویر' },
     caption: { en: 'Uranus as seen by NASA Voyager 2 spacecraft.', ur: 'NASA وائجر 2 خلائی جہاز سے نظر آنے والا یورینس۔' },
     credit: 'NASA/JPL-Caltech/Voyager 2',
