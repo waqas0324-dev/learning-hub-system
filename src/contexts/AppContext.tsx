@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { translations, TranslationKey } from '../data/translations';
+import { getLocalProgress, saveLocalProgress, LearningProgress } from '../lib/progressStore';
 
 type LanguageMode = 'en' | 'ur' | 'both';
 type ThemeMode = 'dark' | 'light';
@@ -15,6 +16,9 @@ interface AppContextType {
   t: (key: TranslationKey) => string;
   tBoth: (key: TranslationKey) => { en: string; ur: string };
   dir: string;
+  progress: LearningProgress;
+  markComplete: (route: string) => void;
+  recordQuizScore: (score: number) => void;
 }
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -29,6 +33,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const [fontSize, setFontSizeState] = useState<FontSize>(() => {
     return (localStorage.getItem('sslh-fontsize') as FontSize) || 'md';
   });
+  const [progress, setProgress] = useState<LearningProgress>(() => getLocalProgress());
 
   useEffect(() => {
     localStorage.setItem('sslh-lang', language);
@@ -48,6 +53,9 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const setLanguage = (lang: LanguageMode) => setLanguageState(lang);
   const toggleTheme = () => setThemeState(prev => prev === 'dark' ? 'light' : 'dark');
   const setFontSize = (size: FontSize) => setFontSizeState(size);
+  const updateProgress = (next: LearningProgress) => { setProgress(next); saveLocalProgress(next); };
+  const markComplete = (route: string) => { const next = { ...progress, completed: progress.completed.includes(route) ? progress.completed : [...progress.completed, route], lastVisited: route }; updateProgress(next); };
+  const recordQuizScore = (score: number) => { updateProgress({ ...progress, quizBest: Math.max(progress.quizBest, score), lastVisited: '/quiz' }); };
 
   const t = (key: TranslationKey): string => {
     const trans = translations[key];
@@ -61,7 +69,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
   const dir = language === 'ur' ? 'rtl' : 'ltr';
 
   return (
-    <AppContext.Provider value={{ language, setLanguage, theme, toggleTheme, fontSize, setFontSize, t, tBoth, dir }}>
+    <AppContext.Provider value={{ language, setLanguage, theme, toggleTheme, fontSize, setFontSize, t, tBoth, dir, progress, markComplete, recordQuizScore }}>
       {children}
     </AppContext.Provider>
   );
