@@ -18,8 +18,26 @@ export function OceansPage() {
       </div>
     </section>
     <section className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-      {[['Evaporation','تبخیر',ArrowUp,'Water gains heat and rises as vapor.'],['Condensation','تکثیف',CloudRain,'Water vapor cools and forms clouds.'],['Precipitation','بارش',Droplets,'Water returns to Earth as rain or snow.'],['Runoff','سطحی بہاؤ',ArrowDown,'Water flows back toward rivers and oceans.']].map(([en,ur,Icon,desc])=>{
-        const I=Icon as any; return <div className="rounded-2xl border p-5" style={{backgroundColor:'var(--surface)',borderColor:'var(--border')}}><I size={28} style={{color:'var(--accent)'}}/><h3 className="font-bold mt-3">{text(en as string,ur as string)}</h3><p className="text-sm mt-2" style={{color:'var(--text-secondary)'}}>{text(desc as string,desc as string)}</p></div>
+      {[
+        { en: 'Evaporation', ur: 'تبخیر', Icon: ArrowUp, desc: 'Water gains heat and rises as vapor.' },
+        { en: 'Condensation', ur: 'تکثیف', Icon: CloudRain, desc: 'Water vapor cools and forms clouds.' },
+        { en: 'Precipitation', ur: 'بارش', Icon: Droplets, desc: 'Water returns to Earth as rain or snow.' },
+        { en: 'Runoff', ur: 'سطحی بہاؤ', Icon: ArrowDown, desc: 'Water flows back toward rivers and oceans.' },
+      ].map((item) => {
+        const I = item.Icon;
+        return (
+          <div
+            key={item.en}
+            className="rounded-2xl border p-5"
+            style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}
+          >
+            <I size={28} style={{ color: 'var(--accent)' }} />
+            <h3 className="font-bold mt-3">{text(item.en, item.ur)}</h3>
+            <p className="text-sm mt-2" style={{ color: 'var(--text-secondary)' }}>
+              {text(item.desc, item.desc)}
+            </p>
+          </div>
+        );
       })}
     </section>
     <section className="rounded-2xl border p-6" style={{backgroundColor:'var(--surface)',borderColor:'var(--border)'}}>
