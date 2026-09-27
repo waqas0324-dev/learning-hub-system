@@ -459,7 +459,7 @@ export function ScientistsMissionsPage() {
                 </div>
               )}
               <button
-                onClick={() => setSelectedScientist(scientist.id)
+                onClick={() => setSelectedScientist(scientist.id)}
                 className="w-full py-2 rounded-lg text-sm font-medium"
                 style={{ backgroundColor: 'var(--accent)', color: '#fff' }}
               >
