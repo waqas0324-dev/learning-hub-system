@@ -15,6 +15,7 @@ import { EclipsesPage } from './pages/EclipsesPage';
 import { ScientistsMissionsPage } from './pages/ScientistsMissionsPage';
 import { EarthExplorerPage } from './pages/EarthExplorerPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
+import { OceansPage } from './pages/OceansPage';
 import {
   Globe, Rocket, BarChart3, Calculator, Sun, Target, Users,
   Mountain, Waves, Cloud, BookOpen, Zap, HelpCircle, Gamepad2,
@@ -40,9 +41,7 @@ function AppLayout() {
           <Route path="/eclipses" element={<EclipsesPage />} />
           <Route path="/scientists" element={<ScientistsMissionsPage />} />
           <Route path="/earth" element={<EarthExplorerPage />} />
-          <Route path="/oceans" element={
-            <PlaceholderPage title={{ en: 'Oceans & Water Cycle', ur: 'سمندر اور آبی چکر' }} icon={<Waves size={48} />} />
-          } />
+          <Route path="/oceans" element={<OceansPage />} />
           <Route path="/weather" element={
             <PlaceholderPage title={{ en: 'Weather & Climate', ur: 'موسم اور آب و ہوا' }} icon={<Cloud size={48} />} />
           } />
