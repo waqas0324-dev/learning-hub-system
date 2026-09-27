@@ -17,8 +17,8 @@ export interface CelestialImage {
 export const celestialImages: Record<string, CelestialImage> = {
   sun: {
     id: 'sun',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/b/be/Sun_from_Space.jpg',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Sun_from_Space.jpg/600px-Sun_from_Space.jpg',
+    fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA17463/PIA17463~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA17463/PIA17463~small.jpg',
     altText: { en: 'The Sun - our nearest star', ur: 'سورج — ہمارا قریب ترین ستارہ' },
     caption: { en: 'The Sun as seen from space by NASA.', ur: 'خلا سے نظر آنے والا سورج — ناسا کی تصویر۔' },
     credit: 'NASA',
@@ -28,8 +28,8 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   mercury: {
     id: 'mercury',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/4a/Mercury_in_true_color.jpg',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Mercury_in_true_color.jpg/600px-Mercury_in_true_color.jpg',
+    fullDiskImageUrl: 'https://science.nasa.gov/wp-content/uploads/2023/11/mercury-messenger-globe-pia15162.jpg',
+    thumbnailUrl: 'https://science.nasa.gov/wp-content/uploads/2023/11/mercury-messenger-globe-pia15162.jpg',
     altText: { en: 'Mercury - MESSENGER mission image', ur: 'عطارد — میسنجر مشن کی تصویر' },
     caption: { en: 'Mercury in true color as seen by NASA MESSENGER spacecraft.', ur: 'NASA میسنجر خلائی جہاز سے نظر آنے والا عطارد اصلی رنگ میں۔' },
     credit: 'NASA/Johns Hopkins University APL/Arizona State University',
@@ -39,8 +39,8 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   venus: {
     id: 'venus',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/0/08/Venus_from_Mariner_10.jpg',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Venus_from_Mariner_10.jpg/600px-Venus_from_Mariner_10.jpg',
+    fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA23792/PIA23792~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA23792/PIA23792~small.jpg',
     altText: { en: 'Venus - Mariner 10 image', ur: 'زہرہ — میرینر 10 کی تصویر' },
     caption: { en: 'Venus as seen by NASA Mariner 10 spacecraft.', ur: 'NASA میرینر 10 خلائی جہاز سے نظر آنے والی زہرہ۔' },
     credit: 'NASA/JPL',
@@ -50,8 +50,8 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   earth: {
     id: 'earth',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/cb/The_Blue_Marble_%28reprocessed%29.jpg',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/The_Blue_Marble_%28reprocessed%29.jpg/600px-The_Blue_Marble_%28reprocessed%29.jpg',
+    fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA18033/PIA18033~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA18033/PIA18033~small.jpg',
     altText: { en: 'Earth - The Blue Marble', ur: 'زمین — نیلا سنگمرمر' },
     caption: { en: 'Earth as seen from space - The Blue Marble by NASA.', ur: 'خلا سے نظر آنے والی زمین — نیلا سنگمرمر، ناسا کی تصویر۔' },
     credit: 'NASA',
@@ -61,8 +61,8 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   mars: {
     id: 'mars',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/7/76/Mars_Hubble.jpg',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/Mars_Hubble.jpg/600px-Mars_Hubble.jpg',
+    fullDiskImageUrl: 'https://science.nasa.gov/wp-content/uploads/2024/03/pia04304-mars.jpg',
+    thumbnailUrl: 'https://science.nasa.gov/wp-content/uploads/2024/03/pia04304-mars.jpg',
     altText: { en: 'Mars - Hubble Space Telescope image', ur: 'مریخ — ہبل خلائی دوربین کی تصویر' },
     caption: { en: 'Mars as seen by Hubble Space Telescope.', ur: 'ہبل خلائی دوربین سے نظر آنے والا مریخ۔' },
     credit: 'NASA/ESA/Hubble Heritage Team',
@@ -72,8 +72,8 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   jupiter: {
     id: 'jupiter',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/2/2b/Jupiter_and_its_shrunken_Great_Red_Spot.jpg',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Jupiter_and_its_shrunken_Great_Red_Spot.jpg/600px-Jupiter_and_its_shrunken_Great_Red_Spot.jpg',
+    fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA21774/PIA21774~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA21774/PIA21774~small.jpg',
     altText: { en: 'Jupiter - Hubble Space Telescope image', ur: 'مشتری — ہبل خلائی دوربین کی تصویر' },
     caption: { en: 'Jupiter as seen by Hubble Space Telescope with Great Red Spot.', ur: 'ہبل خلائی دوربین سے نظر آنے والا مشتری عظیم سرخ دھبے کے ساتھ۔' },
     credit: 'NASA/ESA/Hubble Space Telescope',
@@ -83,8 +83,8 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   saturn: {
     id: 'saturn',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_during_Equinox.jpg',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Saturn_during_Equinox.jpg/600px-Saturn_during_Equinox.jpg',
+    fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA20029/PIA20029~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA20029/PIA20029~small.jpg',
     altText: { en: 'Saturn - Cassini mission image', ur: 'زحل — کاسینی مشن کی تصویر' },
     caption: { en: 'Saturn and its rings during equinox as seen by NASA Cassini.', ur: 'NASA کاسینی سے نظر آنے والا زحل اور اس کے حلقے اعتدال کے وقت۔' },
     credit: 'NASA/JPL-Caltech/Space Science Institute',
@@ -94,8 +94,8 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   uranus: {
     id: 'uranus',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/4/48/Uranus_as_seen_by_Voyager_2.png',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Uranus_as_seen_by_Voyager_2.png/600px-Uranus_as_seen_by_Voyager_2.png',
+    fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA01464/PIA01464~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA01464/PIA01464~small.jpg',
     altText: { en: 'Uranus - Voyager 2 image', ur: 'یورینس — وائجر 2 کی تصویر' },
     caption: { en: 'Uranus as seen by NASA Voyager 2 spacecraft.', ur: 'NASA وائجر 2 خلائی جہاز سے نظر آنے والا یورینس۔' },
     credit: 'NASA/JPL-Caltech/Voyager 2',
@@ -105,8 +105,8 @@ export const celestialImages: Record<string, CelestialImage> = {
   },
   neptune: {
     id: 'neptune',
-    fullDiskImageUrl: 'https://upload.wikimedia.org/wikipedia/commons/6/63/Neptune_-_Voyager_2_%2829347980847%29_flatten_clarity.jpg',
-    thumbnailUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Neptune_-_Voyager_2_%2829347980847%29_flatten_clarity.jpg/600px-Neptune_-_Voyager_2_%2829347980847%29_flatten_clarity.jpg',
+    fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA01492/PIA01492~small.jpg',
+    thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA01492/PIA01492~small.jpg',
     altText: { en: 'Neptune - Voyager 2 image', ur: 'نیپچون — وائجر 2 کی تصویر' },
     caption: { en: 'Neptune as seen by NASA Voyager 2 spacecraft.', ur: 'NASA وائجر 2 خلائی جہاز سے نظر آنے والا نیپچون۔' },
     credit: 'NASA/JPL-Caltech/Voyager 2',
