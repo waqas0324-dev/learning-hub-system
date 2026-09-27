@@ -113,15 +113,11 @@ export function EducationalCarousel({
             loading="lazy"
           />
         ) : (
-          <div 
-            className="p-8 text-center w-full h-full min-h-[300px] flex flex-col items-center justify-center"
-            style={{ background: currentSlideData.fallbackGradient || 'radial-gradient(circle at 40% 40%, #4a90d9, #1a5276, #0a2a4a)' }}
-          >
-            <div className="w-40 h-40 rounded-full mb-4 opacity-80" style={{ background: currentSlideData.fallbackGradient || 'radial-gradient(circle at 35% 35%, #7ec8e3, #4a90d9 40%, #2d6b3f 60%, #1a3a5c)' }} />
-            <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-              {language === 'en' && 'Educational diagram'}
-              {language === 'ur' && <span className="font-urdu" dir="rtl">تعلیمی خاکہ</span>}
-              {language === 'both' && <>Educational diagram<br /><span className="font-urdu" dir="rtl">تعلیمی خاکہ</span></>}
+          <div className="p-8 text-center w-full min-h-[300px] flex flex-col items-center justify-center bg-slate-950">
+            <p className="text-sm text-slate-300">
+              {language === 'en' && 'NASA image could not be loaded'}
+              {language === 'ur' && <span className="font-urdu" dir="rtl">NASA کی تصویر لوڈ نہیں ہو سکی</span>}
+              {language === 'both' && <>NASA image could not be loaded<br /><span className="font-urdu" dir="rtl">NASA کی تصویر لوڈ نہیں ہو سکی</span></>}
             </p>
           </div>
         )}
