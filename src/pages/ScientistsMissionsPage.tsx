@@ -7,20 +7,11 @@ import { CheckCircle, XCircle, Play, Pause, RotateCcw, X, ChevronLeft, ChevronRi
 // ============================================
 // SCIENTIST PORTRAIT COMPONENT
 // ============================================
-function ScientistPortrait({ name, gradient, size = 80 }: { name: string; gradient: string; size?: number }) {
+function ScientistPortrait({ name, gradient, imageUrl, size = 80 }: { name: string; gradient: string; imageUrl?: string; size?: number }) {
   const initials = name.split(' ').map(n => n[0]).join('').slice(0, 2);
   return (
-    <div
-      className="rounded-full flex items-center justify-center text-white font-bold"
-      style={{
-        width: size,
-        height: size,
-        background: gradient,
-        fontSize: size * 0.35,
-        boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
-      }}
-    >
-      {initials}
+    <div className="relative overflow-hidden rounded-2xl flex items-center justify-center text-white font-bold" style={{ width: size, height: size, background: gradient, boxShadow: '0 8px 24px rgba(0,0,0,0.22)' }}>
+      {imageUrl ? <img src={imageUrl} alt={name} className="h-full w-full object-cover" loading="lazy" /> : <span style={{ fontSize: size * 0.35 }}>{initials}</span>}
     </div>
   );
 }
@@ -172,6 +163,8 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'Polish', ur: 'پولش' },
       field: { en: 'Astronomy', ur: 'فلکیات' },
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Nikolaus%20Kopernikus.jpg',
+      connection: { en: 'Solar System model • foundational astronomy; no spacecraft mission', ur: 'نظامِ شمسی کا ماڈل • بنیادی فلکیات؛ کوئی خلائی مشن نہیں' },
       contribution: {
         en: 'Proposed that the Sun, not Earth, is at the center of the Solar System. This heliocentric model changed how people understood planetary motion.',
         ur: 'تجویز پیش کی کہ نظامِ شمسی کے مرکز میں زمین نہیں بلکہ سورج ہے۔ اس سورج مرکزی ماڈل نے لوگوں کی سیاروی حرکت کو سمجھنے کی طریقہ کار کو بدل دیا۔'
@@ -188,6 +181,8 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'Italian', ur: 'اطالوی' },
       field: { en: 'Astronomy, Physics', ur: 'فلکیات، طبیعیات' },
       gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Galileo%20Galilei%202.jpg',
+      connection: { en: 'Jupiter • observed its four largest moons in 1610', ur: 'مشتری • 1610 میں اس کے چار بڑے چاند دیکھے' },
       contribution: {
         en: 'Improved the telescope and observed Jupiter\'s four largest moons, phases of Venus and craters on the Moon. His observations supported the idea that not everything orbits Earth.',
         ur: 'دوربین کو بہتر بنایا اور مشتری کے چار بڑے چاند، زہرہ کی حالتیں اور چاند پر گڑھے دریافت کیے۔ اس کی مشاہدات نے اس خیال کی تائید کی کہ ہر چیز زمین کے گرد گردش نہیں کرتی۔'
@@ -204,6 +199,8 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'German', ur: 'جرمن' },
       field: { en: 'Astronomy, Mathematics', ur: 'فلکیات، ریاضی' },
       gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/JKepler.jpg',
+      connection: { en: 'Planetary orbits • laws of planetary motion', ur: 'سیاروی مدار • سیاروی حرکت کے قوانین' },
       contribution: {
         en: 'Discovered three laws of planetary motion. He showed that planets move in elliptical orbits with the Sun at one focus, not in perfect circles.',
         ur: 'سیاروی حرکت کے تین قوانین دریافت کیے۔ اس نے ثابت کیا کہ سیارے مکمل گول دائروں کی بجائے بیضوی مداروں میں حرکت کرتے ہیں جن کے ایک مرکز میں سورج ہوتا ہے۔'
@@ -220,6 +217,8 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'English', ur: 'انگریز' },
       field: { en: 'Physics, Mathematics', ur: 'طبیعیات، ریاضی' },
       gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/GodfreyKneller-IsaacNewton-1689.jpg',
+      connection: { en: 'Gravity & motion • foundation for orbital mechanics', ur: 'کششِ ثقل اور حرکت • مداری میکانیات کی بنیاد' },
       contribution: {
         en: 'Formulated the laws of motion and universal gravitation. His work explained why planets orbit the Sun and how gravity works on Earth and in space.',
         ur: 'حرکت کے قوانین اور عالمی کششِ ثقل کا نظریہ پیش کیا۔ اس کے کام نے وضاحت کی کہ سیارے سورج کے گرد کیوں گردش کرتے ہیں اور کششِ ثقل زمین اور خلا میں کیسے کام کرتی ہے۔'
@@ -236,6 +235,8 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'American', ur: 'امریکی' },
       field: { en: 'Mathematics, Space Science', ur: 'ریاضی، خلائی سائنس' },
       gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Katherine%20Johnson%20at%20NASA%2C%20in%201966.jpg',
+      connection: { en: 'Earth–Moon trajectories • Apollo 11 calculations (1969)', ur: 'زمین–چاند راستے • اپولو 11 کے حسابات (1969)' },
       contribution: {
         en: 'Mathematician whose calculations helped determine flight paths for early NASA missions, including crewed flights to the Moon. Her work was essential for mission success and safety.',
         ur: 'ریاضی دان تھیں جن کے حساب کتاب نے ابتدائی ناسا مشنز، بشمول چاند کے لیے خلانوردوں والی پروازوں، کے فلائٹ پاتھ متعین کرنے میں مدد کی۔ ان کا کام مشن کی کامیابی اور حفاظت کے لیے انتہائی ضروری تھا۔'
@@ -436,7 +437,7 @@ export function ScientistsMissionsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {scientists.map((scientist) => (
             <div key={scientist.id} className="rounded-xl p-4" style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
-              <ScientistPortrait name={scientist.name.en} gradient={scientist.gradient} size={80} />
+              <ScientistPortrait name={scientist.name.en} gradient={scientist.gradient} imageUrl={scientist.imageUrl} size={96} />
               <h3 className="font-bold text-center mt-3 mb-1" style={{ color: 'var(--text-primary)' }}>
                 {language === 'ur' ? scientist.name.ur : scientist.name.en}
                 {language === 'both' && <span className="block font-urdu text-sm" dir="rtl">{scientist.name.ur}</span>}
@@ -451,8 +452,14 @@ export function ScientistsMissionsPage() {
                 {language === 'ur' ? scientist.contribution.ur : scientist.contribution.en}
                 {language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{scientist.contribution.ur}</span>}
               </p>
+              {scientist.connection && (
+                <div className="mb-3 rounded-xl border p-3 text-xs" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface-muted)' }}>
+                  <strong>{renderText('Planet / mission connection', 'سیارہ / مشن تعلق')}</strong>
+                  <div className="mt-1">{language === 'ur' ? scientist.connection.ur : scientist.connection.en}{language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{scientist.connection.ur}</span>}</div>
+                </div>
+              )}
               <button
-                onClick={() => setSelectedScientist(scientist.id)}
+                onClick={() => setSelectedScientist(scientist.id)
                 className="w-full py-2 rounded-lg text-sm font-medium"
                 style={{ backgroundColor: 'var(--accent)', color: '#fff' }}
               >
@@ -474,7 +481,7 @@ export function ScientistsMissionsPage() {
                 if (!scientist) return null;
                 return (
                   <>
-                    <ScientistPortrait name={scientist.name.en} gradient={scientist.gradient} size={120} />
+                    <ScientistPortrait name={scientist.name.en} gradient={scientist.gradient} imageUrl={scientist.imageUrl} size={140} />
                     <h3 className="text-xl font-bold text-center mt-4 mb-2" style={{ color: 'var(--text-primary)' }}>
                       {language === 'ur' ? scientist.name.ur : scientist.name.en}
                       {language === 'both' && <span className="block font-urdu text-lg" dir="rtl">{scientist.name.ur}</span>}
@@ -502,7 +509,36 @@ export function ScientistsMissionsPage() {
         )}
       </section>
 
-      {/* Section 2: Key Discoveries Flowchart */}
+      {/* Section 2: Mission Scientists & Planetary Missions */}
+      <section id="mission-scientists" className="mt-10">
+        <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-primary)' }}>
+          {renderText('Scientists Behind Planetary Missions', 'سیاروی مشنز کے پیچھے سائنسدان')}
+        </h2>
+        <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
+          {renderText('Each card connects a real scientist to a specific mission, target world, role and milestone.', 'ہر کارڈ حقیقی سائنسدان کو مخصوص مشن، ہدف دنیا، کردار اور اہم سنگِ میل سے جوڑتا ہے۔')}
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[
+            { name:'Dr. Torrence V. Johnson', role:'Galileo Project Scientist', target:'Jupiter / Ganymede / Io / Europa', years:'1995–2003', image:'https://images-assets.nasa.gov/image/PIA01509/PIA01509~small.jpg', mission:'Galileo', result:'Led scientific interpretation for a mission that orbited Jupiter and studied its moons; Galileo ended with a deliberate impact on Jupiter in 2003.' },
+            { name:'Linda Spilker', role:'Cassini Project Scientist', target:'Saturn and its moons', years:'2004–2017', image:'https://images-assets.nasa.gov/image/PIA05425/PIA05425~small.jpg', mission:'Cassini-Huygens', result:'Led the Cassini science team during its in-depth study of Saturn. The mission ended with a controlled plunge into Saturn in September 2017.' },
+            { name:'Alan Stern', role:'New Horizons Principal Investigator', target:'Pluto / Kuiper Belt', years:'2015 + 2019 encounters', image:'https://images-assets.nasa.gov/image/PIA20038/PIA20038~small.jpg', mission:'New Horizons', result:'Led the mission that made the first close exploration of Pluto in 2015 and later flew past Arrokoth in 2019.' }
+          ].map((m,i)=>(
+            <article key={m.name} className="overflow-hidden rounded-2xl border" style={{ backgroundColor:'var(--surface)', borderColor:'var(--border)' }}>
+              <div className="relative h-44 overflow-hidden bg-slate-950">
+                <img src={m.image} alt={m.target} className="h-full w-full object-cover" loading="lazy" />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4"><span className="text-xs font-black text-cyan-300">{m.mission}</span></div>
+              </div>
+              <div className="p-5">
+                <h3 className="text-lg font-black">{m.name}</h3>
+                <p className="mt-1 text-xs font-bold" style={{color:'var(--accent)'}}>{m.role}</p>
+                <div className="mt-4 space-y-2 text-sm"><div><strong>{renderText('Target:', 'ہدف:')}</strong> {m.target}</div><div><strong>{renderText('Mission period:', 'مشن مدت:')}</strong> {m.years}</div><p className="leading-6 opacity-70">{m.result}</p></div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Section 3: Key Discoveries Flowchart */}
       <section id="discoveries">
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('How Discoveries Built Space Exploration', 'دریافتوں نے خلائی دریافت کو کیسے بنایا')}
@@ -519,7 +555,7 @@ export function ScientistsMissionsPage() {
         />
       </section>
 
-      {/* Section 3: Space Missions Timeline */}
+      {/* Section 4: Space Missions Timeline */}
       <section id="missions">
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('Major Space Missions Timeline', 'بڑے خلائی مشنز کی ٹائم لائن')}
@@ -548,7 +584,7 @@ export function ScientistsMissionsPage() {
         </div>
       </section>
 
-      {/* Section 4: Moon Missions Animation */}
+      {/* Section 5: Moon Missions Animation */}
       <section id="moon">
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('Missions to the Moon', 'چاند کے مشنز')}
@@ -574,7 +610,7 @@ export function ScientistsMissionsPage() {
         </div>
       </section>
 
-      {/* Section 5: Mars Rovers Animation */}
+      {/* Section 6: Mars Rovers Animation */}
       <section id="mars">
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('Mars Rovers', 'مریخ کے روورز')}
