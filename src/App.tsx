@@ -18,11 +18,6 @@ import { PlaceholderPage } from './pages/PlaceholderPage';
 import { OceansPage } from './pages/OceansPage';
 import { WeatherPage } from './pages/WeatherPage';
 import { SolarEnergyPage } from './pages/SolarEnergyPage';
-import {
-  Globe, Rocket, BarChart3, Calculator, Sun, Target, Users,
-  Mountain, Waves, Cloud, BookOpen, Zap, HelpCircle, Gamepad2,
-  Languages, Info
-} from 'lucide-react';
 
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
