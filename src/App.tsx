@@ -14,10 +14,14 @@ import { MoonSunStarsPage } from './pages/MoonSunStarsPage';
 import { EclipsesPage } from './pages/EclipsesPage';
 import { ScientistsMissionsPage } from './pages/ScientistsMissionsPage';
 import { EarthExplorerPage } from './pages/EarthExplorerPage';
-import { PlaceholderPage } from './pages/PlaceholderPage';
 import { OceansPage } from './pages/OceansPage';
 import { WeatherPage } from './pages/WeatherPage';
 import { SolarEnergyPage } from './pages/SolarEnergyPage';
+import { DamsPage } from './pages/DamsPage';
+import { QuizPage } from './pages/QuizPage';
+import { GamesPage } from './pages/GamesPage';
+import { GlossaryPage } from './pages/GlossaryPage';
+import { AboutPage } from './pages/AboutPage';
 
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -40,22 +44,12 @@ function AppLayout() {
           <Route path="/earth" element={<EarthExplorerPage />} />
           <Route path="/oceans" element={<OceansPage />} />
           <Route path="/weather" element={<WeatherPage />} />
-          <Route path="/dams" element={
-            <PlaceholderPage title={{ en: 'Dams & Water Resources', ur: 'ڈیم اور آبی وسائل' }} icon={<BookOpen size={48} />} />
-          } />
+          <Route path="/dams" element={<DamsPage />} />
           <Route path="/solar-energy" element={<SolarEnergyPage />} />
-          <Route path="/quiz" element={
-            <PlaceholderPage title={{ en: 'Quiz Center', ur: 'کوئز مرکز' }} icon={<HelpCircle size={48} />} />
-          } />
-          <Route path="/games" element={
-            <PlaceholderPage title={{ en: 'Learning Games', ur: 'تعلیمی گیمز' }} icon={<Gamepad2 size={48} />} />
-          } />
-          <Route path="/glossary" element={
-            <PlaceholderPage title={{ en: 'Glossary', ur: 'اصطلاحات' }} icon={<Languages size={48} />} />
-          } />
-          <Route path="/about" element={
-            <PlaceholderPage title={{ en: 'About & Sources', ur: 'تعارف اور ماخذ' }} icon={<Info size={48} />} />
-          } />
+          <Route path="/quiz" element={<QuizPage />} />
+          <Route path="/games" element={<GamesPage />} />
+          <Route path="/glossary" element={<GlossaryPage />} />
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
       </main>
       <Footer />
