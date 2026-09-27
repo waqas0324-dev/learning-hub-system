@@ -122,3 +122,13 @@ body {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
+
+
+/* Professional learning-platform layer */
+:root { --content-max: 1180px; --radius-xl: 1.25rem; }
+body { min-width: 320px; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: color-mix(in srgb, var(--accent) 25%, transparent); }
+.card-elevated { box-shadow: 0 14px 40px rgba(15,23,42,.08); }
+.glass-panel { background: color-mix(in srgb, var(--surface) 82%, transparent); backdrop-filter: blur(16px); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
