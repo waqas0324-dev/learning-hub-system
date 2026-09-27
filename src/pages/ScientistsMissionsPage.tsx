@@ -437,7 +437,7 @@ export function ScientistsMissionsPage() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {scientists.map((scientist) => (
             <div key={scientist.id} className="rounded-xl p-4" style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }}>
-              <ScientistPortrait name={scientist.name.en} gradient={scientist.gradient} imageUrl={scientist.imageUrl} size={96} />
+              <ScientistPortrait name={scientist.name.en} gradient={scientist.gradient} imageUrl={'imageUrl' in scientist ? scientist.imageUrl : undefined} size={96} />
               <h3 className="font-bold text-center mt-3 mb-1" style={{ color: 'var(--text-primary)' }}>
                 {language === 'ur' ? scientist.name.ur : scientist.name.en}
                 {language === 'both' && <span className="block font-urdu text-sm" dir="rtl">{scientist.name.ur}</span>}
@@ -452,7 +452,7 @@ export function ScientistsMissionsPage() {
                 {language === 'ur' ? scientist.contribution.ur : scientist.contribution.en}
                 {language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{scientist.contribution.ur}</span>}
               </p>
-              {scientist.connection && (
+              {'connection' in scientist && scientist.connection && (
                 <div className="mb-3 rounded-xl border p-3 text-xs" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface-muted)' }}>
                   <strong>{renderText('Planet / mission connection', 'سیارہ / مشن تعلق')}</strong>
                   <div className="mt-1">{language === 'ur' ? scientist.connection.ur : scientist.connection.en}{language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{scientist.connection.ur}</span>}</div>
@@ -481,7 +481,7 @@ export function ScientistsMissionsPage() {
                 if (!scientist) return null;
                 return (
                   <>
-                    <ScientistPortrait name={scientist.name.en} gradient={scientist.gradient} imageUrl={scientist.imageUrl} size={140} />
+                    <ScientistPortrait name={scientist.name.en} gradient={scientist.gradient} imageUrl={'imageUrl' in scientist ? scientist.imageUrl : undefined} size={140} />
                     <h3 className="text-xl font-bold text-center mt-4 mb-2" style={{ color: 'var(--text-primary)' }}>
                       {language === 'ur' ? scientist.name.ur : scientist.name.en}
                       {language === 'both' && <span className="block font-urdu text-lg" dir="rtl">{scientist.name.ur}</span>}
