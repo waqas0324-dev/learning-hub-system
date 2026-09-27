@@ -17,6 +17,7 @@ import { EarthExplorerPage } from './pages/EarthExplorerPage';
 import { PlaceholderPage } from './pages/PlaceholderPage';
 import { OceansPage } from './pages/OceansPage';
 import { WeatherPage } from './pages/WeatherPage';
+import { SolarEnergyPage } from './pages/SolarEnergyPage';
 import {
   Globe, Rocket, BarChart3, Calculator, Sun, Target, Users,
   Mountain, Waves, Cloud, BookOpen, Zap, HelpCircle, Gamepad2,
@@ -47,9 +48,7 @@ function AppLayout() {
           <Route path="/dams" element={
             <PlaceholderPage title={{ en: 'Dams & Water Resources', ur: 'ڈیم اور آبی وسائل' }} icon={<BookOpen size={48} />} />
           } />
-          <Route path="/solar-energy" element={
-            <PlaceholderPage title={{ en: 'Solar Energy', ur: 'شمسی توانائی' }} icon={<Zap size={48} />} />
-          } />
+          <Route path="/solar-energy" element={<SolarEnergyPage />} />
           <Route path="/quiz" element={
             <PlaceholderPage title={{ en: 'Quiz Center', ur: 'کوئز مرکز' }} icon={<HelpCircle size={48} />} />
           } />
