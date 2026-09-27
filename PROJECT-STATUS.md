@@ -1,71 +1,60 @@
 # PROJECT-STATUS.md — Solar System Learning Hub
 
-## Project Title
-Solar System Learning Hub / سولر سسٹم لرننگ ہب
+## Current build state
 
-## Repository
-GitHub-connected repository (foundation build)
+The Learning Hub is a React + Vite + TypeScript bilingual visual-learning platform. The route layer, major science modules, visual components, accurate planet-image manifest, learner quiz/game flows, glossary, sources/about module, and learner-progress persistence layer are implemented.
 
-## Completed Foundation Items
+## Completed foundation
 
-- [x] Project structure and routing (React + Vite + TypeScript)
-- [x] Responsive header with centered bilingual title
-- [x] Logo/title click navigates to Home
-- [x] Hamburger sidebar with all navigation groups
-- [x] Dark/Light theme system with localStorage persistence
-- [x] Three-language system (English, Urdu, Both) with localStorage
-- [x] Urdu font (Noto Nastaliq Urdu) with RTL support
-- [x] Font size controls (A−, A, A+) with localStorage persistence
-- [x] Home page with 8 complete sections
-- [x] Interactive Solar System orbit animation (8 planets)
-- [x] Play/Pause/Speed/Reset/Fit controls
-- [x] Planet click modal with correct data
-- [x] Planet quick cards with facts
-- [x] Learning paths navigation cards
-- [x] Tools and practice cards
-- [x] Learning progress card (structure ready)
-- [x] Featured lesson section
-- [x] About preview section
-- [x] Responsive footer with dynamic year
-- [x] All 16 route pages with consistent placeholders
-- [x] QWEN.md safety rules
-- [x] PROJECT-STATUS.md tracking
+- [x] React + Vite + TypeScript architecture
+- [x] Responsive header/sidebar/footer
+- [x] English / Urdu / Both language modes
+- [x] Urdu RTL typography and font controls
+- [x] Dark/light theme persistence
+- [x] Responsive content container and accessibility/reduced-motion styling
+- [x] Interactive solar-system/orbit experience
+- [x] Planet gallery and planet detail routing
+- [x] Stable celestial-image manifest with planet-specific NASA source metadata
+- [x] VisualLearningPanel for definition → explanation → facts → animation → flow
+- [x] Oceans & Water Cycle module
+- [x] Weather & Climate module
+- [x] Solar Energy module
+- [x] Dams & Water Resources module
+- [x] Interactive Quiz Center with bilingual questions and persisted best score
+- [x] Learning Games with planet-order challenge
+- [x] Searchable bilingual science glossary
+- [x] About / learning architecture / accessibility module
+- [x] Learner progress state with localStorage persistence
+- [x] Supabase-ready progress adapter and RLS SQL schema
+- [x] All primary routes wired to real page components rather than generic placeholder routes
 
-## All Planned Pages & Current Routes
+## Route inventory
 
-| # | Route | Page | Status |
-|---|-------|------|--------|
-| 1 | `/` | Home | ✅ Complete |
-| 2 | `/solar-system` | Solar System | 🔲 Placeholder |
-| 3 | `/planets` | Planets | 🔲 Placeholder |
-| 4 | `/comparison` | Planet Comparison | 🔲 Placeholder |
-| 5 | `/calculator` | Age & Weight Calculator | 🔲 Placeholder |
-| 6 | `/moon-sun-stars` | Moon, Sun & Stars | 🔲 Placeholder |
-| 7 | `/eclipses` | Eclipses | 🔲 Placeholder |
-| 8 | `/scientists` | Scientists & Missions | 🔲 Placeholder |
-| 9 | `/earth` | Earth Explorer | 🔲 Placeholder |
-| 10 | `/oceans` | Oceans & Water Cycle | 🔲 Placeholder |
-| 11 | `/weather` | Weather & Climate | 🔲 Placeholder |
-| 12 | `/dams` | Dams & Water Resources | 🔲 Placeholder |
-| 13 | `/solar-energy` | Solar Energy | 🔲 Placeholder |
-| 14 | `/quiz` | Quiz Center | 🔲 Placeholder |
-| 15 | `/games` | Learning Games | 🔲 Placeholder |
-| 16 | `/glossary` | Glossary | 🔲 Placeholder |
-| 17 | `/about` | About & Sources | 🔲 Placeholder |
+| Route | Module | Status |
+|---|---|---|
+| / | Home | Complete |
+| /solar-system | Solar System | Complete |
+| /planets | Planets | Complete |
+| /planets/:planetId | Planet Detail | Complete |
+| /comparison | Planet Comparison | Complete |
+| /calculator | Age & Weight Calculator | Complete |
+| /moon-sun-stars | Moon, Sun & Stars | Complete |
+| /eclipses | Eclipses | Complete |
+| /scientists | Scientists & Missions | Complete |
+| /earth | Earth Explorer | Complete |
+| /oceans | Oceans & Water Cycle | Complete |
+| /weather | Weather & Climate | Complete |
+| /dams | Dams & Water Resources | Complete |
+| /solar-energy | Solar Energy | Complete |
+| /quiz | Quiz Center | Complete |
+| /games | Learning Games | Complete |
+| /glossary | Glossary | Complete |
+| /about | About & Sources | Complete |
 
-## Future Steps
+## Backend readiness
 
-1. Add full Planet details and verified images
-2. Add Comparison page data/visuals
-3. Add Calculator functionality
-4. Add Moon/Sun/Stars content
-5. Add Eclipses content
-6. Add Scientists/Missions content
-7. Add Earth/Water/Weather/Dams/Solar Energy content
-8. Add Quizzes/Games/Glossary/Sources content
+The repository contains an optional Supabase adapter. When VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are supplied and the included supabase/schema.sql is applied, learner progress can persist to an authenticated Supabase user. Without credentials, the application safely uses browser localStorage.
 
-## Notes
+## Verification note
 
-- Preserve this file during future work
-- Do not delete or overwrite without updating status
-- All placeholder pages have consistent "coming soon" messaging
+Code changes have been committed through the connected GitHub repository. A local npm install / Vite browser run could not be executed in this environment because direct GitHub network access is unavailable, so deployment/build verification should be performed by the repository's CI/Vercel environment before treating production as verified.
