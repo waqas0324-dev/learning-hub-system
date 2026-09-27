@@ -89,7 +89,7 @@ function ImageCarousel() {
     { src: 'https://images-assets.nasa.gov/image/PIA24471/PIA24471~medium.jpg', captionEn: 'Asteroid — rocky space object', captionUr: 'سیارچہ — خلائی پتھریلا جسم', credit: 'NASA/Galileo', gradient: 'radial-gradient(circle at 35% 35%, #a08060, #6b5040 40%, #3d2d20)' },
     { src: 'https://images-assets.nasa.gov/image/PIA23165/PIA23165~medium.jpg', captionEn: 'Comet — icy traveler', captionUr: 'دمدار ستارہ — برفیلا مسافر', credit: 'NASA/Hubble', gradient: 'radial-gradient(circle at 30% 30%, #e0e8ff, #8090c0 40%, #203060)' },
     { src: 'https://images-assets.nasa.gov/image/PIA20038/PIA20038~medium.jpg', captionEn: 'Pluto — dwarf planet', captionUr: 'پلوٹو — بونا سیارہ', credit: 'NASA/New Horizons', gradient: 'radial-gradient(circle at 35% 35%, #d4c4a8, #a08868 40%, #504030)' },
-    { src: 'https://science.nasa.gov/wp-content/uploads/2023/10/solar-system-model.jpg', captionEn: 'Solar System overview diagram', captionUr: 'نظامِ شمسی کا جائزہ خاکہ', credit: 'NASA — Educational illustration', gradient: 'radial-gradient(circle at 40% 40%, #ffcc00, #ff8c00 30%, #1a3a5c 70%, #0a0e27)' },
+    { src: 'https://images-assets.nasa.gov/image/PIA01341/PIA01341~medium.jpg', captionEn: 'Solar System overview diagram', captionUr: 'نظامِ شمسی کا جائزہ خاکہ', credit: 'NASA — Educational illustration', gradient: 'radial-gradient(circle at 40% 40%, #ffcc00, #ff8c00 30%, #1a3a5c 70%, #0a0e27)' },
     { src: 'https://images-assets.nasa.gov/image/PIA01341/PIA01341~medium.jpg', captionEn: 'Solar System planetary montage', captionUr: 'نظامِ شمسی کے سیاروں کا حقیقی مونٹیج', credit: 'NASA/JPL', gradient: 'radial-gradient(circle at 40% 40%, #ffcc00, #4a90d9 30%, #0a0e27 70%)' }
   ];
 
