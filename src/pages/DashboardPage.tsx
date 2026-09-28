@@ -20,13 +20,14 @@ function T({en,ur,language}:{en:string;ur:string;language:string}) {
 export function DashboardPage(){
  const {language,progress,markComplete}=useApp();
  const completed=new Set(progress.completed);
- const pct=Math.round((completed.size/lessons.length)*100);
+ const completedCore=lessons.filter(l=>completed.has(l.path)).length;
+ const pct=Math.round((completedCore/lessons.length)*100);
  const level=Math.floor(completed.size/3)+1;
  const badges=[
-  {ok:completed.size>=1,icon:BookOpen,en:'First Lesson',ur:'پہلا سبق'},
-  {ok:completed.size>=5,icon:Target,en:'Explorer',ur:'محقق'},
+  {ok:completedCore>=1,icon:BookOpen,en:'First Lesson',ur:'پہلا سبق'},
+  {ok:completedCore>=5,icon:Target,en:'Explorer',ur:'محقق'},
   {ok:progress.quizBest>=7,icon:Trophy,en:'Quiz Master',ur:'کوئز ماسٹر'},
-  {ok:completed.size>=9,icon:Award,en:'Space Scholar',ur:'خلائی اسکالر'}
+  {ok:completedCore>=9,icon:Award,en:'Space Scholar',ur:'خلائی اسکالر'}
  ];
  return <div className="space-y-7 pb-12">
   <section className="rounded-3xl p-7 md:p-10 text-white overflow-hidden relative" style={{background:'radial-gradient(circle at 80% 10%,rgba(56,189,248,.32),transparent 28%),linear-gradient(135deg,#071126,#172554 58%,#312e81)'}}>
@@ -38,7 +39,7 @@ export function DashboardPage(){
    {[[BookOpen,String(progress.completed.length),'Lessons completed','مکمل اسباق'],[Target,pct+'%','Learning progress','تعلیمی پیش رفت'],[Trophy,String(progress.quizBest),'Best quiz score','بہترین کوئز اسکور'],[Award,'Level '+level,'Explorer level','ایکسپلورر لیول']].map(([Icon,value,en,ur]:any)=><div key={en} className="rounded-2xl border p-5" style={{backgroundColor:'var(--surface)',borderColor:'var(--border)'}}><Icon size={22} style={{color:'var(--accent)'}}/><div className="text-3xl font-black mt-3">{value}</div><div className="font-bold mt-1"><T en={en} ur={ur} language={language}/></div></div>)}
   </section>
   <section className="rounded-3xl border p-6 md:p-8" style={{backgroundColor:'var(--surface)',borderColor:'var(--border)'}}>
-   <div className="flex justify-between gap-4 items-end"><div><h2 className="text-2xl font-black"><T en="Learning progress" ur="تعلیمی پیش رفت" language={language}/></h2><p className="text-sm mt-1" style={{color:'var(--text-secondary)'}}>{completed.size} of {lessons.length} core activities completed</p></div><span className="font-black text-blue-400">{pct}%</span></div>
+   <div className="flex justify-between gap-4 items-end"><div><h2 className="text-2xl font-black"><T en="Learning progress" ur="تعلیمی پیش رفت" language={language}/></h2><p className="text-sm mt-1" style={{color:'var(--text-secondary)'}}>{completedCore} of {lessons.length} core activities completed</p></div><span className="font-black text-blue-400">{pct}%</span></div>
    <div className="h-3 rounded-full mt-5 overflow-hidden" style={{backgroundColor:'var(--surface-muted)'}}><div className="h-full rounded-full transition-all" style={{width:pct+'%',backgroundColor:'var(--accent)'}}/></div>
   </section>
   <section className="grid md:grid-cols-2 gap-4">
