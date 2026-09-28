@@ -17,6 +17,7 @@ interface EducationalCarouselProps {
   className?: string;
   showControls?: boolean;
   showDots?: boolean;
+  showCredit?: boolean;
 }
 
 /**
@@ -41,13 +42,20 @@ export function EducationalCarousel({
   autoPlayInterval = 6000,
   className = '',
   showControls = true,
-  showDots = true
+  showDots = true,
+  showCredit = true
 }: EducationalCarouselProps) {
   const { language } = useApp();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [imgErrors, setImgErrors] = useState<Set<number>>(new Set());
   const touchStartX = useRef(0);
+
+  useEffect(() => {
+    setCurrentSlide(0);
+    setImgErrors(new Set());
+    setIsPlaying(false);
+  }, [slides.length]);
 
   // Auto-play
   useEffect(() => {
@@ -175,9 +183,11 @@ export function EducationalCarousel({
         </p>
 
         {/* Credit */}
-        <p className="text-xs text-center mt-1" style={{ color: 'var(--text-secondary)' }}>
-          {currentSlideData.credit}
-        </p>
+        {showCredit && currentSlideData.credit && (
+          <p className="text-xs text-center mt-1" style={{ color: 'var(--text-secondary)' }}>
+            {currentSlideData.credit}
+          </p>
+        )}
 
         {/* Dots */}
         {showDots && (
