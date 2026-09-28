@@ -18,7 +18,7 @@ const{language}=useApp();const[active,setActive]=useState(0);const[playing,setPl
 useEffect(()=>{if(!playing)return;const id=window.setInterval(()=>setActive(v=>(v+1)%stages.length),3000);return()=>window.clearInterval(id)},[playing]);
 const select=(i:number)=>{setActive(i);setPlaying(false)};const current=stages[active];
 return <div className="space-y-8 pb-12">
-<style>{\`
+<style>{`
 @keyframes ray{0%{stroke-dashoffset:28;opacity:.3}50%{opacity:1}100%{stroke-dashoffset:0;opacity:.3}}
 @keyframes flow{0%{transform:translateX(0);opacity:0}10%{opacity:1}90%{opacity:1}100%{transform:translateX(285px);opacity:0}}
 @keyframes inverter{0%,100%{filter:drop-shadow(0 0 0 transparent)}50%{filter:drop-shadow(0 0 14px rgba(167,139,250,.8))}}
@@ -26,7 +26,7 @@ return <div className="space-y-8 pb-12">
 @keyframes wave{to{stroke-dashoffset:-36}}
 .solar-ray{animation:ray 1.2s linear infinite}.solar-inverter{animation:inverter 1.7s ease-in-out infinite}.solar-appliance{animation:appliance 1.5s ease-in-out infinite}.solar-wave{stroke-dasharray:10 8;animation:wave .8s linear infinite}
 @media(prefers-reduced-motion:reduce){.solar-ray,.solar-inverter,.solar-appliance,.solar-wave{animation:none!important}}
-\`}</style>
+`}</style>
 
 <section className="rounded-3xl border p-7 md:p-10" style={{background:'linear-gradient(135deg,#0b1220,#172554 55%,#3b2408)',borderColor:'var(--border)'}}>
 <div className="max-w-5xl"><div className="flex items-center gap-3 text-amber-300"><Sun size={32}/><span className="text-xs font-black uppercase tracking-[.22em]">Interactive Solar Energy Lab</span></div>
