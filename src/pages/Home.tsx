@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ArrowRight, Search, Orbit, Gamepad2, BrainCircuit, Telescope, Sparkles, BookOpen, Globe2, Zap } from 'lucide-react';
+import { ArrowRight, Search, Orbit, Gamepad2, BrainCircuit, Rocket, Sparkles, BookOpen, Globe2, Zap } from 'lucide-react';
 import { useApp } from '../contexts/AppContext';
 import { SolarSystem } from '../components/SolarSystem';
 import { PlanetModal } from '../components/PlanetModal';
@@ -10,7 +10,7 @@ import { getCelestialImage } from '../data/imageManifest';
 
 const quickLinks = [
   { title: 'Explore Planets', ur: 'سیارے دریافت کریں', path: '/planets', icon: <Orbit size={22} />, text: 'Facts, NASA images and planet-by-planet learning.' },
-  { title: '3D Space Explorer', ur: '3D خلائی ایکسپلورر', path: '/3d-explorer', icon: <Telescope size={22} />, text: 'Explore authentic NASA 3D missions in your browser.' },
+  { title: '3D Space Explorer', ur: '3D خلائی ایکسپلورر', path: '/3d-explorer', icon: <Rocket size={22} />, text: 'Explore authentic NASA 3D missions in your browser.' },
   { title: 'Learning Games', ur: 'تعلیمی گیمز', path: '/games', icon: <Gamepad2 size={22} />, text: 'Learn through challenges, matching and simulations.' },
   { title: 'Science Quiz', ur: 'سائنس کوئز', path: '/quiz', icon: <BrainCircuit size={22} />, text: 'Test your astronomy and Earth science knowledge.' },
   { title: 'Earth Explorer', ur: 'زمین کو جانیں', path: '/earth', icon: <Globe2 size={22} />, text: 'Understand atmosphere, oceans, water and climate.' },
@@ -93,7 +93,7 @@ export function HomePage() {
             <h2 className="text-2xl font-extrabold mt-1">{text('Solar System Explorer', 'نظامِ شمسی ایکسپلورر')}</h2>
           </div>
           <button onClick={() => navigate('/3d-explorer')} className="inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-2 text-sm font-semibold hover:border-blue-500" style={{ borderColor: 'var(--border)' }}>
-            <Telescope size={16} /> {text('Open 3D Explorer', '3D ایکسپلورر')}
+            <Rocket size={16} /> {text('Open 3D Explorer', '3D ایکسپلورر')}
           </button>
         </div>
         <SolarSystem onPlanetClick={setSelectedPlanet} />
