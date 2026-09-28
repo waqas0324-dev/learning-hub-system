@@ -26,6 +26,7 @@ import { SearchPage } from './pages/SearchPage';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { Space3DExplorerPage } from './pages/Space3DExplorerPage';
 import { SEO } from './components/SEO';
+import { LearnTopicPage } from './pages/LearnTopicPage';
 
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 768);
@@ -59,6 +60,7 @@ function AppLayout() {
           <Route path="/search" element={<SearchPage />} />
           <Route path="/resources" element={<ResourcesPage />} />
           <Route path="/3d-explorer" element={<Space3DExplorerPage />} />
+          <Route path="/learn/:slug" element={<LearnTopicPage />} />
         </Routes>
         </div>
       </main>
