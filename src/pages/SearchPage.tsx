@@ -17,6 +17,12 @@ const items=[
  {title:'Quiz Center',ur:'کوئز مرکز',path:'/quiz',type:'Practice',tags:'quiz questions score'},
  {title:'Learning Games',ur:'تعلیمی گیمز',path:'/games',type:'Games',tags:'games planet order gravity eclipse match'},
  {title:'Glossary',ur:'اصطلاحات',path:'/glossary',type:'Reference',tags:'definitions astronomy terms'},
+ {title:'Why Is the Sky Blue?',ur:'آسمان نیلا کیوں ہے؟',path:'/learn/why-is-the-sky-blue',type:'Topic',tags:'sky blue scattering atmosphere light'},
+ {title:'What Is Gravity?',ur:'کششِ ثقل کیا ہے؟',path:'/learn/what-is-gravity',type:'Topic',tags:'gravity force mass weight orbit'},
+ {title:'How Do Moon Phases Work?',ur:'چاند کی شکلیں کیسے بدلتی ہیں؟',path:'/learn/how-do-moon-phases-work',type:'Topic',tags:'moon phases lunar cycle new full moon'},
+ {title:'What Is the Water Cycle?',ur:'آبی چکر کیا ہے؟',path:'/learn/what-is-the-water-cycle',type:'Topic',tags:'water cycle evaporation condensation precipitation'},
+ {title:'How Do Solar Panels Work?',ur:'سولر پینلز کیسے کام کرتے ہیں؟',path:'/learn/how-do-solar-panels-work',type:'Topic',tags:'solar panels photovoltaic electricity inverter'},
+ {title:'What Is a Solar Eclipse?',ur:'سورج گرہن کیا ہے؟',path:'/learn/what-is-a-solar-eclipse',type:'Topic',tags:'solar eclipse moon sun shadow'},
  {title:'3D Space Explorer',ur:'3D خلائی ایکسپلورر',path:'/3d-explorer',type:'Interactive',tags:'3d nasa eyes missions spacecraft solar system'},
  {title:'Space Resources',ur:'خلائی وسائل',path:'/resources',type:'Resources',tags:'nasa resources interactives education images videos'}
 ];
