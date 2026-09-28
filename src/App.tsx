@@ -23,15 +23,20 @@ import { GamesPage } from './pages/GamesPage';
 import { GlossaryPage } from './pages/GlossaryPage';
 import { AboutPage } from './pages/AboutPage';
 import { SearchPage } from './pages/SearchPage';
+import { ResourcesPage } from './pages/ResourcesPage';
+import { Space3DExplorerPage } from './pages/Space3DExplorerPage';
+import { SEO } from './components/SEO';
 
 function AppLayout() {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 768);
 
   return (
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: 'var(--bg)', color: 'var(--text-primary)' }}>
       <Header onMenuToggle={() => setSidebarOpen(true)} />
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <main className="flex-1 pt-20 pb-8 max-w-[1180px] mx-auto w-full px-3 sm:px-4 md:px-6">
+      <main className="flex-1 pt-20 pb-8 w-full px-3 sm:px-4 md:px-6 md:ml-72 transition-[margin] duration-300">
+        <div className="max-w-[1180px] mx-auto">
+          <SEO />
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/solar-system" element={<SolarSystemPage />} />
@@ -52,7 +57,10 @@ function AppLayout() {
           <Route path="/glossary" element={<GlossaryPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/search" element={<SearchPage />} />
+          <Route path="/resources" element={<ResourcesPage />} />
+          <Route path="/3d-explorer" element={<Space3DExplorerPage />} />
         </Routes>
+        </div>
       </main>
       <Footer />
     </div>
