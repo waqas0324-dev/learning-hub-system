@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
-import { Menu, Sun, Moon } from 'lucide-react';
+import { Menu, Sun, Moon, Search } from 'lucide-react';
 
 interface HeaderProps {
   onMenuToggle: () => void;
@@ -52,6 +52,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
 
       {/* Right: Controls */}
       <div className="flex items-center gap-1 ml-auto flex-shrink-0">
+        <button onClick={() => navigate('/search')} className="p-1.5 rounded-lg hover:opacity-80 transition-opacity" style={{ color: 'var(--text-secondary)' }} aria-label="Search"><Search size={16}/></button>
         {/* Language buttons */}
         <div className="flex items-center gap-0.5">
           <button
