@@ -99,7 +99,17 @@ export function EducationalCarousel({
     setImgErrors(prev => new Set(prev).add(index));
   };
 
-  const currentSlideData = slides[currentSlide];
+  if (!slides.length) {
+    return (
+      <div className={`rounded-xl border min-h-[300px] flex items-center justify-center ${className}`} style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface-muted)' }}>
+        <span className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+          {language === 'ur' ? 'تصاویر لوڈ ہو رہی ہیں…' : 'Loading images…'}
+        </span>
+      </div>
+    );
+  }
+
+  const currentSlideData = slides[currentSlide] || slides[0];
   const hasError = imgErrors.has(currentSlide);
 
   return (
