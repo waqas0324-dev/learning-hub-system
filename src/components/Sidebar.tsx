@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
-import { X, Rocket, Globe, BookOpen, Languages } from 'lucide-react';
+import { X, Rocket, Globe, BookOpen, Languages, UserRound } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -24,6 +24,7 @@ const navGroups: NavGroup[] = [
     title: { en: 'Space Learning', ur: 'خلائی سیکھنے کے صفحات' },
     icon: <Rocket size={18} />,
     items: [
+      { label: { en: 'My Dashboard', ur: 'میرا ڈیش بورڈ' }, path: '/dashboard' },
       { label: { en: 'Solar System', ur: 'نظامِ شمسی' }, path: '/solar-system' },
       { label: { en: 'Planets', ur: 'سیارے' }, path: '/planets' },
       { label: { en: 'Planet Comparison', ur: 'سیاروں کا موازنہ' }, path: '/comparison' },
@@ -125,7 +126,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
               </div>
               <ul className="space-y-0.5">
                 {group.items.map((item) => {
-                  const isActive = location.pathname === item.path;
+                  const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path + '/'));
                   return (
                     <li key={item.path}>
                       <button
