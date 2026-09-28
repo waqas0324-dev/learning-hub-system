@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { planets } from '../data/planets';
 
 const SITE_NAME = 'Solar System Learning Hub';
-const SITE_URL = 'https://learning-hub-system.netlify.app';
 
 const routeMeta: Record<string, { title: string; description: string; keywords: string }> = {
   '/': {
@@ -86,7 +85,8 @@ export function SEO() {
       keywords: `${planet.name.en}, ${planet.name.en} facts, ${planet.name.en} planet, solar system`
     } : base;
 
-    const canonical = `${SITE_URL}${pathname === '/' ? '/' : pathname}`;
+    const siteUrl = window.location.origin;
+    const canonical = `${siteUrl}${pathname === '/' ? '/' : pathname}`;
     const noIndex = pathname === '/search' || pathname.includes('?');
 
     document.title = meta.title;
@@ -108,20 +108,20 @@ export function SEO() {
 
     const breadcrumbItems = pathname.split('/').filter(Boolean);
     const breadcrumb = [
-      { '@type': 'ListItem', position: 1, name: SITE_NAME, item: SITE_URL + '/' },
+      { '@type': 'ListItem', position: 1, name: SITE_NAME, item: siteUrl + '/' },
       ...breadcrumbItems.map((part, index) => ({
         '@type': 'ListItem',
         position: index + 2,
         name: part === planetId && planet ? planet.name.en : part.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
-        item: SITE_URL + '/' + breadcrumbItems.slice(0, index + 1).join('/')
+        item: siteUrl + '/' + breadcrumbItems.slice(0, index + 1).join('/')
       }))
     ];
 
     const schema = {
       '@context': 'https://schema.org',
       '@graph': [
-        { '@type': 'WebSite', '@id': SITE_URL + '/#website', name: SITE_NAME, url: SITE_URL + '/', description: 'Interactive Space & Earth Science Learning Platform' },
-        { '@type': 'EducationalOrganization', '@id': SITE_URL + '/#organization', name: SITE_NAME, url: SITE_URL + '/', description: 'Interactive bilingual space and Earth science learning platform.' },
+        { '@type': 'WebSite', '@id': siteUrl + '/#website', name: SITE_NAME, url: siteUrl + '/', description: 'Interactive Space & Earth Science Learning Platform' },
+        { '@type': 'EducationalOrganization', '@id': siteUrl + '/#organization', name: SITE_NAME, url: siteUrl + '/', description: 'Interactive bilingual space and Earth science learning platform.' },
         { '@type': 'BreadcrumbList', itemListElement: breadcrumb },
         { '@type': 'LearningResource', name: meta.title, description: meta.description, url: canonical, educationalUse: 'instruction', learningResourceType: 'interactive lesson' }
       ]
