@@ -22,6 +22,7 @@ import { QuizPage } from './pages/QuizPage';
 import { GamesPage } from './pages/GamesPage';
 import { GlossaryPage } from './pages/GlossaryPage';
 import { AboutPage } from './pages/AboutPage';
+import { SearchPage } from './pages/SearchPage';
 
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -50,6 +51,7 @@ function AppLayout() {
           <Route path="/games" element={<GamesPage />} />
           <Route path="/glossary" element={<GlossaryPage />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/search" element={<SearchPage />} />
         </Routes>
       </main>
       <Footer />
