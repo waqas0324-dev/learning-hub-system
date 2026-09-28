@@ -31,6 +31,7 @@ const navGroups: NavGroup[] = [
       { label: { en: 'Moon, Sun & Stars', ur: 'چاند، سورج اور تارے' }, path: '/moon-sun-stars' },
       { label: { en: 'Eclipses', ur: 'گرہن' }, path: '/eclipses' },
       { label: { en: 'Scientists & Missions', ur: 'سائنسدان اور مشنز' }, path: '/scientists' },
+      { label: { en: 'Mission Control', ur: 'مشن کنٹرول' }, path: '/mission-control' },
     ]
   },
   {
