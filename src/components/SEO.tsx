@@ -59,13 +59,26 @@ export function SEO() {
     const pathname = location.pathname;
     const planetId = pathname.startsWith('/planets/') ? pathname.split('/')[2] : '';
     const planet = planets.find(p => p.id === planetId);
-    const base = routeMeta[pathname] || {
+      const topicMeta: Record<string, { title: string; description: string; keywords: string }> = {
+      'why-is-the-sky-blue': { title: 'Why Is the Sky Blue? | Light Scattering Explained', description: 'Learn why Earth’s daytime sky looks blue and why sunsets can look red or orange.', keywords: 'why is the sky blue, Rayleigh scattering, sky color' },
+      'what-is-gravity': { title: 'What Is Gravity? | Mass, Weight & Orbits Explained', description: 'Learn what gravity is, how mass and distance affect it, and why planets orbit the Sun.', keywords: 'what is gravity, gravity explained, planet gravity, orbits' },
+      'how-do-moon-phases-work': { title: 'How Do Moon Phases Work? | Lunar Phases Explained', description: 'Understand new moon, quarter phases and full moon using the geometry of sunlight, Earth and the Moon.', keywords: 'moon phases, lunar phases, full moon, new moon' },
+      'what-is-the-water-cycle': { title: 'What Is the Water Cycle? | Evaporation to Rain', description: 'Learn evaporation, condensation, precipitation, runoff and collection in Earth’s water cycle.', keywords: 'water cycle, evaporation, condensation, precipitation' },
+      'how-do-solar-panels-work': { title: 'How Do Solar Panels Work? | PV Cells to AC Power', description: 'Learn how photovoltaic cells convert sunlight to DC electricity and how inverters supply AC power.', keywords: 'how solar panels work, photovoltaic cells, solar electricity' },
+      'what-is-a-solar-eclipse': { title: 'What Is a Solar Eclipse? | Sun, Moon & Earth Alignment', description: 'Learn how the Moon blocks sunlight, how eclipse shadows work and why solar eclipses do not happen every month.', keywords: 'solar eclipse, eclipse shadow, umbra, penumbra' }
+    };
+    const topicSlug = pathname.startsWith('/learn/') ? pathname.split('/')[2] : '';
+    const topic = topicSlug ? topicMeta[topicSlug] : undefined;
+
+  const base = routeMeta[pathname] || {
       title: 'Space & Earth Science Learning Hub',
       description: 'Interactive learning resources for astronomy, planetary science and Earth science.',
       keywords: 'space science, astronomy, earth science, learning'
     };
 
-    const meta = planet
+    const meta = topic
+      ? topic
+      : planet
       ? {
           title: `${planet.name.en} | Planet Facts, Images & Interactive Learning`,
           description: `Learn about ${planet.name.en}: size, distance from the Sun, orbital period, key facts and NASA imagery in an interactive learning page.`,
