@@ -1,6 +1,6 @@
 import React,{useMemo,useState}from'react';
 import{Search as SearchIcon,ArrowRight,BookOpen,Globe,Gamepad2,Image as ImageIcon}from'lucide-react';
-import{useNavigate}from'react-router-dom';
+import{useNavigate,useSearchParams}from'react-router-dom';
 import{useApp}from'../contexts/AppContext';
 
 const items=[
@@ -16,11 +16,13 @@ const items=[
  {title:'Solar Energy',ur:'شمسی توانائی',path:'/solar-energy',type:'Energy Lab',tags:'solar panels photovoltaic dc ac inverter battery grid'},
  {title:'Quiz Center',ur:'کوئز مرکز',path:'/quiz',type:'Practice',tags:'quiz questions score'},
  {title:'Learning Games',ur:'تعلیمی گیمز',path:'/games',type:'Games',tags:'games planet order gravity eclipse match'},
- {title:'Glossary',ur:'اصطلاحات',path:'/glossary',type:'Reference',tags:'definitions astronomy terms'}
+ {title:'Glossary',ur:'اصطلاحات',path:'/glossary',type:'Reference',tags:'definitions astronomy terms'},
+ {title:'3D Space Explorer',ur:'3D خلائی ایکسپلورر',path:'/3d-explorer',type:'Interactive',tags:'3d nasa eyes missions spacecraft solar system'},
+ {title:'Space Resources',ur:'خلائی وسائل',path:'/resources',type:'Resources',tags:'nasa resources interactives education images videos'}
 ];
 
 export function SearchPage(){
- const{language}=useApp();const navigate=useNavigate();const[q,setQ]=useState('');
+ const{language}=useApp();const navigate=useNavigate();const[params]=useSearchParams();const[q,setQ]=useState(()=>params.get('q')||'');
  const results=useMemo(()=>{const x=q.trim().toLowerCase();if(!x)return items;return items.filter(i=>(i.title+' '+i.ur+' '+i.tags+' '+i.type).toLowerCase().includes(x))},[q]);
  const text=(en:string,ur:string)=>language==='ur'?<span className="font-urdu" dir="rtl">{ur}</span>:language==='both'?<><span>{en}</span><span className="block font-urdu mt-1" dir="rtl">{ur}</span></>:<span>{en}</span>;
  return <div className="space-y-7 pb-12">
