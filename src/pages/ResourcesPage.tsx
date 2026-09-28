@@ -1,11 +1,11 @@
 import React from 'react';
-import { ExternalLink, BookOpen, Gamepad2, Orbit, Image as ImageIcon, GraduationCap, Telescope } from 'lucide-react';
+import { ExternalLink, BookOpen, Gamepad2, Orbit, Image as ImageIcon, GraduationCap, Rocket } from 'lucide-react';
 import { useApp } from '../contexts/AppContext';
 import { Link } from 'react-router-dom';
 
 const resources = [
   { title: 'NASA Eyes', ur: 'NASA Eyes', description: 'Browser-based 3D experiences for the Solar System, Earth, asteroids and exoplanets.', url: 'https://science.nasa.gov/eyes/', icon: <Orbit size={22} /> },
-  { title: 'NASA Planetary Science Resources', ur: 'NASA Planetary Science Resources', description: 'Mission packages, interactives, student resources, posters and image/video collections.', url: 'https://science.nasa.gov/planetary-science/resources/', icon: <Telescope size={22} /> },
+  { title: 'NASA Planetary Science Resources', ur: 'NASA Planetary Science Resources', description: 'Mission packages, interactives, student resources, posters and image/video collections.', url: 'https://science.nasa.gov/planetary-science/resources/', icon: <Rocket size={22} /> },
   { title: 'NASA Solar System Resources', ur: 'NASA Solar System Resources', description: 'Curated activities, videos, animations and printable learning materials.', url: 'https://science.nasa.gov/solar-system/resources/resource-packages/', icon: <BookOpen size={22} /> },
   { title: 'NASA Interactives & Games', ur: 'NASA Interactives اور Games', description: 'Interactive science experiences and educational games from NASA.', url: 'https://www.nasa.gov/interactives/', icon: <Gamepad2 size={22} /> },
   { title: 'NASA Learning Catalog', ur: 'NASA Learning Catalog', description: 'Search NASA learning resources for students and educators.', url: 'https://science.nasa.gov/learn/catalog/', icon: <GraduationCap size={22} /> },
