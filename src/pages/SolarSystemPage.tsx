@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
 import { SolarSystem } from '../components/SolarSystem';
@@ -6,12 +6,9 @@ import { PlanetModal } from '../components/PlanetModal';
 import { PlanetImage } from '../components/PlanetImage';
 import { EducationalCarousel } from '../components/EducationalCarousel';
 import { BilingualFlowchart } from '../components/BilingualFlowchart';
-import { InteractiveDiagram } from '../components/InteractiveDiagram';
 import { planets, PlanetData } from '../data/planets';
 import { getCelestialImage } from '../data/imageManifest';
-import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause, ArrowRight, RotateCw, Orbit } from 'lucide-react';
-
-
+import { CheckCircle, XCircle } from 'lucide-react';
 
 // ============================================
 // IMAGE CARD COMPONENT WITH FALLBACK
@@ -29,7 +26,10 @@ function ImageCard({ src, alt, captionEn, captionUr, credit, fallbackGradient }:
 
   return (
     <figure className="rounded-xl overflow-hidden border my-4" style={{ borderColor: 'var(--border)' }}>
-      <div className="relative bg-gradient-to-br from-slate-800 to-slate-900 min-h-[200px] flex items-center justify-center overflow-hidden">
+      <div
+        className="relative min-h-[200px] flex items-center justify-center overflow-hidden"
+        style={{ background: fallbackGradient || 'var(--surface-muted)' }}
+      >
         {!imgError ? (
           <img
             src={src}
@@ -39,71 +39,155 @@ function ImageCard({ src, alt, captionEn, captionUr, credit, fallbackGradient }:
             loading="lazy"
           />
         ) : (
-          <div className="p-8 text-center w-full h-full flex flex-col items-center justify-center" style={{ background: 'var(--surface-muted)' }}>
-            <div className="w-24 h-24 rounded-full mb-4 border grid place-items-center" style={{borderColor:'var(--border)',color:'var(--text-secondary)'}}>NASA</div>
-            <div className="font-bold" style={{color:'var(--text-primary)'}}>NASA image unavailable</div>
-            <div className="font-urdu text-sm mt-1" dir="rtl" style={{color:'var(--text-secondary)'}}>ناسا کی تصویر دستیاب نہیں</div>
+          <div className="p-8 text-center w-full min-h-[200px] flex flex-col items-center justify-center" style={{ background: 'var(--surface-muted)' }}>
+            <div className="w-24 h-24 rounded-full mb-4 border grid place-items-center font-black" style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>NASA</div>
+            <div className="font-bold" style={{ color: 'var(--text-primary)' }}>NASA image unavailable</div>
+            <div className="font-urdu text-sm mt-1" dir="rtl" style={{ color: 'var(--text-secondary)' }}>ناسا کی تصویر دستیاب نہیں</div>
           </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold" style={{ color: '#ef4444' }}>{incorrect}</div>
-            <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>{language === 'ur' ? 'غلط' : 'Incorrect'}</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold" style={{ color: 'var(--accent)' }}>{bestScore}</div>
-            <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>{language === 'ur' ? 'بہترین' : 'Best'}</div>
-          </div>
-        </div>
-        <button onClick={handleRetry} className="px-6 py-2 rounded-lg font-medium" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>
-          {renderText('Retry Quiz', 'دوبارہ کوشش')}
-        </button>
+        )}
       </div>
-    );
-  }
+      <figcaption className="p-4" style={{ background: 'var(--surface)' }}>
+        <div className="font-medium" style={{ color: 'var(--text-primary)' }}>
+          {language === 'ur' ? <span className="font-urdu" dir="rtl">{captionUr}</span> : captionEn}
+          {language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{captionUr}</span>}
+        </div>
+        <div className="text-xs mt-2 opacity-60">{credit}</div>
+      </figcaption>
+    </figure>
+  );
+}
+
+// ============================================
+// DAY / YEAR VISUAL
+// ============================================
+function DayYearAnimation() {
+  const { language } = useApp();
+  const text = (en: string, ur: string) =>
+    language === 'ur' ? <span className="font-urdu" dir="rtl">{ur}</span> :
+    language === 'both' ? <><span>{en}</span><span className="block font-urdu mt-1" dir="rtl">{ur}</span></> : <span>{en}</span>;
 
   return (
-    <div className="rounded-xl p-6 border" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
-      <div className="flex justify-between items-center mb-4">
-        <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-          {renderText(`Question ${currentQ + 1} of ${quizQuestions.length}`, `سوال ${currentQ + 1} از ${quizQuestions.length}`)}
-        </span>
-        <span className="text-sm font-medium" style={{ color: 'var(--accent)' }}>
-          {renderText(`Score: ${score}`, `اسکور: ${score}`)}
-        </span>
-      </div>
-      <h3 className="text-lg font-semibold mb-4" style={{ color: 'var(--text-primary)' }}>
-        {renderText(question.question.en, question.question.ur)}
-      </h3>
-      <div className="space-y-2 mb-4">
-        {question.options.map((opt, idx) => {
-          let style: React.CSSProperties = { backgroundColor: 'var(--surface-muted)', borderColor: 'var(--border)', color: 'var(--text-primary)' };
-          if (showResult) {
-            if (idx === question.correct) style = { backgroundColor: '#10b98120', borderColor: '#10b981', color: '#10b981' };
-            else if (idx === selected && idx !== question.correct) style = { backgroundColor: '#ef444420', borderColor: '#ef4444', color: '#ef4444' };
-          }
-          return (
-            <button key={idx} onClick={() => handleAnswer(idx)} disabled={answered} className="w-full text-left px-4 py-3 rounded-lg border transition-colors" style={style}>
-              {renderText(opt.en, opt.ur)}
-            </button>
-          );
-        })}
-      </div>
-      {showResult && (
-        <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: selected === question.correct ? '#10b98115' : '#ef444415', border: `1px solid ${selected === question.correct ? '#10b981' : '#ef4444'}` }}>
-          <div className="flex items-center gap-2 mb-2">
-            {selected === question.correct ? <CheckCircle size={20} style={{ color: '#10b981' }} /> : <XCircle size={20} style={{ color: '#ef4444' }} />}
-            <span className="font-semibold" style={{ color: selected === question.correct ? '#10b981' : '#ef4444' }}>
-              {selected === question.correct ? renderText('Correct!', 'درست!') : renderText('Incorrect. Here is the correct answer.', 'یہ جواب درست نہیں ہے۔ درست جواب یہ ہے۔')}
-            </span>
+    <div className="grid gap-4 md:grid-cols-2">
+      <div className="rounded-2xl border p-5" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+        <div className="text-sm font-black uppercase tracking-wide opacity-60">{text('Day = rotation', 'دن = محوری گردش')}</div>
+        <div className="mt-4 h-28 rounded-xl bg-slate-950 grid place-items-center overflow-hidden">
+          <div className="w-16 h-16 rounded-full border-4 border-cyan-300/70 relative animate-spin">
+            <div className="absolute left-1/2 top-1/2 h-1 w-1/2 origin-left bg-cyan-300" />
           </div>
-          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-            {renderText(question.explanation.en, question.explanation.ur)}
-          </p>
         </div>
-      )}
-      {answered && (
-        <button onClick={handleNext} className="w-full py-2 rounded-lg font-medium" style={{ backgroundColor: 'var(--accent)', color: '#fff' }}>
-          {renderText(currentQ < quizQuestions.length - 1 ? 'Next Question' : 'Finish Quiz', currentQ < quizQuestions.length - 1 ? 'اگلا سوال' : 'کوئز مکمل')}
-        </button>
+        <p className="mt-3 text-sm opacity-70">{text('One spin around its axis measures a planet day.', 'اپنے محور کے گرد ایک چکر سیارے کے دن کی پیمائش ہے۔')}</p>
+      </div>
+      <div className="rounded-2xl border p-5" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+        <div className="text-sm font-black uppercase tracking-wide opacity-60">{text('Year = orbit', 'سال = مداری گردش')}</div>
+        <div className="mt-4 h-28 rounded-xl bg-slate-950 grid place-items-center">
+          <div className="relative w-40 h-20 border border-violet-300/60 rounded-[50%]">
+            <div className="absolute -left-3 top-7 w-6 h-6 rounded-full bg-amber-300" />
+            <div className="absolute right-1 top-6 w-7 h-7 rounded-full bg-cyan-300 animate-pulse" />
+          </div>
+        </div>
+        <p className="mt-3 text-sm opacity-70">{text('One orbit around the Sun measures a planet year.', 'سورج کے گرد ایک مکمل مدار سیارے کے سال کی پیمائش ہے۔')}</p>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
+// SOLAR SYSTEM IMAGE GALLERY
+// ============================================
+function ImageCarousel() {
+  const slides = [
+    { src: 'https://images-assets.nasa.gov/image/PIA01341/PIA01341~medium.jpg', en: 'Solar System overview', ur: 'نظامِ شمسی کا جائزہ' },
+    { src: 'https://images-assets.nasa.gov/image/PIA18033/PIA18033~small.jpg', en: 'Earth from space', ur: 'خلا سے زمین' },
+    { src: 'https://images-assets.nasa.gov/image/PIA20038/PIA20038~small.jpg', en: 'Pluto', ur: 'پلوٹو' }
+  ];
+  const { language } = useApp();
+  return (
+    <div className="grid gap-4 md:grid-cols-3">
+      {slides.map((s) => (
+        <figure key={s.src} className="overflow-hidden rounded-2xl border" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+          <img src={s.src} alt={s.en} className="h-48 w-full object-cover" loading="lazy" />
+          <figcaption className="p-4 font-semibold">
+            {language === 'ur' ? <span className="font-urdu" dir="rtl">{s.ur}</span> : s.en}
+            {language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{s.ur}</span>}
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+  );
+}
+
+// ============================================
+// MINI KNOWLEDGE QUIZ
+// ============================================
+const quizQuestions = [
+  { question: { en: 'Which planet is the largest?', ur: 'سب سے بڑا سیارہ کون سا ہے؟' }, options: [{en:'Jupiter',ur:'مشتری'},{en:'Earth',ur:'زمین'},{en:'Mars',ur:'مریخ'}], correct: 0, explanation: {en:'Jupiter is the largest planet in our Solar System.',ur:'مشتری ہمارے نظامِ شمسی کا سب سے بڑا سیارہ ہے۔'} },
+  { question: { en: 'What keeps planets in orbit around the Sun?', ur: 'سیاروں کو سورج کے گرد مدار میں کیا رکھتا ہے؟' }, options: [{en:'Gravity',ur:'کششِ ثقل'},{en:'Sound',ur:'آواز'},{en:'Light only',ur:'صرف روشنی'}], correct: 0, explanation: {en:'The Sun’s gravity helps keep planets in orbit.',ur:'سورج کی کششِ ثقل سیاروں کو مدار میں رکھنے میں مدد دیتی ہے۔'} },
+  { question: { en: 'Which planet is closest to the Sun?', ur: 'سورج کے سب سے قریب کون سا سیارہ ہے؟' }, options: [{en:'Mercury',ur:'عطارد'},{en:'Venus',ur:'زہرہ'},{en:'Neptune',ur:'نیپچون'}], correct: 0, explanation: {en:'Mercury is the innermost planet.',ur:'عطارد سب سے اندرونی سیارہ ہے۔'} }
+];
+
+function Quiz() {
+  const { language } = useApp();
+  const [currentQ, setCurrentQ] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [score, setScore] = useState(0);
+  const [finished, setFinished] = useState(false);
+
+  const renderText = (en: string, ur: string) =>
+    language === 'ur' ? <span className="font-urdu" dir="rtl">{ur}</span> :
+    language === 'both' ? <><span>{en}</span><span className="block font-urdu mt-1" dir="rtl">{ur}</span></> : <span>{en}</span>;
+
+  const question = quizQuestions[currentQ];
+  const answer = (idx: number) => {
+    if (selected !== null || finished) return;
+    setSelected(idx);
+    if (idx === question.correct) setScore(s => s + 1);
+  };
+  const next = () => {
+    if (currentQ < quizQuestions.length - 1) {
+      setCurrentQ(q => q + 1);
+      setSelected(null);
+    } else {
+      setFinished(true);
+    }
+  };
+  const reset = () => { setCurrentQ(0); setSelected(null); setScore(0); setFinished(false); };
+
+  if (finished) return (
+    <div className="rounded-2xl border p-6 text-center" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+      <div className="text-3xl font-black">{score}/{quizQuestions.length}</div>
+      <p className="mt-2 opacity-70">{renderText('Quiz complete.', 'کوئز مکمل ہوگیا۔')}</p>
+      <button onClick={reset} className="mt-4 rounded-xl px-5 py-2 font-bold" style={{ background: 'var(--accent)', color: '#fff' }}>{renderText('Try again', 'دوبارہ کوشش کریں')}</button>
+    </div>
+  );
+
+  return (
+    <div className="rounded-2xl border p-6" style={{ background: 'var(--surface)', borderColor: 'var(--border)' }}>
+      <div className="flex justify-between gap-4 mb-4 text-sm font-semibold opacity-70">
+        <span>{renderText(`Question ${currentQ + 1} of ${quizQuestions.length}`, `سوال ${currentQ + 1} از ${quizQuestions.length}`)}</span>
+        <span>{renderText(`Score: ${score}`, `اسکور: ${score}`)}</span>
+      </div>
+      <h3 className="text-lg font-bold mb-4">{renderText(question.question.en, question.question.ur)}</h3>
+      <div className="space-y-2">
+        {question.options.map((opt, idx) => (
+          <button key={idx} onClick={() => answer(idx)} disabled={selected !== null} className="w-full rounded-xl border px-4 py-3 text-left" style={{
+            background: selected === idx ? (idx === question.correct ? '#10b98120' : '#ef444420') : 'var(--surface-muted)',
+            borderColor: selected !== null && idx === question.correct ? '#10b981' : 'var(--border)'
+          }}>
+            {renderText(opt.en, opt.ur)}
+          </button>
+        ))}
+      </div>
+      {selected !== null && (
+        <div className="mt-4 rounded-xl border p-4">
+          <div className="flex items-center gap-2 font-bold">
+            {selected === question.correct ? <CheckCircle size={18} /> : <XCircle size={18} />}
+            {renderText(selected === question.correct ? 'Correct!' : 'Incorrect', selected === question.correct ? 'درست!' : 'غلط')}
+          </div>
+          <p className="mt-2 text-sm opacity-70">{renderText(question.explanation.en, question.explanation.ur)}</p>
+          <button onClick={next} className="mt-4 w-full rounded-xl py-2 font-bold" style={{ background: 'var(--accent)', color: '#fff' }}>
+            {renderText(currentQ < quizQuestions.length - 1 ? 'Next Question' : 'Finish Quiz', currentQ < quizQuestions.length - 1 ? 'اگلا سوال' : 'کوئز مکمل کریں')}
+          </button>
+        </div>
       )}
     </div>
   );
