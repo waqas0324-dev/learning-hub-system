@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
-import { X, Rocket, Globe, BookOpen, Languages } from 'lucide-react';
+import { X, Rocket, Globe, BookOpen, Languages, Orbit, LibraryBig } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -45,12 +45,14 @@ const navGroups: NavGroup[] = [
     ]
   },
   {
-    title: { en: 'Practice and Information', ur: 'مشق اور معلومات' },
+    title: { en: 'Explore & Practice', ur: 'دریافت اور مشق' },
     icon: <BookOpen size={18} />,
     items: [
       { label: { en: 'Quiz Center', ur: 'کوئز مرکز' }, path: '/quiz' },
       { label: { en: 'Learning Games', ur: 'تعلیمی گیمز' }, path: '/games' },
       { label: { en: 'Glossary', ur: 'اصطلاحات' }, path: '/glossary' },
+      { label: { en: '3D Space Explorer', ur: '3D خلائی ایکسپلورر' }, path: '/3d-explorer' },
+      { label: { en: 'Space Resources', ur: 'خلائی وسائل' }, path: '/resources' },
       { label: { en: 'Search Hub', ur: 'تلاش' }, path: '/search' },
       { label: { en: 'About & Sources', ur: 'تعارف اور ماخذ' }, path: '/about' },
     ]
@@ -80,7 +82,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
     <>
       {/* Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm" onClick={onClose} />
+        <div className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm md:hidden" onClick={onClose} />
       )}
       {/* Sidebar */}
       <div
