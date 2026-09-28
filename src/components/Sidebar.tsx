@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
-import { X, Rocket, Globe, BookOpen, Languages, UserRound } from 'lucide-react';
+import { X, Rocket, Globe, BookOpen, Languages } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
