@@ -74,9 +74,9 @@ export const celestialImages: Record<string, CelestialImage> = {
     id: 'jupiter',
     fullDiskImageUrl: 'https://images-assets.nasa.gov/image/PIA21774/PIA21774~small.jpg',
     thumbnailUrl: 'https://images-assets.nasa.gov/image/PIA21774/PIA21774~small.jpg',
-    altText: { en: 'Jupiter - Hubble Space Telescope image', ur: 'مشتری — ہبل خلائی دوربین کی تصویر' },
-    caption: { en: 'Jupiter as seen by Hubble Space Telescope with Great Red Spot.', ur: 'ہبل خلائی دوربین سے نظر آنے والا مشتری عظیم سرخ دھبے کے ساتھ۔' },
-    credit: 'NASA/ESA/Hubble Space Telescope',
+    altText: { en: 'Jupiter - NASA Juno mission image', ur: 'مشتری — ناسا جونو مشن کی تصویر' },
+    caption: { en: 'Jupiter and its Great Red Spot in a NASA Juno-related composite.', ur: 'NASA Juno سے متعلق composite میں مشتری اور اس کا عظیم سرخ دھبہ۔' },
+    credit: 'NASA/JPL-Caltech/SwRI/MSSS/Christopher Go',
     sourceName: 'NASA Science',
     sourceUrl: 'https://science.nasa.gov/jupiter/',
     fallbackGradient: 'radial-gradient(ellipse at 40% 40%, #f0d8a8, #c88b3a 25%, #a06828 40%, #d4a860 50%, #8b5e20 65%, #c88b3a 80%, #6b4010)'
