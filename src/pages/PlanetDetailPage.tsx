@@ -9,13 +9,15 @@ import { EducationalCarousel } from '../components/EducationalCarousel';
 import { InteractiveDiagram } from '../components/InteractiveDiagram';
 import { BilingualFlowchart } from '../components/BilingualFlowchart';
 import { VisualLearningPanel } from '../components/VisualLearningPanel';
-import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause, ArrowRight } from 'lucide-react';
+import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause, ArrowRight, ExternalLink } from 'lucide-react';
 
 export function PlanetDetailPage() {
   const { planetId } = useParams<{ planetId: string }>();
   const navigate = useNavigate();
   const { language } = useApp();
   const [selectedPlanet, setSelectedPlanet] = useState<any>(null);
+  const [gallerySlides, setGallerySlides] = useState<any[]>([]);
+  const [galleryLoading, setGalleryLoading] = useState(false);
 
   useEffect(() => {
     if (planetId && planetDetails[planetId]) {
@@ -24,6 +26,57 @@ export function PlanetDetailPage() {
       navigate('/solar-system');
     }
   }, [planetId, navigate]);
+
+  useEffect(() => {
+    if (!selectedPlanet) return;
+    const controller = new AbortController();
+    const fallback = getCelestialImage(selectedPlanet.id);
+    setGalleryLoading(true);
+    setGallerySlides([{
+      imageUrl: fallback.fullDiskImageUrl,
+      captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} — official NASA planet view`,
+      captionUr: 'ناسا کی مستند سیاروی تصویر',
+      credit: fallback.credit,
+      fallbackGradient: fallback.fallbackGradient
+    }]);
+
+    const loadNASAImages = async () => {
+      try {
+        const query = encodeURIComponent(`${selectedPlanet.id} planet NASA`);
+        const response = await fetch(`https://images-api.nasa.gov/search?q=${query}&media_type=image&page_size=24`, { signal: controller.signal });
+        if (!response.ok) throw new Error('NASA image search failed');
+        const data = await response.json();
+        const items = Array.isArray(data?.collection?.items) ? data.collection.items : [];
+        const seen = new Set<string>([fallback.fullDiskImageUrl]);
+        const extra = items.map((item: any) => {
+          const imageUrl = item?.links?.find((link: any) => link.rel === 'preview')?.href;
+          const title = item?.data?.[0]?.title;
+          if (!imageUrl || !title || seen.has(imageUrl)) return null;
+          seen.add(imageUrl);
+          return {
+            imageUrl,
+            captionEn: title,
+            captionUr: `ناسا: ${title}`,
+            credit: 'NASA Image and Video Library',
+            fallbackGradient: fallback.fallbackGradient
+          };
+        }).filter(Boolean).slice(0, 7);
+        if (extra.length) setGallerySlides([{ 
+          imageUrl: fallback.fullDiskImageUrl,
+          captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} — official NASA planet view`,
+          captionUr: 'ناسا کی مستند سیاروی تصویر',
+          credit: fallback.credit,
+          fallbackGradient: fallback.fallbackGradient
+        }, ...extra]);
+      } catch {
+        // Keep the official fallback image when the public NASA search is unavailable.
+      } finally {
+        setGalleryLoading(false);
+      }
+    };
+    loadNASAImages();
+    return () => controller.abort();
+  }, [selectedPlanet?.id]);
 
   if (!selectedPlanet) return null;
 
@@ -50,8 +103,8 @@ export function PlanetDetailPage() {
                   subjectId={selectedPlanet.id} 
                   size={200} 
                   enableLightbox={true}
-                  showCaption={true}
-                  showCredit={true}
+                  showCaption={false}
+                  showCredit={false}
                 />
                 <div className="absolute inset-0 rounded-full pointer-events-none" style={{ boxShadow: `0 0 60px ${selectedPlanet.id === 'earth' ? '#4a90d9' : selectedPlanet.id === 'mars' ? '#c1440e' : selectedPlanet.id === 'jupiter' ? '#c88b3a' : selectedPlanet.id === 'saturn' ? '#e8d088' : selectedPlanet.id === 'uranus' ? '#7ec8e3' : selectedPlanet.id === 'neptune' ? '#3355cc' : selectedPlanet.id === 'venus' ? '#e8c468' : '#8c7e6d'}40` }} />
               </div>
@@ -98,86 +151,22 @@ export function PlanetDetailPage() {
         diameter={selectedPlanet.diameter}
       />
 
-      {/* SECTION 1.5: PLANET IMAGE CAROUSEL - 10 SLIDES */}
+      {/* SECTION 1.5: NASA IMAGE GALLERY */}
       <section>
-        <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
-          {renderText('Image Gallery', 'تصاویر کی گیلری')}
-        </h2>
-        <EducationalCarousel
-          slides={[
-            {
-              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
-              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Full disk view`,
-              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - مکمل کرہ نما منظر`,
-              credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
-            },
-            {
-              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
-              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Size: ${selectedPlanet.diameter}`,
-              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - سائز: ${selectedPlanet.diameter}`,
-              credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
-            },
-            {
-              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
-              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Distance: ${selectedPlanet.avgDistance}`,
-              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - فاصلہ: ${selectedPlanet.avgDistance}`,
-              credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
-            },
-            {
-              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
-              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Day: ${selectedPlanet.dayLength}`,
-              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - دن: ${selectedPlanet.dayLength}`,
-              credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
-            },
-            {
-              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
-              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Year: ${selectedPlanet.yearLength}`,
-              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - سال: ${selectedPlanet.yearLength}`,
-              credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
-            },
-            {
-              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
-              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Temperature: ${selectedPlanet.avgTemp}`,
-              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - درجہ حرارت: ${selectedPlanet.avgTemp}`,
-              credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
-            },
-            {
-              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
-              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Gravity: ${selectedPlanet.gravity}`,
-              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - کشش: ${selectedPlanet.gravity}`,
-              credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
-            },
-            {
-              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
-              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Moons: ${selectedPlanet.moons}`,
-              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - چاند: ${selectedPlanet.moons}`,
-              credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
-            },
-            {
-              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
-              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - Type: ${selectedPlanet.type.en}`,
-              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - قسم: ${selectedPlanet.type.ur}`,
-              credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
-            },
-            {
-              imageUrl: getCelestialImage(selectedPlanet.id).fullDiskImageUrl,
-              captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} - ${selectedPlanet.funFacts[0]?.en || 'Interesting fact'}`,
-              captionUr: `${selectedPlanet.id === 'mercury' ? 'عطارد' : selectedPlanet.id === 'venus' ? 'زہرہ' : selectedPlanet.id === 'earth' ? 'زمین' : selectedPlanet.id === 'mars' ? 'مریخ' : selectedPlanet.id === 'jupiter' ? 'مشتری' : selectedPlanet.id === 'saturn' ? 'زحل' : selectedPlanet.id === 'uranus' ? 'یورینس' : 'نیپچون'} - ${selectedPlanet.funFacts[0]?.ur || 'دلچسپ حقیقت'}`,
-              credit: getCelestialImage(selectedPlanet.id).credit,
-              fallbackGradient: getCelestialImage(selectedPlanet.id).fallbackGradient
-            }
-          ]}
-        />
+        <div className="flex items-end justify-between gap-3 mb-4">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-400">{renderText('NASA visual gallery', 'ناسا بصری گیلری')}</p>
+            <h2 className="text-2xl font-bold mt-1" style={{ color: 'var(--text-primary)' }}>
+              {renderText('Images of this planet', 'اس سیارے کی تصاویر')}
+            </h2>
+          </div>
+          {galleryLoading && <span className="text-xs" style={{ color: 'var(--text-secondary)' }}>{renderText('Loading NASA images…', 'ناسا کی تصاویر لوڈ ہو رہی ہیں…')}</span>}
+        </div>
+        <EducationalCarousel slides={gallerySlides} showCredit={false} />
       </section>
+
+      {/* SECTION 1.6: PLANET VIDEO */}
+      <PlanetVideo planetId={selectedPlanet.id} planetName={selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} />
 
       {/* SECTION 2: WHAT IS THIS PLANET? */}
       <section>
@@ -399,6 +388,25 @@ export function PlanetDetailPage() {
         <PlanetQuiz questions={selectedPlanet.quiz} planetId={selectedPlanet.id} />
       </section>
 
+      {/* SECTION 15: SOURCES */}
+      <section className="rounded-2xl border p-5 md:p-6" style={{ backgroundColor: 'var(--surface-muted)', borderColor: 'var(--border)' }}>
+        <div className="flex items-center justify-between gap-3 mb-3">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-400">{renderText('References', 'حوالہ جات')}</p>
+            <h2 className="text-xl font-bold mt-1" style={{ color: 'var(--text-primary)' }}>{renderText('Sources used on this page', 'اس صفحے کے استعمال شدہ ماخذ')}</h2>
+          </div>
+          <ExternalLink size={18} style={{ color: 'var(--accent)' }} />
+        </div>
+        <div className="space-y-2 text-sm">
+          <a href={getCelestialImage(selectedPlanet.id).sourceUrl} target="_blank" rel="noreferrer" className="flex items-center justify-between gap-3 rounded-xl border px-3 py-2 hover:border-blue-500 transition-colors" style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>
+            <span>{renderText('NASA Science — planet reference', 'NASA Science — سیارے کا حوالہ')}</span><ExternalLink size={14} />
+          </a>
+          <a href="https://images.nasa.gov/" target="_blank" rel="noreferrer" className="flex items-center justify-between gap-3 rounded-xl border px-3 py-2 hover:border-blue-500 transition-colors" style={{ borderColor: 'var(--border)', color: 'var(--text-secondary)' }}>
+            <span>{renderText('NASA Image and Video Library — gallery images', 'NASA Image and Video Library — گیلری کی تصاویر')}</span><ExternalLink size={14} />
+          </a>
+        </div>
+      </section>
+
       {/* Navigation buttons */}
       <section className="flex flex-wrap gap-3 justify-center">
         <Link
@@ -424,6 +432,49 @@ export function PlanetDetailPage() {
         </button>
       </section>
     </div>
+  );
+}
+
+function PlanetVideo({ planetId, planetName }: { planetId: string; planetName: string }) {
+  const { language } = useApp();
+  const videos: Record<string, { id: string; title: string }> = {
+    mercury: { id: 'ENwD31EDFjc', title: 'MESSENGER at Mercury' },
+    earth: { id: 'QOQHHFMLskk', title: 'Blue Marble, Eastern Hemisphere' },
+    jupiter: { id: 'r5SuUY7dF1w', title: 'Juno: Mission to Jupiter 360 Video' },
+    neptune: { id: '4T6rV_GD2W4', title: 'Neptune and Moons' }
+  };
+  const video = videos[planetId];
+
+  return (
+    <section className="rounded-2xl border overflow-hidden" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
+      <div className="p-5 md:p-6">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-cyan-400">{language === 'ur' ? 'ویڈیو سبق' : 'VIDEO LESSON'}</p>
+        <h2 className="text-2xl font-bold mt-1" style={{ color: 'var(--text-primary)' }}>
+          {language === 'ur' ? `${planetName} کی ویڈیو دریافت` : `Explore ${planetName} through video`}
+        </h2>
+      </div>
+      {video ? (
+        <div className="aspect-video w-full bg-black">
+          <iframe
+            className="w-full h-full"
+            src={`https://www.youtube.com/embed/${video.id}?rel=0`}
+            title={video.title}
+            loading="lazy"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+          />
+        </div>
+      ) : (
+        <div className="mx-5 mb-5 rounded-xl border p-5 text-center" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--surface-muted)' }}>
+          <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+            {language === 'ur' ? 'اس سیارے کے لیے NASA ویڈیو وسائل کھولیں۔' : 'Open NASA video resources for this planet.'}
+          </p>
+          <a href={getCelestialImage(planetId).sourceUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 mt-3 rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white">
+            {language === 'ur' ? 'NASA ماخذ کھولیں' : 'Open NASA source'} <ExternalLink size={15} />
+          </a>
+        </div>
+      )}
+    </section>
   );
 }
 
