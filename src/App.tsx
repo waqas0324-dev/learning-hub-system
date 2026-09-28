@@ -37,7 +37,7 @@ function AppLayout() {
     <div className="min-h-screen flex flex-col" style={{ backgroundColor: 'var(--bg)', color: 'var(--text-primary)' }}>
       <Header onMenuToggle={() => setSidebarOpen(true)} />
       <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
-      <main className="flex-1 pt-20 pb-8 w-full px-3 sm:px-4 md:px-6 md:ml-72 transition-[margin] duration-300">
+      <main className="flex-1 pt-24 md:pt-20 pb-8 w-full px-3 sm:px-4 md:px-6 md:ml-72 transition-[margin] duration-300">
         <div className="max-w-[1180px] mx-auto">
           <SEO />
         <Routes>
