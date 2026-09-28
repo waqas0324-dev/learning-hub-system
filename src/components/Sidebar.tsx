@@ -51,6 +51,7 @@ const navGroups: NavGroup[] = [
       { label: { en: 'Quiz Center', ur: 'کوئز مرکز' }, path: '/quiz' },
       { label: { en: 'Learning Games', ur: 'تعلیمی گیمز' }, path: '/games' },
       { label: { en: 'Glossary', ur: 'اصطلاحات' }, path: '/glossary' },
+      { label: { en: 'Search Hub', ur: 'تلاش' }, path: '/search' },
       { label: { en: 'About & Sources', ur: 'تعارف اور ماخذ' }, path: '/about' },
     ]
   }
