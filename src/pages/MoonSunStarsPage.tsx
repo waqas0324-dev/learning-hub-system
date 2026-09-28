@@ -1041,23 +1041,14 @@ export function MoonSunStarsPage() {
         </h2>
         <EducationalCarousel
           slides={[
-            { imageUrl: '', captionEn: 'The Sun - our nearest star', captionUr: 'سورج - ہمارا قریب ترین ستارہ', credit: 'NASA/SDO', fallbackGradient: 'radial-gradient(circle at 35% 35%, #fff7a0, #ffcc00 30%, #ff8c00 60%, #ff4500)' },
-            { imageUrl: '', captionEn: 'Sun layers diagram', captionUr: 'سورج کی تہوں کا خاکہ', credit: 'Educational diagram', fallbackGradient: 'radial-gradient(circle at 50% 50%, #fff7a0, #ff8c00 40%, #cc2200)' },
-            { imageUrl: '', captionEn: 'Earth-Moon orbit', captionUr: 'زمین-چاند کا مدار', credit: 'Educational diagram', fallbackGradient: 'radial-gradient(circle at 40% 40%, #7ec8e3, #4a90d9 30%, #2d6b3f 50%, #1a3a5c)' },
-            { imageUrl: '', captionEn: 'The Moon - full disk', captionUr: 'چاند - مکمل قرص', credit: 'NASA/Apollo', fallbackGradient: 'radial-gradient(circle at 35% 35%, #e0e0e0, #a0a0a0 40%, #606060)' },
-            { imageUrl: '', captionEn: 'Moon surface with craters', captionUr: 'چاند کی سطح گڑھوں کے ساتھ', credit: 'NASA', fallbackGradient: 'radial-gradient(circle at 35% 35%, #c0c0c0, #808080 40%, #404040)' },
-            { imageUrl: '', captionEn: 'New Moon phase', captionUr: 'نئے چاند کی حالت', credit: 'Educational diagram', fallbackGradient: 'radial-gradient(circle, #404040, #202020)' },
-            { imageUrl: '', captionEn: 'First Quarter Moon', captionUr: 'پہلی تربیع کا چاند', credit: 'Educational diagram', fallbackGradient: 'linear-gradient(90deg, #404040 50%, #e0e0e0 50%)' },
-            { imageUrl: '', captionEn: 'Full Moon', captionUr: 'پورا چاند', credit: 'NASA', fallbackGradient: 'radial-gradient(circle at 35% 35%, #f0f0f0, #c0c0c0 40%, #808080)' },
-            { imageUrl: '', captionEn: 'Moon phase cycle diagram', captionUr: 'چاند کی حالتوں کا چکر', credit: 'Educational diagram', fallbackGradient: 'linear-gradient(90deg, #202020, #e0e0e0, #202020)' },
-            { imageUrl: '', captionEn: 'Day and night on Earth', captionUr: 'زمین پر دن اور رات', credit: 'NASA', fallbackGradient: 'linear-gradient(90deg, #000020 50%, #4a90d9 50%)' },
-            { imageUrl: '', captionEn: 'Star field', captionUr: 'ستاروں کا میدان', credit: 'NASA/Hubble', fallbackGradient: 'radial-gradient(circle at 50% 50%, #000040, #000020)' },
-            { imageUrl: '', captionEn: 'Nebula - star formation', captionUr: 'سحابیہ - ستاروں کی تشکیل', credit: 'NASA/Hubble', fallbackGradient: 'radial-gradient(circle at 30% 40%, #4400aa, #220066 40%, #000020)' },
-            { imageUrl: '', captionEn: 'Star color-temperature diagram', captionUr: 'ستاروں کے رنگ-درجہ حرارت کا خاکہ', credit: 'Educational diagram', fallbackGradient: 'linear-gradient(90deg, #4444ff, #ffffff, #ffff00, #ff8800, #ff0000)' },
-            { imageUrl: '', captionEn: 'Proxima Centauri distance', captionUr: 'پروکسیما سینٹوری کا فاصلہ', credit: 'Educational diagram', fallbackGradient: 'radial-gradient(circle at 20% 50%, #ffcc00, #000020 40%)' },
-            { imageUrl: '', captionEn: 'Orion constellation', captionUr: 'برج شکارچی', credit: 'Educational diagram', fallbackGradient: 'radial-gradient(circle at 50% 50%, #000040, #000020)' },
-            { imageUrl: '', captionEn: 'Moon phases vs eclipses', captionUr: 'چاند کی حالتیں بمقابلہ گرہن', credit: 'Educational diagram', fallbackGradient: 'linear-gradient(90deg, #202020, #ffcc00, #202020)' }
-          ]}
+            { imageUrl: 'https://images-assets.nasa.gov/image/PIA25628/PIA25628~medium.jpg', captionEn: 'The Sun — multi-wavelength NASA view', captionUr: 'سورج — ناسا کا مختلف طولِ موج والا حقیقی منظر', credit: 'NASA/JPL-Caltech/JAXA' },
+            { imageUrl: 'https://images-assets.nasa.gov/image/PIA00405/PIA00405~medium.jpg', captionEn: 'Earth’s Moon — Galileo mission image', captionUr: 'زمین کا چاند — گلیلیو مشن کی تصویر', credit: 'NASA/JPL/USGS' },
+            { imageUrl: 'https://images-assets.nasa.gov/image/PIA10244/PIA10244~medium.jpg', captionEn: 'Earth and Moon seen from Mars', captionUr: 'مریخ سے زمین اور چاند کا منظر', credit: 'NASA/JPL/University of Arizona' },
+            { imageUrl: 'https://images-assets.nasa.gov/image/PIA00405/PIA00405~medium.jpg', captionEn: 'Moon surface and Tycho ray system', captionUr: 'چاند کی سطح اور ٹائیکو رے نظام', credit: 'NASA/JPL/USGS' },
+            { imageUrl: 'https://images-assets.nasa.gov/image/PIA21474/PIA21474~medium.jpg', captionEn: 'Crab Nebula — remnant of a stellar explosion', captionUr: 'کریب نیبولا — ستارے کے دھماکے کا باقی ماندہ حصہ', credit: 'NASA/ESA and partners' },
+            { imageUrl: 'https://images-assets.nasa.gov/image/PIA17835/PIA17835~medium.jpg', captionEn: 'Dark disks around young stars', captionUr: 'نوجوان ستاروں کے گرد تاریک ڈسکس', credit: 'NASA/JPL-Caltech' },
+            { imageUrl: 'https://images-assets.nasa.gov/image/PIA20468/PIA20468~medium.jpg', captionEn: 'Dazzling stars across a nebular field', captionUr: 'نیبولا کے میدان میں روشن ستارے', credit: 'NASA and partner observatories' },
+            { imageUrl: 'https://images-assets.nasa.gov/image/PIA04227/PIA04227~medium.jpg', captionEn: 'Orion Nebula and bow shock', captionUr: 'اورین نیبولا اور بو شاک', credit: 'NASA/JPL-Caltech' }          ]}
         />
       </section>
 
