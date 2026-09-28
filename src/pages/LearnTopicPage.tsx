@@ -90,7 +90,7 @@ const topics: Record<string, Topic> = {
 
 export function LearnTopicPage() {
   const { slug } = useParams();
-  const { language } = useApp();
+  const { language, progress, markComplete } = useApp();
   const topic = slug ? topics[slug] : undefined;
   const text = (en: string, ur: string) => language === 'ur' ? <span className="font-urdu" dir="rtl">{ur}</span> : language === 'both' ? <><span>{en}</span><span className="block font-urdu mt-1" dir="rtl">{ur}</span></> : <>{en}</>;
 
@@ -122,7 +122,11 @@ export function LearnTopicPage() {
       </section>
 
       <section className="rounded-3xl border p-6 md:p-8" style={{backgroundColor:'var(--surface)',borderColor:'var(--border)'}}>
-        <div className="flex items-center gap-2 text-purple-400"><FlaskConical size={20}/><h2 className="font-extrabold">{text('Continue exploring','مزید دریافت کریں')}</h2></div>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex items-center gap-2 text-emerald-400"><CheckCircle2 size={20}/><h2 className="font-extrabold">{text('Lesson progress','سبق کی پیش رفت')}</h2></div>
+          <button onClick={() => markComplete('/learn/' + slug)} className="rounded-xl px-4 py-2 text-white font-bold" style={{backgroundColor: progress.completed.includes('/learn/' + slug) ? '#059669' : 'var(--accent)'}}>{progress.completed.includes('/learn/' + slug) ? text('Completed ✓','مکمل ✓') : text('Mark lesson complete','سبق مکمل کریں')}</button>
+        </div>
+        <div className="flex items-center gap-2 text-purple-400 mt-7"><FlaskConical size={20}/><h2 className="font-extrabold">{text('Continue exploring','مزید دریافت کریں')}</h2></div>
         <div className="flex flex-wrap gap-3 mt-4">
           {topic.next.map(n => <Link key={n.path} to={n.path} className="inline-flex items-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold hover:border-blue-500" style={{borderColor:'var(--border)'}}>{n.label}<ArrowRight size={15}/></Link>)}
         </div>
