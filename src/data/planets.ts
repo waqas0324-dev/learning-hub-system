@@ -51,7 +51,7 @@ export const planets: PlanetData[] = [
     labelOffset: { x: 0, y: -20 },
     fact: { en: 'The hottest planet in the Solar System.', ur: 'سولر سسٹم کا سب سے گرم سیارہ۔' },
     imageId: 'venus',
-    imageUrl: 'https://images-assets.nasa.gov/image/PIA23792/PIA23792~small.jpg',
+    imageUrl: 'https://images-assets.nasa.gov/image/PIA00159/PIA00159~small.jpg',
     imageCredit: 'NASA/JPL-Caltech'
   },
   {
@@ -123,7 +123,7 @@ export const planets: PlanetData[] = [
     labelOffset: { x: 0, y: -26 },
     fact: { en: 'Famous for its bright ring system.', ur: 'اپنے روشن حلقوں کے نظام کی وجہ سے مشہور ہے۔' },
     imageId: 'saturn',
-    imageUrl: 'https://images-assets.nasa.gov/image/PIA20029/PIA20029~small.jpg',
+    imageUrl: 'https://images-assets.nasa.gov/image/PIA05425/PIA05425~small.jpg',
     imageCredit: 'NASA/JPL-Caltech/Space Science Institute'
   },
   {
@@ -141,7 +141,7 @@ export const planets: PlanetData[] = [
     labelOffset: { x: 0, y: -22 },
     fact: { en: 'Rotates with an extreme tilt.', ur: 'بہت زیادہ جھکاؤ کے ساتھ گردش کرتا ہے۔' },
     imageId: 'uranus',
-    imageUrl: 'https://images-assets.nasa.gov/image/PIA01464/PIA01464~small.jpg',
+    imageUrl: 'https://images-assets.nasa.gov/image/PIA18182/PIA18182~small.jpg',
     imageCredit: 'NASA/JPL-Caltech/Voyager 2'
   },
   {
@@ -167,7 +167,7 @@ export const planets: PlanetData[] = [
 export const sunData = {
   id: 'sun',
   name: { en: 'Sun', ur: 'سورج' },
-  imageUrl: 'https://images-assets.nasa.gov/image/PIA17463/PIA17463~small.jpg',
+  imageUrl: 'https://images-assets.nasa.gov/image/PIA25628/PIA25628~small.jpg',
   imageCredit: 'NASA/SDO/AIA',
   gradient: 'radial-gradient(circle at 35% 35%, #fff7a0, #ffcc00 30%, #ff8c00 60%, #ff4500 85%, #cc2200)'
 };
