@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useApp } from '../contexts/AppContext';
-import { X, Rocket, Globe, BookOpen, Languages, Orbit, LibraryBig } from 'lucide-react';
+import { X, Rocket, Globe, BookOpen, Languages } from 'lucide-react';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -87,7 +87,7 @@ export function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Sidebar */}
       <div
         ref={sidebarRef}
-        className={`fixed top-0 left-0 h-full z-[70] w-72 transform transition-transform duration-300 overflow-y-auto border-r ${
+        className={`fixed top-0 left-0 h-full z-[70] w-72 transform transition-transform duration-300 overflow-y-auto border-r md:top-16 md:h-[calc(100vh-4rem)] md:translate-x-0 ${
           isOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
         style={{
