@@ -8,10 +8,23 @@ import { CheckCircle, XCircle, Play, Pause, RotateCcw, X, ChevronLeft, ChevronRi
 // SCIENTIST PORTRAIT COMPONENT
 // ============================================
 function ScientistPortrait({ name, gradient, imageUrl, size = 80 }: { name: string; gradient: string; imageUrl?: string; size?: number }) {
+  const [failed, setFailed] = useState(false);
   const initials = name.split(' ').map(n => n[0]).join('').slice(0, 2);
   return (
     <div className="relative overflow-hidden rounded-2xl flex items-center justify-center text-white font-bold" style={{ width: size, height: size, background: gradient, boxShadow: '0 8px 24px rgba(0,0,0,0.22)' }}>
-      {imageUrl ? <img src={imageUrl} alt={name} className="h-full w-full object-cover" loading="lazy" /> : <span style={{ fontSize: size * 0.35 }}>{initials}</span>}
+      {imageUrl && !failed ? (
+        <img
+          src={imageUrl}
+          alt={name}
+          className="h-full w-full object-cover"
+          loading="lazy"
+          onError={() => setFailed(true)}
+        />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center" style={{ background: gradient }}>
+          <span style={{ fontSize: size * 0.35 }}>{initials}</span>
+        </div>
+      )}
     </div>
   );
 }
@@ -163,7 +176,7 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'Polish', ur: 'پولش' },
       field: { en: 'Astronomy', ur: 'فلکیات' },
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Nikolaus%20Kopernikus.jpg',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Nikolaus_Kopernikus.jpg',
       connection: { en: 'Solar System model • foundational astronomy; no spacecraft mission', ur: 'نظامِ شمسی کا ماڈل • بنیادی فلکیات؛ کوئی خلائی مشن نہیں' },
       contribution: {
         en: 'Proposed that the Sun, not Earth, is at the center of the Solar System. This heliocentric model changed how people understood planetary motion.',
@@ -172,6 +185,12 @@ export function ScientistsMissionsPage() {
       bio: {
         en: 'Nicolaus Copernicus was a Renaissance-era mathematician and astronomer who formulated a model of the universe that placed the Sun rather than Earth at the center. His major work "De revolutionibus orbium coelestium" was published just before his death in 1543.',
         ur: 'نیکولس کوپرنیکس ایک نشاۃ الثانیہ کے دور کے ریاضی دان اور ماہر فلکیات تھے جنہوں نے کائنات کا ایک ماڈل بنایا جس میں زمین کی بجائے سورج کو مرکز میں رکھا۔ ان کی اہم کتاب "De revolutionibus orbium coelestium" 1543 میں ان کی وفات سے justo پہلے شائع ہوئی۔'
+      },
+      details: {
+        origin: { en: 'Born in Toruń, Poland; worked in Royal Prussia.', ur: 'ٹورون، پولینڈ میں پیدا ہوئے اور رائل پرشیا میں کام کیا۔' },
+        education: { en: 'Studied mathematics, astronomy, law and medicine in Kraków and Italian universities.', ur: 'کراکو اور اٹلی کی جامعات میں ریاضی، فلکیات، قانون اور طب پڑھی۔' },
+        method: { en: 'Used careful naked-eye observations and mathematical models; he did not have a telescope.', ur: 'ننگی آنکھ سے مشاہدات اور ریاضیاتی ماڈلز استعمال کیے؛ ان کے پاس دوربین نہیں تھی۔' },
+        work: { en: 'Developed the heliocentric model and published De revolutionibus in 1543.', ur: 'سورج مرکزی ماڈل تیار کیا اور 1543 میں De revolutionibus شائع کی۔' }
       }
     },
     {
@@ -181,7 +200,7 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'Italian', ur: 'اطالوی' },
       field: { en: 'Astronomy, Physics', ur: 'فلکیات، طبیعیات' },
       gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Galileo%20Galilei%202.jpg',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Galileo_Galilei_2.jpg',
       connection: { en: 'Jupiter • observed its four largest moons in 1610', ur: 'مشتری • 1610 میں اس کے چار بڑے چاند دیکھے' },
       contribution: {
         en: 'Improved the telescope and observed Jupiter\'s four largest moons, phases of Venus and craters on the Moon. His observations supported the idea that not everything orbits Earth.',
@@ -190,6 +209,12 @@ export function ScientistsMissionsPage() {
       bio: {
         en: 'Galileo Galilei was an Italian astronomer, physicist and engineer, sometimes described as the father of observational astronomy and modern physics. He played a major role in the scientific revolution.',
         ur: 'گیلیلیو گیلیلی ایک اطالوی ماہر فلکیات، طبیعیات دان اور انجینئر تھے، جنہیں بعض اوقات مشاہداتی فلکیات اور جدید طبیعیات کا باپ کہا جاتا ہے۔ انہوں نے سائنسی انقلاب میں اہم کردار ادا کیا۔'
+      },
+      details: {
+        origin: { en: 'Born in Pisa, Italy.', ur: 'پیسا، اٹلی میں پیدا ہوئے۔' },
+        education: { en: 'Studied medicine and mathematics; became a mathematics teacher and investigator.', ur: 'طب اور ریاضی پڑھی؛ ریاضی کے استاد اور محقق بنے۔' },
+        method: { en: 'Built and improved telescopes, then compared repeated observations of the Moon, Venus and Jupiter.', ur: 'دوربینیں بنائیں اور بہتر کیں، پھر چاند، زہرہ اور مشتری کے بار بار مشاہدات کا موازنہ کیا۔' },
+        work: { en: 'Observed four large moons of Jupiter in 1610 and phases of Venus, supporting heliocentrism.', ur: '1610 میں مشتری کے چار بڑے چاند اور زہرہ کے مراحل دیکھے، جس سے سورج مرکزی نظریے کو تقویت ملی۔' }
       }
     },
     {
@@ -199,7 +224,7 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'German', ur: 'جرمن' },
       field: { en: 'Astronomy, Mathematics', ur: 'فلکیات، ریاضی' },
       gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/JKepler.jpg',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/JKepler.jpg',
       connection: { en: 'Planetary orbits • laws of planetary motion', ur: 'سیاروی مدار • سیاروی حرکت کے قوانین' },
       contribution: {
         en: 'Discovered three laws of planetary motion. He showed that planets move in elliptical orbits with the Sun at one focus, not in perfect circles.',
@@ -208,6 +233,12 @@ export function ScientistsMissionsPage() {
       bio: {
         en: 'Johannes Kepler was a German astronomer, mathematician, and astrologer. He is a key figure in the 17th-century scientific revolution, best known for his laws of planetary motion.',
         ur: 'یوہانس کیپلر ایک جرمن ماہر فلکیات، ریاضی دان اور منجم تھا۔ وہ 17ویں صدی کے سائنسی انقلاب میں ایک اہم شخصیت ہے، جو اپنے سیاروی حرکت کے قوانین کے لیے سب سے زیادہ مشہور ہے۔'
+      },
+      details: {
+        origin: { en: 'Born in Weil der Stadt, in the Holy Roman Empire (modern Germany).', ur: 'وائل ڈیر شٹڈٹ میں پیدا ہوئے، جو آج کے جرمنی کا حصہ ہے۔' },
+        education: { en: 'Studied theology, mathematics and astronomy at the University of Tübingen.', ur: 'ٹیوبنگن یونیورسٹی میں الہیات، ریاضی اور فلکیات پڑھی۔' },
+        method: { en: 'Analyzed Tycho Brahe’s precise observations with mathematics and tested different orbital models.', ur: 'ٹائیکو براہے کے دقیق مشاہدات کو ریاضی کے ذریعے جانچا اور مختلف مداری ماڈلز آزمائے۔' },
+        work: { en: 'Derived three laws of planetary motion, showing that planetary orbits are ellipses.', ur: 'سیاروی حرکت کے تین قوانین اخذ کیے اور بتایا کہ سیاروں کے مدار بیضوی ہوتے ہیں۔' }
       }
     },
     {
@@ -217,7 +248,7 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'English', ur: 'انگریز' },
       field: { en: 'Physics, Mathematics', ur: 'طبیعیات، ریاضی' },
       gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/GodfreyKneller-IsaacNewton-1689.jpg',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/GodfreyKneller-IsaacNewton-1689.jpg',
       connection: { en: 'Gravity & motion • foundation for orbital mechanics', ur: 'کششِ ثقل اور حرکت • مداری میکانیات کی بنیاد' },
       contribution: {
         en: 'Formulated the laws of motion and universal gravitation. His work explained why planets orbit the Sun and how gravity works on Earth and in space.',
@@ -226,6 +257,12 @@ export function ScientistsMissionsPage() {
       bio: {
         en: 'Sir Isaac Newton was an English mathematician, physicist, astronomer, and author who widely recognised as one of the greatest mathematicians and most influential scientists of all time.',
         ur: 'سر آئزک نیوٹن ایک انگریز ریاضی دان، طبیعیات دان، ماہر فلکیات اور مصنف تھا جسے عام طور پر تمام وقت کے عظیم ترین ریاضی دانوں اور بااثر ترین سائنسدانوں میں سے ایک کے طور پر تسلیم کیا جاتا ہے۔'
+      },
+      details: {
+        origin: { en: 'Born in Woolsthorpe, Lincolnshire, England.', ur: 'وولس تھورپ، لنکن شائر، انگلینڈ میں پیدا ہوئے۔' },
+        education: { en: 'Studied at Trinity College, Cambridge and developed mathematics and natural philosophy.', ur: 'ٹرینیٹی کالج، کیمبرج میں تعلیم حاصل کی اور ریاضی و طبیعی فلسفہ پر کام کیا۔' },
+        method: { en: 'Combined mathematical laws with observations and earlier planetary work, especially Kepler’s laws.', ur: 'ریاضیاتی قوانین کو مشاہدات اور کیپلر کے سابقہ سیاروی کام کے ساتھ جوڑا۔' },
+        work: { en: 'Published the Principia in 1687, describing laws of motion and universal gravitation.', ur: '1687 میں Principia شائع کی، جس میں حرکت اور عالمی کششِ ثقل کے قوانین بیان کیے۔' }
       }
     },
     {
@@ -235,7 +272,7 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'American', ur: 'امریکی' },
       field: { en: 'Mathematics, Space Science', ur: 'ریاضی، خلائی سائنس' },
       gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Katherine%20Johnson%20at%20NASA%2C%20in%201966.jpg',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Katherine_Johnson_at_NASA,_in_1966.jpg',
       connection: { en: 'Earth–Moon trajectories • Apollo 11 calculations (1969)', ur: 'زمین–چاند راستے • اپولو 11 کے حسابات (1969)' },
       contribution: {
         en: 'Mathematician whose calculations helped determine flight paths for early NASA missions, including crewed flights to the Moon. Her work was essential for mission success and safety.',
@@ -244,6 +281,12 @@ export function ScientistsMissionsPage() {
       bio: {
         en: 'Katherine Coleman Goble Johnson was an American mathematician whose calculations of orbital mechanics as an employee of NASA were critical to the success of the first U.S. crewed spaceflights.',
         ur: 'کیتھرین کولمین گوبل جانسن ایک امریکی ریاضی دان تھیں جن کے ناسا کی ملازم کے طور پر مداری میکانیات کے حساب کتاب پہلی امریکی خلانوردوں والی خلائی پروازوں کی کامیابی کے لیے اہم تھے۔'
+      },
+      details: {
+        origin: { en: 'Born in White Sulphur Springs, West Virginia, USA.', ur: 'وائٹ سلفر اسپرنگز، ویسٹ ورجینیا، امریکا میں پیدا ہوئیں۔' },
+        education: { en: 'Earned degrees in mathematics and French from West Virginia State College.', ur: 'ویسٹ ورجینیا اسٹیٹ کالج سے ریاضی اور فرانسیسی میں ڈگریاں حاصل کیں۔' },
+        method: { en: 'Used analytical geometry and orbital mechanics calculations to check spacecraft trajectories.', ur: 'تجزیاتی جیومیٹری اور مداری میکانیات کے حسابات سے خلائی جہازوں کے راستے جانچے۔' },
+        work: { en: 'Her trajectory calculations supported NASA crewed missions, including Apollo-era lunar flight planning.', ur: 'ان کے مداری حسابات نے ناسا کے انسانی خلائی مشنز، بشمول اپولو دور کے قمری منصوبوں، میں مدد دی۔' }
       }
     },
     {
@@ -469,38 +512,62 @@ export function ScientistsMissionsPage() {
           ))}
         </div>
 
-        {/* Scientist Modal */}
+        {/* Scientist Detail Modal */}
         {selectedScientist && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70" onClick={() => setSelectedScientist(null)}>
-            <div className="relative max-w-lg w-full rounded-2xl p-6 max-h-[90vh] overflow-y-auto" style={{ backgroundColor: 'var(--surface)', border: '1px solid var(--border)' }} onClick={(e) => e.stopPropagation()}>
-              <button onClick={() => setSelectedScientist(null)} className="absolute top-3 right-3 p-1 rounded-full" style={{ color: 'var(--text-secondary)' }}>
-                <X size={20} />
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-black/80 backdrop-blur-sm" onClick={() => setSelectedScientist(null)}>
+            <div className="relative w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-3xl border shadow-2xl" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }} onClick={(e) => e.stopPropagation()}>
+              <button onClick={() => setSelectedScientist(null)} className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/40 text-white hover:bg-black/60" aria-label="Close">
+                <X size={22} />
               </button>
               {(() => {
                 const scientist = scientists.find(s => s.id === selectedScientist);
                 if (!scientist) return null;
+                const details = 'details' in scientist ? scientist.details : null;
                 return (
                   <>
-                    <ScientistPortrait name={scientist.name.en} gradient={scientist.gradient} imageUrl={'imageUrl' in scientist ? scientist.imageUrl : undefined} size={140} />
-                    <h3 className="text-xl font-bold text-center mt-4 mb-2" style={{ color: 'var(--text-primary)' }}>
-                      {language === 'ur' ? scientist.name.ur : scientist.name.en}
-                      {language === 'both' && <span className="block font-urdu text-lg" dir="rtl">{scientist.name.ur}</span>}
-                    </h3>
-                    <p className="text-sm text-center mb-4" style={{ color: 'var(--text-secondary)' }}>
-                      {scientist.lifespan} • {language === 'ur' ? scientist.nationality.ur : scientist.nationality.en}
-                    </p>
-                    <div className="p-4 rounded-lg mb-4" style={{ backgroundColor: 'var(--surface-muted)' }}>
-                      <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                        {language === 'ur' ? scientist.bio.ur : scientist.bio.en}
-                        {language === 'both' && <span className="block font-urdu mt-2" dir="rtl">{scientist.bio.ur}</span>}
-                      </p>
+                    <div className="grid grid-cols-1 md:grid-cols-[42%_58%] min-h-[420px]">
+                      <div className="relative min-h-[330px] md:min-h-[560px] flex items-center justify-center p-6 overflow-hidden" style={{ background: scientist.gradient }}>
+                        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,.3),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(0,0,0,.28),transparent_40%)]" />
+                        <img src={scientist.imageUrl} alt={scientist.name.en} className="relative z-10 max-h-[520px] w-full object-contain rounded-2xl shadow-2xl bg-black/10" />
+                      </div>
+                      <div className="p-6 md:p-8">
+                        <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-400">{renderText('Scientist profile', 'سائنسدان کا تعارف')}</p>
+                        <h3 className="text-3xl md:text-4xl font-black mt-2" style={{ color: 'var(--text-primary)' }}>
+                          {language === 'ur' ? scientist.name.ur : scientist.name.en}
+                          {language === 'both' && <span className="block font-urdu text-2xl mt-2" dir="rtl">{scientist.name.ur}</span>}
+                        </h3>
+                        <p className="mt-2 text-sm" style={{ color: 'var(--text-secondary)' }}>{scientist.lifespan} • {scientist.nationality.en} • {scientist.field.en}</p>
+                        <div className="mt-6 space-y-5">
+                          <div>
+                            <h4 className="font-bold text-lg">{renderText('Who were they?', 'یہ کون تھے؟')}</h4>
+                            <p className="mt-2 leading-7" style={{ color: 'var(--text-secondary)' }}>{renderText(scientist.bio.en, scientist.bio.ur)}</p>
+                          </div>
+                          <div>
+                            <h4 className="font-bold text-lg">{renderText('Major contribution', 'اہم شراکت')}</h4>
+                            <p className="mt-2 leading-7" style={{ color: 'var(--text-secondary)' }}>{renderText(scientist.contribution.en, scientist.contribution.ur)}</p>
+                          </div>
+                          {details && (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              {[
+                                ['Origin / country', 'ملک / مقام', details.origin],
+                                ['Education', 'تعلیم', details.education],
+                                ['How they worked', 'انہوں نے کیسے کام کیا', details.method],
+                                ['Key work', 'اہم کام', details.work]
+                              ].map(([en, ur, value]: any) => (
+                                <div key={en} className="rounded-2xl border p-4" style={{ backgroundColor: 'var(--surface-muted)', borderColor: 'var(--border)' }}>
+                                  <h5 className="font-bold text-sm">{renderText(en, ur)}</h5>
+                                  <p className="mt-2 text-sm leading-6" style={{ color: 'var(--text-secondary)' }}>{renderText(value.en, value.ur)}</p>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
-                    <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
-                      <strong>{renderText('Contribution:', 'شراکت:')}</strong>
-                      <br />
-                      {language === 'ur' ? scientist.contribution.ur : scientist.contribution.en}
-                      {language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{scientist.contribution.ur}</span>}
-                    </p>
+                    <div className="border-t p-5 md:p-7" style={{ borderColor: 'var(--border)' }}>
+                      <h4 className="font-bold text-lg">{renderText('Solar-system connection', 'نظامِ شمسی سے تعلق')}</h4>
+                      <p className="mt-2 leading-7" style={{ color: 'var(--text-secondary)' }}>{renderText(scientist.connection?.en || 'Scientific foundation for space exploration.', scientist.connection?.ur || 'خلائی دریافت کے لیے سائنسی بنیاد۔')}</p>
+                    </div>
                   </>
                 );
               })()}
@@ -517,21 +584,62 @@ export function ScientistsMissionsPage() {
         <p className="text-sm mb-5" style={{ color: 'var(--text-secondary)' }}>
           {renderText('Each card connects a real scientist to a specific mission, target world, role and milestone.', 'ہر کارڈ حقیقی سائنسدان کو مخصوص مشن، ہدف دنیا، کردار اور اہم سنگِ میل سے جوڑتا ہے۔')}
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {[
-            { name:'Dr. Torrence V. Johnson', role:'Galileo Project Scientist', target:'Jupiter / Ganymede / Io / Europa', years:'1995–2003', image:'https://images-assets.nasa.gov/image/PIA01509/PIA01509~small.jpg', mission:'Galileo', result:'Led scientific interpretation for a mission that orbited Jupiter and studied its moons; Galileo ended with a deliberate impact on Jupiter in 2003.' },
-            { name:'Linda Spilker', role:'Cassini Project Scientist', target:'Saturn and its moons', years:'2004–2017', image:'https://images-assets.nasa.gov/image/PIA05425/PIA05425~small.jpg', mission:'Cassini-Huygens', result:'Led the Cassini science team during its in-depth study of Saturn. The mission ended with a controlled plunge into Saturn in September 2017.' },
-            { name:'Alan Stern', role:'New Horizons Principal Investigator', target:'Pluto / Kuiper Belt', years:'2015 + 2019 encounters', image:'https://images-assets.nasa.gov/image/PIA20038/PIA20038~small.jpg', mission:'New Horizons', result:'Led the mission that made the first close exploration of Pluto in 2015 and later flew past Arrokoth in 2019.' }
-          ].map((m,i)=>(
+            {
+              name:'Dr. Torrence V. Johnson', role:'Galileo Project Scientist', target:'Jupiter and its moons', years:'1989–2003',
+              image:'https://images-assets.nasa.gov/image/PIA01509/PIA01509~small.jpg', mission:'Galileo',
+              country:'United States / NASA-JPL',
+              what:'Helped lead the scientific interpretation of Galileo observations of Jupiter and its moons, turning spacecraft measurements into planetary science results.',
+              how:'Galileo used an orbiter plus an atmospheric probe. Its trajectory used Venus and Earth gravity assists to reach Jupiter, where it made repeated close encounters.',
+              result:'Evidence included a subsurface salty ocean at Europa, volcanic activity on Io, and a magnetic field at Ganymede.',
+              whatUr:'گیلیلیو کے مشتری اور اس کے چاندوں کے مشاہدات کی سائنسی تشریح میں اہم کردار ادا کیا اور خلائی جہاز کے ڈیٹا کو سیاروی سائنس کے نتائج میں بدلا۔',
+              howUr:'گیلیلیو نے مدار میں گردش کرنے والے خلائی جہاز اور فضائی تحقیقاتی پروب کا استعمال کیا۔ مشتری تک پہنچنے کے لیے زہرہ اور زمین کی گریویٹی اسسٹ استعمال کی گئی۔',
+              resultUr:'یوروپا کے نیچے نمکین سمندر کے شواہد، آئی او پر آتش فشانی سرگرمی اور گینی میڈ پر مقناطیسی میدان کے شواہد ملے۔'
+            },
+            {
+              name:'Linda Spilker', role:'Cassini Project Scientist', target:'Saturn, rings and moons', years:'1997–2017',
+              image:'https://images-assets.nasa.gov/image/PIA05425/PIA05425~small.jpg', mission:'Cassini-Huygens',
+              country:'United States / NASA-JPL • ESA • ASI',
+              what:'Led Cassini science during its later mission years and helped coordinate scientists studying Saturn, its rings and moons.',
+              how:'Cassini orbited Saturn and repeatedly flew past its moons. The Huygens probe descended through Titan’s atmosphere and landed on Titan in 2005.',
+              result:'Cassini revealed major findings about Enceladus, Titan, Saturn’s atmosphere and rings before the spacecraft entered Saturn on Sept. 15, 2017.',
+              whatUr:'کاسینی کے بعد کے مشن میں سائنسی ٹیم کی قیادت کی اور زحل، اس کے حلقوں اور چاندوں پر کام کرنے والے سائنسدانوں کو مربوط کیا۔',
+              howUr:'کاسینی زحل کے گرد مدار میں رہا اور اس کے چاندوں کے قریب سے گزرتا رہا۔ ہائیگنز پروب ٹائٹن کی فضا سے گزرا اور 2005 میں وہاں اترا۔',
+              resultUr:'کاسینی نے اینسیلاڈس، ٹائٹن، زحل کی فضا اور حلقوں کے بارے میں اہم دریافتیں کیں اور 15 ستمبر 2017 کو زحل میں داخل ہو کر مشن ختم کیا۔'
+            },
+            {
+              name:'Alan Stern', role:'New Horizons Principal Investigator', target:'Pluto and Kuiper Belt', years:'2006–present mission science',
+              image:'https://images-assets.nasa.gov/image/PIA20038/PIA20038~small.jpg', mission:'New Horizons',
+              country:'United States / NASA-JHUAPL',
+              what:'Principal investigator for New Horizons, the first spacecraft to explore Pluto up close and later Arrokoth.',
+              how:'The spacecraft launched in 2006, used a Jupiter gravity assist in 2007, flew past Pluto on July 14, 2015, and then reached Arrokoth on Jan. 1, 2019.',
+              result:'Returned close-up observations of Pluto and its moons and the first close exploration of a Kuiper Belt object, Arrokoth.',
+              whatUr:'نیو ہورائزنز کے پرنسپل انویسٹی گیٹر ہیں، وہ مشن جس نے پہلی مرتبہ پلوٹو کو قریب سے دریافت کیا اور بعد میں اروکوتھ کا مشاہدہ کیا۔',
+              howUr:'خلائی جہاز 2006 میں لانچ ہوا، 2007 میں مشتری کی گریویٹی اسسٹ لی، 14 جولائی 2015 کو پلوٹو سے گزرا اور 1 جنوری 2019 کو اروکوتھ کے قریب پہنچا۔',
+              resultUr:'پلوٹو اور اس کے چاندوں کی قریب سے تصاویر اور ڈیٹا ملا، پھر کائپر بیلٹ آبجیکٹ اروکوتھ کی پہلی قریبی تحقیق ہوئی۔'
+            }
+          ].map((m)=>(
             <article key={m.name} className="overflow-hidden rounded-2xl border" style={{ backgroundColor:'var(--surface)', borderColor:'var(--border)' }}>
-              <div className="relative h-44 overflow-hidden bg-slate-950">
-                <img src={m.image} alt={m.target} className="h-full w-full object-cover" loading="lazy" />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-4"><span className="text-xs font-black text-cyan-300">{m.mission}</span></div>
+              <div className="relative h-56 overflow-hidden bg-slate-950">
+                <img src={m.image} alt={m.name} className="h-full w-full object-cover" loading="lazy" />
+                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-4">
+                  <span className="text-xs font-black text-cyan-300">{m.mission}</span>
+                </div>
               </div>
               <div className="p-5">
-                <h3 className="text-lg font-black">{m.name}</h3>
-                <p className="mt-1 text-xs font-bold" style={{color:'var(--accent)'}}>{m.role}</p>
-                <div className="mt-4 space-y-2 text-sm"><div><strong>{renderText('Target:', 'ہدف:')}</strong> {m.target}</div><div><strong>{renderText('Mission period:', 'مشن مدت:')}</strong> {m.years}</div><p className="leading-6 opacity-70">{m.result}</p></div>
+                <h3 className="text-xl font-black" style={{color:'var(--text-primary)'}}>{m.name}</h3>
+                <p className="mt-1 text-sm font-bold" style={{color:'var(--accent)'}}>{m.role}</p>
+                <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
+                  <div className="rounded-xl border p-3" style={{borderColor:'var(--border)',backgroundColor:'var(--surface-muted)'}}><strong>{renderText('Country / agency','ملک / ادارہ')}</strong><p className="mt-1 opacity-70">{m.country}</p></div>
+                  <div className="rounded-xl border p-3" style={{borderColor:'var(--border)',backgroundColor:'var(--surface-muted)'}}><strong>{renderText('Target','ہدف')}</strong><p className="mt-1 opacity-70">{m.target}</p></div>
+                </div>
+                <div className="mt-4 space-y-3 text-sm leading-6" style={{color:'var(--text-secondary)'}}>
+                  <p><strong>{renderText('What did they do?','انہوں نے کیا کیا؟')}</strong><br/>{language === 'ur' ? m.whatUr : m.what}{language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{m.whatUr}</span>}</p>
+                  <p><strong>{renderText('How did the mission work?','مشن کیسے کام کرتا تھا؟')}</strong><br/>{language === 'ur' ? m.howUr : m.how}{language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{m.howUr}</span>}</p>
+                  <p><strong>{renderText('What did it discover?','کیا دریافت ہوا؟')}</strong><br/>{language === 'ur' ? m.resultUr : m.result}{language === 'both' && <span className="block font-urdu mt-1" dir="rtl">{m.resultUr}</span>}</p>
+                </div>
+                <p className="mt-4 text-xs opacity-60">{m.years}</p>
               </div>
             </article>
           ))}
