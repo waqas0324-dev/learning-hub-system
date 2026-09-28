@@ -23,7 +23,13 @@ export function Footer() {
         )}
 
         {/* Links */}
-        <div className="flex justify-center gap-6 text-sm">
+        <div className="flex flex-wrap justify-center gap-6 text-sm">
+          <Link to="/3d-explorer" className="hover:underline" style={{ color: 'var(--accent)' }}>
+            {language === 'ur' ? '3D ایکسپلورر' : '3D Explorer'}
+          </Link>
+          <Link to="/resources" className="hover:underline" style={{ color: 'var(--accent)' }}>
+            {language === 'ur' ? 'وسائل' : 'Resources'}
+          </Link>
           <Link to="/glossary" className="hover:underline" style={{ color: 'var(--accent)' }}>
             {t('glossary')}
           </Link>
