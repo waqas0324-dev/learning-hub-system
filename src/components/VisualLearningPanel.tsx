@@ -43,7 +43,7 @@ export function VisualLearningPanel({
     <section className="rounded-2xl border overflow-hidden" style={{ backgroundColor: 'var(--surface)', borderColor: 'var(--border)' }}>
       <div className="p-5 md:p-7">
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(240px,0.8fr)_minmax(0,1.2fr)] gap-6 items-stretch">
-          <div className="relative rounded-2xl overflow-hidden min-h-[280px] flex items-center justify-center" style={{ background: 'radial-gradient(circle at 50% 50%, #15264a 0%, #07101f 62%, #020611 100%)' }}>
+          <div className="relative rounded-2xl overflow-hidden min-h-[240px] lg:min-h-[300px] flex items-center justify-center" style={{ background: 'radial-gradient(circle at 50% 50%, #15264a 0%, #07101f 62%, #020611 100%)' }}>
             <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="absolute w-36 h-36 rounded-full border border-white/10 animate-pulse" />
@@ -51,11 +51,10 @@ export function VisualLearningPanel({
               <div className="absolute w-72 h-72 rounded-full border border-white/5" />
               <div className="absolute w-5 h-5 rounded-full bg-amber-300 shadow-[0_0_35px_10px_rgba(251,191,36,.45)] left-[13%] top-[47%]" />
               <div className="absolute w-4 h-4 rounded-full bg-white shadow-[0_0_18px_4px_rgba(255,255,255,.5)]" style={{ animation: 'planet-orbit 6s linear infinite' }} />
-              <img src={image.fullDiskImageUrl} alt={language === 'ur' ? image.altText.ur : image.altText.en} className="relative z-10 w-36 h-36 md:w-44 md:h-44 object-contain drop-shadow-[0_0_25px_rgba(255,255,255,.2)]" />
+              <img src={image.fullDiskImageUrl} alt={language === 'ur' ? image.altText.ur : image.altText.en} className="relative z-10 w-44 h-44 md:w-52 md:h-52 object-contain drop-shadow-[0_0_30px_rgba(255,255,255,.22)]" />
             </div>
             <div className="absolute bottom-3 left-3 right-3 z-20 px-3 py-2 rounded-xl backdrop-blur-sm bg-black/45 border border-white/10">
               <div className="text-sm font-semibold text-white">{text(title.en, title.ur)}</div>
-              <div className="text-[11px] text-white/65 mt-1">{image.credit}</div>
             </div>
           </div>
 
