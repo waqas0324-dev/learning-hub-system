@@ -786,27 +786,14 @@ export function EarthExplorerPage() {
         </h2>
         <EducationalCarousel
           slides={[
-            { imageUrl: '', captionEn: 'Earth from space - Blue Marble', captionUr: 'خلا سے زمین - نیلا سنگمرمر', credit: 'NASA', fallbackGradient: 'radial-gradient(circle at 35% 35%, #7ec8e3, #4a90d9 30%, #2d6b3f 50%, #1a3a5c)' },
-            { imageUrl: '', captionEn: 'Earth layers diagram', captionUr: 'زمین کی تہوں کا خاکہ', credit: 'Educational diagram', fallbackGradient: 'radial-gradient(circle, #FF4500, #8B4513, #2E8B57)' },
-            { imageUrl: '', captionEn: 'Atmosphere layers', captionUr: 'فضا کی تہیں', credit: 'Educational diagram', fallbackGradient: 'linear-gradient(180deg, #000033, #87CEEB)' },
-            { imageUrl: '', captionEn: 'World oceans map', captionUr: 'عالمی سمندروں کا نقشہ', credit: 'NASA/NOAA', fallbackGradient: 'radial-gradient(circle, #4682B4, #1E90FF)' },
-            { imageUrl: '', captionEn: 'Freshwater distribution', captionUr: 'تازہ پانی کی تقسیم', credit: 'USGS', fallbackGradient: 'linear-gradient(90deg, #4682B4, #87CEEB)' },
-            { imageUrl: '', captionEn: 'Water cycle diagram', captionUr: 'آبی چکر کا خاکہ', credit: 'NASA', fallbackGradient: 'linear-gradient(180deg, #87CEEB, #4682B4, #2E8B57)' },
-            { imageUrl: '', captionEn: 'World continents', captionUr: 'عالمی براعظم', credit: 'NASA', fallbackGradient: 'radial-gradient(circle, #2E8B57, #4682B4)' },
-            { imageUrl: '', captionEn: 'Asia highlight', captionUr: 'ایشیا', credit: 'NASA', fallbackGradient: 'radial-gradient(circle, #FF6B6B, #2E8B57)' },
-            { imageUrl: '', captionEn: 'Africa highlight', captionUr: 'افریقہ', credit: 'NASA', fallbackGradient: 'radial-gradient(circle, #4ECDC4, #FFA500)' },
-            { imageUrl: '', captionEn: 'North America', captionUr: 'شمالی امریکہ', credit: 'NASA', fallbackGradient: 'radial-gradient(circle, #45B7D1, #2E8B57)' },
-            { imageUrl: '', captionEn: 'South America', captionUr: 'جنوبی امریکہ', credit: 'NASA', fallbackGradient: 'radial-gradient(circle, #96CEB4, #2E8B57)' },
-            { imageUrl: '', captionEn: 'Antarctica', captionUr: 'انٹارکٹکا', credit: 'NASA', fallbackGradient: 'radial-gradient(circle, #DDA0DD, #FFFFFF)' },
-            { imageUrl: '', captionEn: 'Europe', captionUr: 'یورپ', credit: 'NASA', fallbackGradient: 'radial-gradient(circle, #FFEAA7, #2E8B57)' },
-            { imageUrl: '', captionEn: 'Australia/Oceania', captionUr: 'آسٹریلیا/اوشیانا', credit: 'NASA', fallbackGradient: 'radial-gradient(circle, #FFA07A, #4682B4)' },
-            { imageUrl: '', captionEn: 'Plate tectonics map', captionUr: 'پلیٹ ٹیکٹونکس نقشہ', credit: 'USGS', fallbackGradient: 'linear-gradient(135deg, #8B4513, #A0522D)' },
-            { imageUrl: '', captionEn: 'Divergent boundary', captionUr: 'ڈائورجنٹ باؤنڈری', credit: 'Educational diagram', fallbackGradient: 'linear-gradient(90deg, #8B4513, #FF4500, #8B4513)' },
-            { imageUrl: '', captionEn: 'Convergent boundary', captionUr: 'کنورجنٹ باؤنڈری', credit: 'Educational diagram', fallbackGradient: 'linear-gradient(90deg, #8B4513, #FF6347, #8B4513)' },
-            { imageUrl: '', captionEn: 'Transform boundary', captionUr: 'ٹرانسفارم باؤنڈری', credit: 'Educational diagram', fallbackGradient: 'linear-gradient(180deg, #8B4513, #FF4500, #8B4513)' },
-            { imageUrl: '', captionEn: 'Climate zones map', captionUr: 'آب و ہوا علاقوں کا نقشہ', credit: 'NASA', fallbackGradient: 'linear-gradient(90deg, #FF6B6B, #FFA500, #4ECDC4, #DDA0DD)' },
-            { imageUrl: '', captionEn: 'Natural resources', captionUr: 'قدرتی وسائل', credit: 'Educational collage', fallbackGradient: 'linear-gradient(135deg, #4682B4, #2E8B57, #FFA500)' }
-          ]}
+            { imageUrl: 'https://images-assets.nasa.gov/image/PIA18033/PIA18033~medium.jpg', captionEn: 'Earth — Blue Marble from Suomi NPP', captionUr: 'زمین — سوئومی NPP کی بلیو ماربل تصویر', credit: 'NASA' },
+          { imageUrl: 'https://images-assets.nasa.gov/image/PIA11066/PIA11066~medium.jpg', captionEn: 'Earth atmosphere seen from space', captionUr: 'خلا سے زمین کی فضا کا منظر', credit: 'NASA/JPL/UCSD/JSC' },
+          { imageUrl: 'https://images-assets.nasa.gov/image/PIA10244/PIA10244~medium.jpg', captionEn: 'Earth and Moon as seen from Mars', captionUr: 'مریخ سے زمین اور چاند کا منظر', credit: 'NASA/JPL/University of Arizona' },
+          { imageUrl: 'https://images-assets.nasa.gov/image/PIA00123/PIA00123~medium.jpg', captionEn: 'Earth over the Pacific Ocean', captionUr: 'بحرالکاہل کے اوپر سے زمین', credit: 'NASA/JPL' },
+          { imageUrl: 'https://images-assets.nasa.gov/image/PIA00728/PIA00728~medium.jpg', captionEn: 'Global views of Earth from Galileo', captionUr: 'گلیلیو سے زمین کے عالمی مناظر', credit: 'NASA/JPL/Johns Hopkins University' },
+          { imageUrl: 'https://images-assets.nasa.gov/image/PIA18056/PIA18056~medium.jpg', captionEn: 'Water and energy cycles of Earth', captionUr: 'زمین کے پانی اور توانائی کے چکر', credit: 'NASA/JPL-Caltech' },
+          { imageUrl: 'https://images-assets.nasa.gov/image/PIA18033/PIA18033~medium.jpg', captionEn: 'Earth surface, oceans and clouds', captionUr: 'زمین کی سطح، سمندر اور بادل', credit: 'NASA/Suomi NPP' },
+          { imageUrl: 'https://images-assets.nasa.gov/image/PIA10244/PIA10244~medium.jpg', captionEn: 'Earth–Moon system from deep space', captionUr: 'گہرے خلا سے زمین اور چاند کا نظام', credit: 'NASA/JPL/University of Arizona' }          ]}
         />
       </section>
 
