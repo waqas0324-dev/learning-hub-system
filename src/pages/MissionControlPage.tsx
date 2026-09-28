@@ -30,7 +30,7 @@ export function MissionControlPage() {
   }, [running]);
 
   const visible = useMemo(() => filter === 'All' ? missions : missions.filter(m => m.status === filter), [filter]);
-  const text = (en: string, ur: string) => language === 'ur' ? <span className="font-urdu" dir="rtl">{ur}</span> : language === 'both' ? <><span>{en}</span><span className="block font-urdu mt-1" dir="rtl">{ur}</span></span> : <>{en}</>;
+  const text = (en: string, ur: string) => language === 'ur' ? <span className="font-urdu" dir="rtl">{ur}</span> : language === 'both' ? <><span>{en}</span><span className="block font-urdu mt-1" dir="rtl">{ur}</span></> : <>{en}</>;
 
   return (
     <div className="space-y-7 pb-12">
