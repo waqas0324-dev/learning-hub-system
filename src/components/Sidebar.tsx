@@ -41,6 +41,7 @@ const navGroups: NavGroup[] = [
     items: [
       { label: { en: 'Earth Explorer', ur: 'زمین کو جانیں' }, path: '/earth' },
       { label: { en: 'Oceans & Water Cycle', ur: 'سمندر اور آبی چکر' }, path: '/oceans' },
+      { label: { en: 'Earth Water Atlas', ur: 'زمین کا آبی اٹلس' }, path: '/water-atlas' },
       { label: { en: 'Weather & Climate', ur: 'موسم اور آب و ہوا' }, path: '/weather' },
       { label: { en: 'Dams & Water Resources', ur: 'ڈیم اور آبی وسائل' }, path: '/dams' },
       { label: { en: 'Solar Energy', ur: 'شمسی توانائی' }, path: '/solar-energy' },
