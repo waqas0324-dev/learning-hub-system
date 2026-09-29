@@ -104,7 +104,7 @@ export function SEO() {
       keywords: 'space science, astronomy, earth science, learning'
     };
 
-    const meta = waterMeta ? waterMeta : topic ? topic : planet ?
+    const meta = waterMeta ? waterMeta : topic ? topic : planet ? {
       title: `${planet.name.en} | Planet Facts, Images & Interactive Learning`,
       description: `Learn about ${planet.name.en}: size, distance from the Sun, orbital period, key facts and NASA imagery in an interactive learning page.`,
       keywords: `${planet.name.en}, ${planet.name.en} facts, ${planet.name.en} planet, solar system`
