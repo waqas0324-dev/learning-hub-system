@@ -11,6 +11,62 @@ import { BilingualFlowchart } from '../components/BilingualFlowchart';
 import { VisualLearningPanel } from '../components/VisualLearningPanel';
 import { CheckCircle, XCircle, ChevronLeft, ChevronRight, Play, Pause, ArrowRight, ExternalLink } from 'lucide-react';
 
+const PLANET_GALLERY_ASSETS: Record<string, Array<{ id: string; url: string; title: string; ur: string; credit: string }>> = {
+  mercury: [
+    { id:'PIA16853', url:'https://images-assets.nasa.gov/image/PIA16853/PIA16853~small.jpg', title:'Mercury — MESSENGER view', ur:'عطارد — میسنجر کا منظر', credit:'NASA / MESSENGER' },
+    { id:'PIA15162', url:'https://images-assets.nasa.gov/image/PIA15162/PIA15162~small.jpg', title:'Mercury surface detail', ur:'عطارد کی سطح کی تفصیل', credit:'NASA / MESSENGER' }
+  ],
+  venus: [
+    { id:'PIA00159', url:'https://images-assets.nasa.gov/image/PIA00159/PIA00159~small.jpg', title:'Venus — Mariner 10', ur:'زہرہ — میرینر 10', credit:'NASA / JPL' },
+    { id:'PIA00271', url:'https://images-assets.nasa.gov/image/PIA00271/PIA00271~small.jpg', title:'Venus from space', ur:'خلا سے زہرہ', credit:'NASA / JPL' }
+  ],
+  earth: [
+    { id:'PIA18033', url:'https://images-assets.nasa.gov/image/PIA18033/PIA18033~small.jpg', title:'Earth — The Blue Marble', ur:'زمین — نیلا سنگمرمر', credit:'NASA' },
+    { id:'PIA00405', url:'https://images-assets.nasa.gov/image/PIA00405/PIA00405~small.jpg', title:'Earth and Moon', ur:'زمین اور چاند', credit:'NASA' }
+  ],
+  mars: [
+    { id:'PIA20284', url:'https://images-assets.nasa.gov/image/PIA20284/PIA20284~medium.jpg', title:'Curiosity panorama on Mars', ur:'مریخ پر کیوریوسٹی کا پینوراما', credit:'NASA / JPL-Caltech / MSSS' },
+    { id:'PIA24642', url:'https://images-assets.nasa.gov/image/PIA24642/PIA24642~small.jpg', title:'Perseverance views Ingenuity', ur:'پرسیورنس سے انجنویٹی کا منظر', credit:'NASA / JPL-Caltech' }
+  ],
+  jupiter: [
+    { id:'PIA01262', url:'https://images-assets.nasa.gov/image/PIA01262/PIA01262~small.jpg', title:'Jupiter storm — Hubble', ur:'مشتری کا طوفان — ہبل', credit:'NASA / ESA / Hubble' },
+    { id:'PIA01258', url:'https://images-assets.nasa.gov/image/PIA01258/PIA01258~small.jpg', title:'Io and Jupiter — Hubble', ur:'آئی او اور مشتری — ہبل', credit:'NASA / ESA / Hubble' }
+  ],
+  saturn: [
+    { id:'PIA05425', url:'https://images-assets.nasa.gov/image/PIA05425/PIA05425~small.jpg', title:'Saturn and its rings — Cassini', ur:'زحل اور اس کے حلقے — کاسینی', credit:'NASA / JPL-Caltech / SSI' },
+    { id:'PIA05982', url:'https://images-assets.nasa.gov/image/PIA05982/PIA05982~small.jpg', title:'Saturn from far and near — Hubble', ur:'دور اور قریب سے زحل — ہبل', credit:'NASA / ESA / Hubble' },
+    { id:'PIA21923', url:'https://images-assets.nasa.gov/image/PIA21923/PIA21923~small.jpg', title:'Titan — Cassini infrared view', ur:'ٹائٹن — کاسینی کی انفراریڈ تصویر', credit:'NASA / JPL-Caltech / University of Nantes / University of Arizona' }
+  ],
+  uranus: [
+    { id:'PIA18182', url:'https://images-assets.nasa.gov/image/PIA18182/PIA18182~small.jpg', title:'Uranus — Voyager 2', ur:'یورینس — وائجر 2', credit:'NASA / JPL-Caltech / Voyager 2' },
+    { id:'PIA01282', url:'https://images-assets.nasa.gov/image/PIA01282/PIA01282~small.jpg', title:'Uranus — Hubble', ur:'یورینس — ہبل', credit:'NASA / ESA / Hubble' }
+  ],
+  neptune: [
+    { id:'PIA01492', url:'https://images-assets.nasa.gov/image/PIA01492/PIA01492~small.jpg', title:'Neptune — Voyager 2', ur:'نیپچون — وائجر 2', credit:'NASA / JPL-Caltech / Voyager 2' },
+    { id:'PIA00046', url:'https://images-assets.nasa.gov/image/PIA00046/PIA00046~small.jpg', title:'Neptune close view', ur:'نیپچون کا قریبی منظر', credit:'NASA / JPL-Caltech' }
+  ]
+};
+
+function getPlanetGallery(planetId: string) {
+  const base = getCelestialImage(planetId);
+  const curated = PLANET_GALLERY_ASSETS[planetId] || [];
+  const baseSlide = {
+    imageUrl: base.fullDiskImageUrl,
+    captionEn: base.caption.en,
+    captionUr: base.caption.ur,
+    credit: base.credit,
+    fallbackGradient: base.fallbackGradient
+  };
+  const slides = [baseSlide, ...curated.map(item => ({
+    imageUrl: item.url,
+    captionEn: item.title,
+    captionUr: item.ur,
+    credit: item.credit,
+    fallbackGradient: base.fallbackGradient
+  }))];
+  return slides.filter((slide, index, arr) => index === arr.findIndex(x => x.imageUrl === slide.imageUrl));
+}
+
 export function PlanetDetailPage() {
   const { planetId } = useParams<{ planetId: string }>();
   const navigate = useNavigate();
@@ -29,53 +85,8 @@ export function PlanetDetailPage() {
 
   useEffect(() => {
     if (!selectedPlanet) return;
-    const controller = new AbortController();
-    const fallback = getCelestialImage(selectedPlanet.id);
-    setGalleryLoading(true);
-    setGallerySlides([{
-      imageUrl: fallback.fullDiskImageUrl,
-      captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} — official NASA planet view`,
-      captionUr: 'ناسا کی مستند سیاروی تصویر',
-      credit: fallback.credit,
-      fallbackGradient: fallback.fallbackGradient
-    }]);
-
-    const loadNASAImages = async () => {
-      try {
-        const query = encodeURIComponent(`${selectedPlanet.id} planet NASA`);
-        const response = await fetch(`https://images-api.nasa.gov/search?q=${query}&media_type=image&page_size=24`, { signal: controller.signal });
-        if (!response.ok) throw new Error('NASA image search failed');
-        const data = await response.json();
-        const items = Array.isArray(data?.collection?.items) ? data.collection.items : [];
-        const seen = new Set<string>([fallback.fullDiskImageUrl]);
-        const extra = items.map((item: any) => {
-          const imageUrl = item?.links?.find((link: any) => link.rel === 'preview')?.href;
-          const title = item?.data?.[0]?.title;
-          if (!imageUrl || !title || seen.has(imageUrl)) return null;
-          seen.add(imageUrl);
-          return {
-            imageUrl,
-            captionEn: title,
-            captionUr: `ناسا: ${title}`,
-            credit: 'NASA Image and Video Library',
-            fallbackGradient: fallback.fallbackGradient
-          };
-        }).filter(Boolean).slice(0, 7);
-        if (extra.length) setGallerySlides([{ 
-          imageUrl: fallback.fullDiskImageUrl,
-          captionEn: `${selectedPlanet.id.charAt(0).toUpperCase() + selectedPlanet.id.slice(1)} — official NASA planet view`,
-          captionUr: 'ناسا کی مستند سیاروی تصویر',
-          credit: fallback.credit,
-          fallbackGradient: fallback.fallbackGradient
-        }, ...extra]);
-      } catch {
-        // Keep the official fallback image when the public NASA search is unavailable.
-      } finally {
-        setGalleryLoading(false);
-      }
-    };
-    loadNASAImages();
-    return () => controller.abort();
+    setGalleryLoading(false);
+    setGallerySlides(getPlanetGallery(selectedPlanet.id));
   }, [selectedPlanet?.id]);
 
   if (!selectedPlanet) return null;
