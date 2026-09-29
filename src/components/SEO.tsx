@@ -75,9 +75,9 @@ export function SEO() {
     const topicSlug = pathname.startsWith('/learn/') ? pathname.split('/')[2] : '';
     const topic = topicSlug ? topicMeta[topicSlug] : undefined;
 
-    const waterTitles: Record<string, {'world-atlas': { title:'World Knowledge Atlas | Interactive Space, Earth, Water & Energy', description:'Explore connected science through interactive encyclopedias, animations, official imagery, videos and source-backed explanations.', keywords:'world knowledge atlas, science encyclopedia, space, Earth, water, energy' },
+    const waterTitles: Record<string, { title:string; description:string; keywords:string }> = {
+      'world-atlas': { title:'World Knowledge Atlas | Interactive Space, Earth, Water & Energy', description:'Explore connected science through interactive encyclopedias, animations, official imagery, videos and source-backed explanations.', keywords:'world knowledge atlas, science encyclopedia, space, Earth, water, energy' },
       'dams/guide': { title:'Dam Engineering Guide | Reservoir to Hydropower', description:'Learn how dams store and control water and how hydropower converts moving water into electricity.', keywords:'dam engineering, hydropower, reservoir, turbine, generator' },
-       title:string; description:string; keywords:string }> = {
       'ocean-pacific': { title:'Pacific Ocean | Size, Depth, Currents & Science', description:'Explore the Pacific Ocean: size, depth, currents, plate tectonics, ecosystems and its role in the global ocean.', keywords:'Pacific Ocean, ocean size, ocean depth, currents, Mariana Trench' },
       'ocean-atlantic': { title:'Atlantic Ocean | Size, Currents & Global Circulation', description:'Explore the Atlantic Ocean, its size, circulation, currents and role in Earth systems.', keywords:'Atlantic Ocean, ocean currents, global circulation' },
       'ocean-indian': { title:'Indian Ocean | Monsoons, Currents & Water Science', description:'Explore the Indian Ocean, monsoon winds, circulation and marine systems.', keywords:'Indian Ocean, monsoon, ocean currents' },
