@@ -1,5 +1,6 @@
 import React from 'react';
 import { useApp } from '../contexts/AppContext';
+import { EarthProcessAnimation } from '../components/EarthProcessAnimation';
 import { Waves, Droplets, CloudRain, ArrowDown, ArrowUp, Fish, ThermometerSun } from 'lucide-react';
 
 export function OceansPage() {
@@ -47,33 +48,18 @@ export function OceansPage() {
         {waterStages.map(({ en, ur, Icon, desc }) => (
           <div key={en} className="rounded-2xl border border-slate-200 dark:border-slate-700 p-5 bg-white dark:bg-slate-900">
             <Icon size={28} className="text-cyan-500" />
-            <h3 className="font-bold mt-3">{text(en, ur)}</h3>
+            <h3 className="font-bold mt-3" style={{ color: "var(--text-primary)" }}>{text(en, ur)}</h3>
             <p className="text-sm mt-2 text-slate-600 dark:text-slate-300">{desc}</p>
           </div>
         ))}
       </section>
 
-      <section className="rounded-2xl border border-slate-200 dark:border-slate-700 p-6 bg-white dark:bg-slate-900">
-        <h2 className="text-2xl font-bold mb-6">{text('Interactive water-cycle flow', 'آبی چکر کا بصری فلو')}</h2>
-        <div className="relative h-64 rounded-2xl overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-sky-800">
-          <div className="absolute left-8 bottom-8 w-24 h-24 rounded-full bg-amber-300/90 animate-pulse" />
-          <div className="absolute left-[42%] top-8 w-36 h-16 rounded-full bg-white/20 blur-md" />
-          <div className="absolute right-10 top-10 text-white/80"><CloudRain size={42} /></div>
-          <div className="absolute left-[43%] bottom-8 flex gap-2">
-            {[0, 1, 2, 3, 4].map((i) => (
-              <Droplets key={i} className="text-cyan-200 animate-bounce" style={{ animationDelay: `${i * 120}ms` }} size={18} />
-            ))}
-          </div>
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-4 text-white text-xs">
-            {text('Heat → evaporation → clouds → precipitation → runoff', 'حرارت → تبخیر → بادل → بارش → سطحی بہاؤ')}
-          </div>
-        </div>
-      </section>
+      <EarthProcessAnimation type="water" />
 
       <section className="grid md:grid-cols-2 gap-4">
         <div className="rounded-2xl border border-slate-200 dark:border-slate-700 p-6 bg-white dark:bg-slate-900">
           <Fish size={28} className="text-cyan-500" />
-          <h2 className="font-bold text-xl mt-3">{text('Ocean life', 'سمندری حیات')}</h2>
+          <h2 className="font-bold text-xl mt-3" style={{ color: "var(--text-primary)" }}>{text('Ocean life', 'سمندری حیات')}</h2>
           <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-300">
             {text(
               'Oceans support food webs from microscopic plankton to large marine animals.',
