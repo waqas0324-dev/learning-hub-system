@@ -68,22 +68,40 @@ export function Space3DExplorerPage() {
           </div>
         </aside>
 
-        <div className="rounded-3xl overflow-hidden border bg-black min-h-[520px]" style={{ borderColor: 'var(--border)' }}>
+        <div className="rounded-3xl overflow-hidden border bg-black" style={{ borderColor: 'var(--border)' }}>
           <div className="flex items-center justify-between px-4 py-3 bg-slate-950 border-b border-slate-800">
             <span className="text-xs font-semibold text-slate-300">NASA Eyes Interactive</span>
             <a href={src} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-xs text-blue-300 hover:text-white">
               <Maximize2 size={14} /> Open full experience <ExternalLink size={13} />
             </a>
           </div>
-          <iframe
-            key={src}
-            src={src}
-            title="NASA Eyes interactive 3D space explorer"
-            className="w-full h-[520px] md:h-[680px] border-0"
-            allow="accelerometer; autoplay; fullscreen; xr-spatial-tracking"
-            allowFullScreen
-            loading="lazy"
-          />
+
+          <div className="md:hidden p-5 bg-slate-950">
+            <div className="rounded-2xl border border-slate-700 bg-gradient-to-br from-slate-900 to-slate-950 p-5">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-blue-500/15 text-blue-300 grid place-items-center"><Orbit size={24}/></div>
+                <div>
+                  <h3 className="font-black text-white">{text('NASA Eyes 3D experience','NASA Eyes 3D تجربہ')}</h3>
+                  <p className="text-xs text-slate-400 mt-1">{text('The full NASA application is opened separately on mobile so its responsive controls do not overlap.','موبائل پر NASA کی مکمل ایپ الگ کھولی جاتی ہے تاکہ اس کے responsive controls ایک دوسرے پر نہ چڑھیں۔')}</p>
+                </div>
+              </div>
+              <a href={src} target="_blank" rel="noreferrer" className="mt-5 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white">
+                <ExternalLink size={16}/> {text('Open NASA Eyes','NASA Eyes کھولیں')}
+              </a>
+            </div>
+          </div>
+
+          <div className="hidden md:block">
+            <iframe
+              key={src}
+              src={src}
+              title="NASA Eyes interactive 3D space explorer"
+              className="w-full h-[680px] border-0"
+              allow="accelerometer; autoplay; fullscreen; xr-spatial-tracking"
+              allowFullScreen
+              loading="lazy"
+            />
+          </div>
         </div>
       </section>
     </div>
