@@ -782,7 +782,7 @@ export function ScientistsMissionsPage() {
         </div>
       </section>
 
-      {/* Section 3: Key Discoveries Flowchart */
+      {/* Section 3: Key Discoveries Flowchart */}
       <section id="discoveries">
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('How Discoveries Built Space Exploration', 'دریافتوں نے خلائی دریافت کو کیسے بنایا')}
