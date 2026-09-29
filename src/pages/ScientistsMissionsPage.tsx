@@ -176,7 +176,7 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'Polish', ur: 'پولش' },
       field: { en: 'Astronomy', ur: 'فلکیات' },
       gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-      imageUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Nikolaus_Kopernikus.jpg',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Nikolaus_Kopernikus.jpg',
       connection: { en: 'Solar System model • foundational astronomy; no spacecraft mission', ur: 'نظامِ شمسی کا ماڈل • بنیادی فلکیات؛ کوئی خلائی مشن نہیں' },
       contribution: {
         en: 'Proposed that the Sun, not Earth, is at the center of the Solar System. This heliocentric model changed how people understood planetary motion.',
@@ -200,7 +200,7 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'Italian', ur: 'اطالوی' },
       field: { en: 'Astronomy, Physics', ur: 'فلکیات، طبیعیات' },
       gradient: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
-      imageUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Galileo_Galilei_2.jpg',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Galileo_Galilei_2.jpg',
       connection: { en: 'Jupiter • observed its four largest moons in 1610', ur: 'مشتری • 1610 میں اس کے چار بڑے چاند دیکھے' },
       contribution: {
         en: 'Improved the telescope and observed Jupiter\'s four largest moons, phases of Venus and craters on the Moon. His observations supported the idea that not everything orbits Earth.',
@@ -224,7 +224,7 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'German', ur: 'جرمن' },
       field: { en: 'Astronomy, Mathematics', ur: 'فلکیات، ریاضی' },
       gradient: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
-      imageUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/JKepler.jpg',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/JKepler.jpg',
       connection: { en: 'Planetary orbits • laws of planetary motion', ur: 'سیاروی مدار • سیاروی حرکت کے قوانین' },
       contribution: {
         en: 'Discovered three laws of planetary motion. He showed that planets move in elliptical orbits with the Sun at one focus, not in perfect circles.',
@@ -248,7 +248,7 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'English', ur: 'انگریز' },
       field: { en: 'Physics, Mathematics', ur: 'طبیعیات، ریاضی' },
       gradient: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)',
-      imageUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/GodfreyKneller-IsaacNewton-1689.jpg',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/GodfreyKneller-IsaacNewton-1689.jpg',
       connection: { en: 'Gravity & motion • foundation for orbital mechanics', ur: 'کششِ ثقل اور حرکت • مداری میکانیات کی بنیاد' },
       contribution: {
         en: 'Formulated the laws of motion and universal gravitation. His work explained why planets orbit the Sun and how gravity works on Earth and in space.',
@@ -272,7 +272,7 @@ export function ScientistsMissionsPage() {
       nationality: { en: 'American', ur: 'امریکی' },
       field: { en: 'Mathematics, Space Science', ur: 'ریاضی، خلائی سائنس' },
       gradient: 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)',
-      imageUrl: 'https://commons.wikimedia.org/wiki/Special:Redirect/file/Katherine_Johnson_at_NASA,_in_1966.jpg',
+      imageUrl: 'https://commons.wikimedia.org/wiki/Special:FilePath/Katherine_Johnson_at_NASA,_in_1966.jpg',
       connection: { en: 'Earth–Moon trajectories • Apollo 11 calculations (1969)', ur: 'زمین–چاند راستے • اپولو 11 کے حسابات (1969)' },
       contribution: {
         en: 'Mathematician whose calculations helped determine flight paths for early NASA missions, including crewed flights to the Moon. Her work was essential for mission success and safety.',
@@ -528,7 +528,18 @@ export function ScientistsMissionsPage() {
                     <div className="grid grid-cols-1 md:grid-cols-[42%_58%] min-h-[420px]">
                       <div className="relative min-h-[330px] md:min-h-[560px] flex items-center justify-center p-6 overflow-hidden" style={{ background: scientist.gradient }}>
                         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,.3),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(0,0,0,.28),transparent_40%)]" />
-                        <img src={scientist.imageUrl} alt={scientist.name.en} className="relative z-10 max-h-[520px] w-full object-contain rounded-2xl shadow-2xl bg-black/10" />
+                        <div className="relative z-10 w-full max-w-[430px] h-[430px] md:h-[520px] rounded-2xl overflow-hidden shadow-2xl bg-black/10 flex items-center justify-center">
+                          {scientist.imageUrl ? (
+                            <img
+                              src={scientist.imageUrl}
+                              alt={scientist.name.en}
+                              className="h-full w-full object-contain"
+                              loading="lazy"
+                              onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                            />
+                          ) : null}
+                          <span className="absolute text-6xl font-black text-white/90">{scientist.name.en.split(' ').map(n => n[0]).join('').slice(0,2)}</span>
+                        </div>
                       </div>
                       <div className="p-6 md:p-8">
                         <p className="text-xs font-black uppercase tracking-[0.2em] text-blue-400">{renderText('Scientist profile', 'سائنسدان کا تعارف')}</p>
@@ -646,7 +657,132 @@ export function ScientistsMissionsPage() {
         </div>
       </section>
 
-      {/* Section 3: Key Discoveries Flowchart */}
+      {/* Section 2.5: Planetary Mission Dossiers */}
+      <section id="mission-dossiers" className="mt-10">
+        <div className="mb-5">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-cyan-400">
+            {renderText('Planet-by-planet mission dossier', 'سیارہ بہ سیارہ مشن ڈوزیئر')}
+          </p>
+          <h2 className="text-2xl md:text-3xl font-black mt-1" style={{ color: 'var(--text-primary)' }}>
+            {renderText('Who went, when, why, and what was learned?', 'کون گیا، کب گیا، کیوں گیا اور کیا معلوم ہوا؟')}
+          </h2>
+          <p className="mt-2 text-sm leading-6" style={{ color: 'var(--text-secondary)' }}>
+            {renderText(
+              'Scientists normally did not travel to the planets themselves. Robotic spacecraft carried cameras, spectrometers, radar, magnetometers and other instruments; scientists on Earth planned the observations and analyzed the returned data.',
+              'سائنسدان عام طور پر خود سیاروں پر نہیں گئے۔ روبوٹک خلائی جہاز کیمرے، اسپیکٹرو میٹر، ریڈار، میگنیٹو میٹر اور دوسرے آلات لے کر گئے؛ زمین پر موجود سائنسدانوں نے مشاہدات کی منصوبہ بندی کی اور واپس آنے والے ڈیٹا کا تجزیہ کیا۔'
+            )}
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          {[
+            {
+              planet:'Mercury', urPlanet:'عطارد',
+              mission:'Mariner 10', agency:'United States • NASA', year:'1973–1975',
+              objective:'First spacecraft to visit Mercury; mapped part of the surface and measured its environment and magnetic field.',
+              objectiveUr:'عطارد تک پہنچنے والا پہلا خلائی جہاز؛ سطح کے ایک حصے کی نقشہ سازی کی اور ماحول و مقناطیسی میدان کی پیمائش کی۔',
+              how:'Used a Venus gravity assist to enter a Mercury-intercepting trajectory, then made repeated flybys.',
+              howUr:'زہرہ کی گریویٹی اسسٹ استعمال کر کے عطارد تک پہنچنے والا راستہ بنایا اور پھر کئی بار عطارد کے قریب سے گزرا۔',
+              result:'Showed a heavily cratered surface and provided early evidence about Mercury’s magnetic field and extreme environment.'
+            },
+            {
+              planet:'Venus', urPlanet:'زہرہ',
+              mission:'Magellan', agency:'United States • NASA', year:'1989–1994',
+              objective:'Radar-mapped almost the entire surface of Venus through its clouds.',
+              objectiveUr:'بادلوں کے باوجود ریڈار کے ذریعے زہرہ کی تقریباً پوری سطح کا نقشہ بنایا۔',
+              how:'A spacecraft in orbit sent radar signals through the atmosphere and measured the returned echoes to build surface maps.',
+              howUr:'مدار میں موجود خلائی جہاز نے فضا کے پار ریڈار سگنل بھیجے اور واپس آنے والی لہروں سے سطح کے نقشے بنائے۔',
+              result:'Revealed volcanoes, large lava plains, impact craters and a geologically complex surface.'
+            },
+            {
+              planet:'Mars', urPlanet:'مریخ',
+              mission:'Mariner 4 → Viking → Curiosity → Perseverance', agency:'United States • NASA', year:'1965–present exploration',
+              objective:'Progressed from the first close-up images to orbital mapping, landing, climate measurements and the search for signs of ancient habitability.',
+              objectiveUr:'پہلی قریبی تصاویر سے لے کر مداری نقشہ سازی، لینڈنگ، آب و ہوا کی پیمائش اور قدیم رہائش پذیری کے شواہد کی تلاش تک مسلسل تحقیق۔',
+              how:'Different missions used flybys, orbiters, landers and rovers. Rovers use cameras, drills and scientific instruments directly on the surface.',
+              howUr:'مختلف مشنز نے فلائی بائی، مدار، لینڈر اور روور استعمال کیے۔ روور سطح پر کیمرے، ڈرل اور سائنسی آلات استعمال کرتے ہیں۔',
+              result:'NASA records Mariner 4 as the first successful Mars mission; Viking achieved soft landings, while Curiosity and Perseverance study geology and ancient environments.'
+            },
+            {
+              planet:'Jupiter', urPlanet:'مشتری',
+              mission:'Galileo → Juno', agency:'United States • NASA', year:'1973–present exploration',
+              objective:'Study Jupiter’s atmosphere, magnetic field, interior and major moons, especially their geology and possible subsurface oceans.',
+              objectiveUr:'مشتری کی فضا، مقناطیسی میدان، اندرونی ساخت اور بڑے چاندوں، خصوصاً ممکنہ زیرِ سطح سمندروں، کا مطالعہ۔',
+              how:'Galileo used gravity assists and orbited Jupiter; Juno entered polar orbit and repeatedly passed close over the cloud tops.',
+              howUr:'گیلیلیو نے گریویٹی اسسٹ استعمال کر کے مشتری کے گرد مدار قائم کیا؛ جونو قطبی مدار میں داخل ہوا اور بادلوں کے اوپر بار بار قریب سے گزرا۔',
+              result:'Galileo found strong evidence for an ocean beneath Europa’s ice and volcanic activity on Io; Juno studies Jupiter’s deep atmosphere and interior.'
+            },
+            {
+              planet:'Saturn', urPlanet:'زحل',
+              mission:'Cassini–Huygens', agency:'NASA • ESA • ASI', year:'1997–2017',
+              objective:'Study Saturn, its rings and moons; Huygens investigated Titan’s atmosphere and surface.',
+              objectiveUr:'زحل، اس کے حلقوں اور چاندوں کا مطالعہ؛ ہائیگنز نے ٹائٹن کی فضا اور سطح کا جائزہ لیا۔',
+              how:'Cassini orbited Saturn and performed repeated moon flybys; Huygens separated from Cassini and descended to Titan in 2005.',
+              howUr:'کاسینی زحل کے گرد مدار میں رہا اور چاندوں کے قریب سے گزرتا رہا؛ ہائیگنز الگ ہو کر 2005 میں ٹائٹن کی سطح تک اترا۔',
+              result:'Major findings included active plumes at Enceladus, complex lakes and weather on Titan, and detailed ring structure.'
+            },
+            {
+              planet:'Uranus', urPlanet:'یورینس',
+              mission:'Voyager 2', agency:'United States • NASA', year:'1986',
+              objective:'First and only spacecraft flyby to study Uranus and its moons and rings up close.',
+              objectiveUr:'یورینس اور اس کے چاندوں و حلقوں کا قریب سے مطالعہ کرنے والا پہلا اور اب تک واحد خلائی جہاز۔',
+              how:'Voyager 2 used a carefully planned trajectory and passed the planet at high speed while imaging and measuring its environment.',
+              howUr:'وائیجر 2 نے منصوبہ بند راستہ اختیار کیا اور تیزی سے یورینس کے قریب سے گزرتے ہوئے تصاویر اور پیمائشیں کیں۔',
+              result:'Discovered new moons and rings and revealed a complex atmosphere and unusual magnetic environment.'
+            },
+            {
+              planet:'Neptune', urPlanet:'نیپچون',
+              mission:'Voyager 2', agency:'United States • NASA', year:'1989',
+              objective:'First and only close flyby of Neptune and Triton.',
+              objectiveUr:'نیپچون اور ٹرائٹن کا پہلا اور اب تک واحد قریبی فلائی بائی۔',
+              how:'Voyager 2 used the outer-planet trajectory from its earlier encounters and passed Neptune on August 25, 1989.',
+              howUr:'وائیجر 2 نے پہلے بیرونی سیاروں کے مقابلوں کے بعد اسی سفر کے راستے سے فائدہ اٹھایا اور 25 اگست 1989 کو نیپچون کے قریب سے گزرا۔',
+              result:'Revealed powerful winds, storm systems and active geyser-like plumes on Triton.'
+            },
+            {
+              planet:'Pluto / Kuiper Belt', urPlanet:'پلوٹو / کائپر بیلٹ',
+              mission:'New Horizons', agency:'United States • NASA / Johns Hopkins APL', year:'2006–present extended mission',
+              objective:'First close exploration of Pluto and later the Kuiper Belt object Arrokoth.',
+              objectiveUr:'پلوٹو کی پہلی قریبی تحقیق اور بعد میں کائپر بیلٹ کے آبجیکٹ اروکوتھ کا مطالعہ۔',
+              how:'Launched in 2006, used a Jupiter gravity assist in 2007, flew past Pluto in 2015 and Arrokoth in 2019.',
+              howUr:'2006 میں لانچ ہوا، 2007 میں مشتری کی گریویٹی اسسٹ لی، 2015 میں پلوٹو اور 2019 میں اروکوتھ کے قریب سے گزرا۔',
+              result:'Returned detailed images and composition data that transformed knowledge of Pluto’s surface, atmosphere and moons.'
+            }
+          ].map((m) => (
+            <article key={m.mission} className="rounded-2xl border overflow-hidden" style={{ backgroundColor:'var(--surface)', borderColor:'var(--border)' }}>
+              <div className="p-5 md:p-6">
+                <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-3">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-2.5 py-1 rounded-full text-xs font-black bg-blue-600 text-white">{m.planet}</span>
+                      <span className="text-xs font-bold" style={{color:'var(--text-secondary)'}}>{m.year}</span>
+                    </div>
+                    <h3 className="text-xl font-black mt-3" style={{color:'var(--text-primary)'}}>{m.mission}</h3>
+                    <p className="text-sm mt-1 font-semibold text-cyan-400">{m.agency}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-5">
+                  {[
+                    ['Mission goal','مشن کا مقصد',m.objective,m.objectiveUr],
+                    ['How it worked','کیسے کام کیا',m.how,m.howUr],
+                    ['What was learned','کیا معلوم ہوا',m.result,m.result]
+                  ].map(([en,ur,body,bodyUr]: any)=>(
+                    <div key={en} className="rounded-xl border p-4" style={{backgroundColor:'var(--surface-muted)',borderColor:'var(--border)'}}>
+                      <h4 className="font-bold text-sm">{renderText(en,ur)}</h4>
+                      <p className="mt-2 text-sm leading-6" style={{color:'var(--text-secondary)'}}>
+                        {language === 'ur' ? bodyUr : body}
+                        {language === 'both' && <span className="block font-urdu mt-2" dir="rtl">{bodyUr}</span>}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* Section 3: Key Discoveries Flowchart */
       <section id="discoveries">
         <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-primary)' }}>
           {renderText('How Discoveries Built Space Exploration', 'دریافتوں نے خلائی دریافت کو کیسے بنایا')}
