@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Jameel Noori Nastaleeq Web';
+  src: url('https://cdn.jsdelivr.net/gh/tariq-abdullah/urdu-web-font-CDN/JameelNooriNastaleeq.woff') format('woff');
+  font-display: swap;
+  font-style: normal;
+  font-weight: 400;
+}
 @import "tailwindcss";
 
 @theme {
@@ -25,7 +32,7 @@
 
 :root {
   --font-size-base: 16px;
-  --urdu-font: 'Noto Nastaliq Urdu', 'Jameel Noori Nastaleeq', serif;
+  --urdu-font: 'Jameel Noori Nastaleeq Web', 'Jameel Noori Nastaleeq', 'Noto Nastaliq Urdu', serif;
   --english-font: 'Inter', system-ui, sans-serif;
 }
 
