@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Pause, Play, RotateCcw, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { useApp } from '../contexts/AppContext';
+import '../styles/earth-process.css';
 
 type AnimationType = 'water' | 'plates';
 type Step = { en: string; ur: string; detailEn: string; detailUr: string };
