@@ -25,6 +25,7 @@ const navGroups: NavGroup[] = [
     icon: <Rocket size={18} />,
     items: [
       { label: { en: 'My Dashboard', ur: 'میرا ڈیش بورڈ' }, path: '/dashboard' },
+      { label: { en: 'World Knowledge Atlas', ur: 'ورلڈ نالج اٹلس' }, path: '/world-atlas' },
       { label: { en: 'Solar System', ur: 'نظامِ شمسی' }, path: '/solar-system' },
       { label: { en: 'Planets', ur: 'سیارے' }, path: '/planets' },
       { label: { en: 'Planet Comparison', ur: 'سیاروں کا موازنہ' }, path: '/comparison' },
@@ -44,6 +45,7 @@ const navGroups: NavGroup[] = [
       { label: { en: 'Earth Water Atlas', ur: 'زمین کا آبی اٹلس' }, path: '/water-atlas' },
       { label: { en: 'Weather & Climate', ur: 'موسم اور آب و ہوا' }, path: '/weather' },
       { label: { en: 'Dams & Water Resources', ur: 'ڈیم اور آبی وسائل' }, path: '/dams' },
+      { label: { en: 'Dam Engineering Guide', ur: 'ڈیم انجینئرنگ گائیڈ' }, path: '/dams/guide' },
       { label: { en: 'Solar Energy', ur: 'شمسی توانائی' }, path: '/solar-energy' },
     ]
   },
