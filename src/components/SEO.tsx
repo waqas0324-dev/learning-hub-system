@@ -93,6 +93,7 @@ export function SEO() {
       'water-oceans': { title:'Earth Ocean Water | 96.5% of Earth Water', description:'Learn how much water is stored in Earth’s oceans, why it is saline and how it drives the water cycle.', keywords:'Earth ocean water, 96.5 percent, water distribution' },
       'water-groundwater': { title:'Groundwater | Aquifers, Recharge & Water Movement', description:'Learn how groundwater is stored, recharged and moved through aquifers beneath Earth’s surface.', keywords:'groundwater, aquifer, recharge, water cycle' },
       'water-glaciers': { title:'Glaciers & Ice Sheets | Earth Freshwater Store', description:'Learn how glaciers and ice sheets store freshwater, flow and release meltwater.', keywords:'glaciers, ice sheets, freshwater, meltwater' },
+      'water-surface': { title:'Lakes, Rivers & Streams | Surface Freshwater', description:'Explore how lakes, rivers and streams connect runoff, groundwater, ecosystems and the water cycle.', keywords:'lakes, rivers, streams, surface freshwater, water cycle' },
       'water-atmosphere': { title:'Atmospheric Water | Vapor, Clouds & Precipitation', description:'Learn how water vapor moves through the atmosphere and becomes clouds and precipitation.', keywords:'atmospheric water, water vapor, clouds, precipitation' }
     };
     const waterMeta = waterSlug ? waterTitles[waterSlug] : undefined;
