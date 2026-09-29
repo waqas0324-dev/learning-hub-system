@@ -24,7 +24,17 @@ const items=[
  {title:'How Do Solar Panels Work?',ur:'سولر پینلز کیسے کام کرتے ہیں؟',path:'/learn/how-do-solar-panels-work',type:'Topic',tags:'solar panels photovoltaic electricity inverter'},
  {title:'What Is a Solar Eclipse?',ur:'سورج گرہن کیا ہے؟',path:'/learn/what-is-a-solar-eclipse',type:'Topic',tags:'solar eclipse moon sun shadow'},
  {title:'3D Space Explorer',ur:'3D خلائی ایکسپلورر',path:'/3d-explorer',type:'Interactive',tags:'3d nasa eyes missions spacecraft solar system'},
- {title:'Space Resources',ur:'خلائی وسائل',path:'/resources',type:'Resources',tags:'nasa resources interactives education images videos'}
+ {title:'Earth Water Atlas',ur:'زمین کا آبی اٹلس',path:'/water-atlas',type:'Earth Atlas',tags:'water oceans seas rivers lakes groundwater glaciers dams hydropower water cycle'},
+ {title:'Pacific Ocean',ur:'بحرالکاہل',path:'/water-atlas/ocean-pacific',type:'Ocean',tags:'pacific ocean size depth currents mariana trench'},
+ {title:'Atlantic Ocean',ur:'بحر اوقیانوس',path:'/water-atlas/ocean-atlantic',type:'Ocean',tags:'atlantic ocean currents circulation'},
+ {title:'Indian Ocean',ur:'بحر ہند',path:'/water-atlas/ocean-indian',type:'Ocean',tags:'indian ocean monsoon currents'},
+ {title:'Southern Ocean',ur:'بحر جنوبی',path:'/water-atlas/ocean-southern',type:'Ocean',tags:'southern ocean antarctica currents'},
+ {title:'Arctic Ocean',ur:'بحر منجمد شمالی',path:'/water-atlas/ocean-arctic',type:'Ocean',tags:'arctic ocean sea ice polar'},
+ {title:'Nile River',ur:'دریائے نیل',path:'/water-atlas/river-nile',type:'River',tags:'nile river africa basin'},
+ {title:'Amazon River',ur:'دریائے ایمیزون',path:'/water-atlas/river-amazon',type:'River',tags:'amazon river discharge basin'},
+ {title:'Yangtze River',ur:'دریائے یانگ زی',path:'/water-atlas/river-yangtze',type:'River',tags:'yangtze river asia basin'},
+ {title:'Groundwater',ur:'زیر زمین پانی',path:'/water-atlas/water-groundwater',type:'Water Science',tags:'groundwater aquifer recharge wells'},
+  {title:'Space Resources',ur:'خلائی وسائل',path:'/resources',type:'Resources',tags:'nasa resources interactives education images videos'}
 ];
 
 export function SearchPage(){
