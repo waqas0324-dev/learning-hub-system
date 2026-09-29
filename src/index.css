@@ -139,3 +139,24 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .card-elevated { box-shadow: 0 14px 40px rgba(15,23,42,.08); }
 .glass-panel { background: color-mix(in srgb, var(--surface) 82%, transparent); backdrop-filter: blur(16px); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+
+/* Solar System formation visual animation */
+.formation-stage{isolation:isolate;background:radial-gradient(circle at 50% 50%,#111827 0%,#050816 72%);}
+.formation-stars{position:absolute;inset:0;background-image:radial-gradient(circle,#fff 0 1px,transparent 1.5px),radial-gradient(circle,#60a5fa 0 1px,transparent 1.5px);background-size:73px 67px,101px 89px;opacity:.35;}
+.formation-cloud{position:absolute;inset:13% 12%;border-radius:50%;background:radial-gradient(circle,rgba(148,163,184,.1),rgba(59,130,246,.14) 38%,rgba(124,58,237,.2) 55%,transparent 72%);filter:blur(5px);transform:scale(.7);opacity:0;transition:all 1.2s ease;}
+.formation-core{position:absolute;left:50%;top:50%;width:32px;height:32px;margin:-16px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff7ad,#ffd43b 35%,#ff8c00 68%,#ef4444);box-shadow:0 0 18px #ffd43b,0 0 50px rgba(255,140,0,.7);opacity:0;transform:scale(.2);transition:all 1.1s ease;}
+.formation-disk{position:absolute;left:50%;top:50%;width:65%;height:25%;margin:-12.5% 0 0 -32.5%;border:2px solid rgba(96,165,250,.35);border-radius:50%;box-shadow:0 0 30px rgba(59,130,246,.15),inset 0 0 30px rgba(124,58,237,.15);opacity:0;transform:rotate(-10deg) scale(.2);transition:all 1s ease;}
+.formation-particles{position:absolute;inset:0;opacity:0;transition:opacity .8s ease;}
+.formation-particles i{position:absolute;left:calc(50% + (var(--i) - 9) * 28px);top:calc(50% + ((var(--i) % 5) - 2) * 25px);width:7px;height:7px;border-radius:50%;background:#c4b5fd;box-shadow:0 0 10px #818cf8;animation:formationParticle 2.2s linear infinite;animation-delay:calc(var(--i) * -0.12s);}
+.formation-planets{position:absolute;inset:0;opacity:0;transition:opacity .8s ease;}
+.formation-planets b{position:absolute;left:calc(50% + 60px + var(--i) * 28px);top:calc(50% - 4px + (var(--i) % 2) * 35px);width:calc(7px + var(--i) * 1px);height:calc(7px + var(--i) * 1px);border-radius:50%;background:linear-gradient(135deg,#f8fafc,#60a5fa 55%,#334155);box-shadow:0 0 10px rgba(96,165,250,.5);animation:formationOrbit 4s linear infinite;animation-delay:calc(var(--i) * -.45s);}
+.formation-stage[data-phase="cloud"] .formation-cloud{opacity:1;transform:scale(1);animation:cloudCollapse 2.4s ease-in-out infinite alternate;}
+.formation-stage[data-phase="sun"] .formation-cloud,.formation-stage[data-phase="disk"] .formation-cloud,.formation-stage[data-phase="particles"] .formation-cloud,.formation-stage[data-phase="planets"] .formation-cloud{opacity:.25;transform:scale(.6);}
+.formation-stage[data-phase="sun"] .formation-core,.formation-stage[data-phase="disk"] .formation-core,.formation-stage[data-phase="particles"] .formation-core,.formation-stage[data-phase="planets"] .formation-core{opacity:1;transform:scale(1);}
+.formation-stage[data-phase="disk"] .formation-disk,.formation-stage[data-phase="particles"] .formation-disk,.formation-stage[data-phase="planets"] .formation-disk{opacity:1;transform:rotate(-10deg) scale(1);animation:diskSpin 3.5s linear infinite;}
+.formation-stage[data-phase="particles"] .formation-particles,.formation-stage[data-phase="planets"] .formation-particles{opacity:1;}
+.formation-stage[data-phase="planets"] .formation-planets{opacity:1;}
+@keyframes cloudCollapse{from{transform:scale(1);filter:blur(9px)}to{transform:scale(.72);filter:blur(3px)}}
+@keyframes diskSpin{to{transform:rotate(350deg) scale(1)}}
+@keyframes formationParticle{0%{transform:translate(0,0) scale(.7);opacity:.4}45%{transform:translate(calc((var(--i) - 9) * -2px),calc((var(--i) % 3 - 1) * -3px)) scale(1.3);opacity:1}100%{transform:translate(0,0) scale(.7);opacity:.4}}
+@keyframes formationOrbit{to{transform:rotate(360deg) translateX(calc(18px + var(--i) * 5px)) rotate(-360deg)}}
