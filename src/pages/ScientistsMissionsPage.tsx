@@ -598,8 +598,8 @@ export function ScientistsMissionsPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
           {[
             {
-              name:'Dr. Torrence V. Johnson', role:'Galileo Project Scientist', target:'Jupiter and its moons', years:'1989–2003',
-              image:'https://images-assets.nasa.gov/image/PIA01509/PIA01509~small.jpg', mission:'Galileo',
+              name:'Dr. Torrence V. Johnson', role:'Galileo Project Scientist', target:'Jupiter and its moons', targetUr:'مشتری اور اس کے چاند', years:'1989–2003',
+              image:'https://d2pn8kiwq2w21t.cloudfront.net/images/imagesspacecraftgalileo2_jupiter_browse.width-1024.jpg', mission:'Galileo',
               country:'United States / NASA-JPL',
               what:'Helped lead the scientific interpretation of Galileo observations of Jupiter and its moons, turning spacecraft measurements into planetary science results.',
               how:'Galileo used an orbiter plus an atmospheric probe. Its trajectory used Venus and Earth gravity assists to reach Jupiter, where it made repeated close encounters.',
@@ -609,8 +609,8 @@ export function ScientistsMissionsPage() {
               resultUr:'یوروپا کے نیچے نمکین سمندر کے شواہد، آئی او پر آتش فشانی سرگرمی اور گینی میڈ پر مقناطیسی میدان کے شواہد ملے۔'
             },
             {
-              name:'Linda Spilker', role:'Cassini Project Scientist', target:'Saturn, rings and moons', years:'1997–2017',
-              image:'https://images-assets.nasa.gov/image/PIA05425/PIA05425~small.jpg', mission:'Cassini-Huygens',
+              name:'Linda Spilker', role:'Cassini Project Scientist', target:'Saturn, rings and moons', targetUr:'زحل، حلقے اور چاند', years:'1997–2017',
+              image:'https://science.nasa.gov/wp-content/uploads/2024/04/linda-spilker-voyager.png?w=620', mission:'Cassini-Huygens',
               country:'United States / NASA-JPL • ESA • ASI',
               what:'Led Cassini science during its later mission years and helped coordinate scientists studying Saturn, its rings and moons.',
               how:'Cassini orbited Saturn and repeatedly flew past its moons. The Huygens probe descended through Titan’s atmosphere and landed on Titan in 2005.',
@@ -620,8 +620,8 @@ export function ScientistsMissionsPage() {
               resultUr:'کاسینی نے اینسیلاڈس، ٹائٹن، زحل کی فضا اور حلقوں کے بارے میں اہم دریافتیں کیں اور 15 ستمبر 2017 کو زحل میں داخل ہو کر مشن ختم کیا۔'
             },
             {
-              name:'Alan Stern', role:'New Horizons Principal Investigator', target:'Pluto and Kuiper Belt', years:'2006–present mission science',
-              image:'https://images-assets.nasa.gov/image/PIA20038/PIA20038~small.jpg', mission:'New Horizons',
+              name:'Alan Stern', role:'New Horizons Principal Investigator', target:'Pluto and Kuiper Belt', targetUr:'پلوٹو اور کائپر بیلٹ', years:'2006–present mission science',
+              image:'https://assets.science.nasa.gov/dynamicimage/assets/science/psd/solar/2023/07/19692433785_f109c50f24_o.jpg?crop=faces%2Cfocalpoint&fit=clip&h=2584&w=3890', mission:'New Horizons',
               country:'United States / NASA-JHUAPL',
               what:'Principal investigator for New Horizons, the first spacecraft to explore Pluto up close and later Arrokoth.',
               how:'The spacecraft launched in 2006, used a Jupiter gravity assist in 2007, flew past Pluto on July 14, 2015, and then reached Arrokoth on Jan. 1, 2019.',
@@ -633,14 +633,16 @@ export function ScientistsMissionsPage() {
           ].map((m)=>(
             <article key={m.name} className="overflow-hidden rounded-2xl border" style={{ backgroundColor:'var(--surface)', borderColor:'var(--border)' }}>
               <div className="relative h-56 overflow-hidden bg-slate-950">
-                <img src={m.image} alt={m.name} className="h-full w-full object-cover" loading="lazy" />
-                <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 to-transparent p-4">
-                  <span className="text-xs font-black text-cyan-300">{m.mission}</span>
+                <img src={m.image} alt={m.name} className="h-full w-full object-cover object-center" loading="lazy" onError={(e) => { e.currentTarget.style.display='none'; }} />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute inset-x-0 bottom-0 p-4">
+                  <span className="inline-flex rounded-full px-2.5 py-1 text-xs font-black text-cyan-100 bg-cyan-500/20 border border-cyan-300/20">{m.mission}</span>
                 </div>
               </div>
               <div className="p-5">
                 <h3 className="text-xl font-black" style={{color:'var(--text-primary)'}}>{m.name}</h3>
                 <p className="mt-1 text-sm font-bold" style={{color:'var(--accent)'}}>{m.role}</p>
+                <p className="mt-1 text-xs" style={{color:'var(--text-secondary)'}}>{renderText(m.target, m.targetUr || m.target)}</p>
                 <div className="mt-4 grid grid-cols-2 gap-2 text-xs">
                   <div className="rounded-xl border p-3" style={{borderColor:'var(--border)',backgroundColor:'var(--surface-muted)'}}><strong>{renderText('Country / agency','ملک / ادارہ')}</strong><p className="mt-1 opacity-70">{m.country}</p></div>
                   <div className="rounded-xl border p-3" style={{borderColor:'var(--border)',backgroundColor:'var(--surface-muted)'}}><strong>{renderText('Target','ہدف')}</strong><p className="mt-1 opacity-70">{m.target}</p></div>
