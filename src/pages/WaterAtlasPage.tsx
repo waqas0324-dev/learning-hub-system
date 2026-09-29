@@ -1,5 +1,6 @@
 import React from 'react';
-import { Droplets, Waves, Mountain, Fish, Factory, Database, PlayCircle, ArrowDown, ArrowUp, Snowflake, Globe2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Droplets, Waves, Mountain, Factory, Database, PlayCircle, ArrowUp, Snowflake, Globe2, ExternalLink } from 'lucide-react';
 import { useApp } from '../contexts/AppContext';
 import { EarthProcessAnimation } from '../components/EarthProcessAnimation';
 
@@ -35,6 +36,14 @@ const waterPools=[
  ['Atmosphere','فضا','~12,900 km³','~0.001%','Water vapor, clouds and precipitation']
 ];
 
+const detailSlug=(type:string,name:string)=>{
+ const key=name.toLowerCase();
+ if(type==='ocean') return key.includes('pacific')?'ocean-pacific':key.includes('atlantic')?'ocean-atlantic':key.includes('indian')?'ocean-indian':key.includes('southern')?'ocean-southern':'ocean-arctic';
+ if(type==='river') return key.includes('nile')?'river-nile':key.includes('amazon')?'river-amazon':key.includes('yangtze')?'river-yangtze':key.includes('mississippi')?'river-mississippi':'river-yangtze';
+ if(type==='lake') return key.includes('caspian')?'lake-caspian':key.includes('superior')?'lake-superior':key.includes('victoria')?'lake-victoria':key.includes('baikal')?'lake-baikal':'lake-tanganyika';
+ if(type==='pool') return key.includes('ocean')?'water-oceans':key.includes('groundwater')?'water-groundwater':key.includes('ice')?'water-glaciers':'water-atmosphere';
+ return '';
+};
 function T({en,ur}:{en:string;ur:string}){const{language}=useApp();if(language==='ur')return <span className="font-urdu" dir="rtl">{ur}</span>;if(language==='both')return <><span>{en}</span><span className="block font-urdu mt-1" dir="rtl">{ur}</span></>;return <span>{en}</span>}
 
 export function WaterAtlasPage(){
@@ -60,11 +69,18 @@ export function WaterAtlasPage(){
   <section className="rounded-3xl border p-6 md:p-8" style={{background:'var(--surface)',borderColor:'var(--border)'}}>
    <div className="flex items-start gap-3"><Database className="mt-1" style={{color:'var(--accent)'}}/><div><h2 className="text-2xl md:text-3xl font-black" style={{color:'var(--text-primary)'}}><T en="Where is Earth's water?" ur="زمین کا پانی کہاں ہے؟"/></h2><p className="mt-2 leading-7" style={{color:'var(--text-secondary)'}}><T en="These are global estimates. Categories overlap in scientific datasets, and some quantities are difficult to measure precisely." ur="یہ عالمی اندازے ہیں۔ سائنسی ڈیٹا سیٹس میں بعض زمروں میں اوورلیپ ہوتا ہے اور کچھ مقداروں کی درست پیمائش مشکل ہے۔"/></p></div></div>
    <div className="mt-6 grid gap-3">
-    {waterPools.map(([en,ur,vol,pct,note])=><div className="rounded-2xl border p-4 md:p-5" style={{borderColor:'var(--border)',background:'var(--surface-muted)'}}><div className="grid md:grid-cols-[1.3fr_1fr_.7fr_1.5fr] gap-3 items-center"><div className="font-black" style={{color:'var(--text-primary)'}}><T en={en} ur={ur}/></div><div className="font-bold" style={{color:'var(--accent)'}}>{vol}</div><div className="font-bold" style={{color:'var(--text-primary)'}}>{pct}</div><div className="text-sm" style={{color:'var(--text-secondary)'}}>{note}</div></div></div>)}
+    {waterPools.map(([en,ur,vol,pct,note])=><Link key={en} to={"/water-atlas/"+detailSlug("pool",en)} className="rounded-2xl border p-4 md:p-5 block hover:-translate-y-0.5 transition-transform" style={{borderColor:'var(--border)',background:'var(--surface-muted)'}}><div className="grid md:grid-cols-[1.3fr_1fr_.7fr_1.5fr] gap-3 items-center"><div className="font-black" style={{color:'var(--text-primary)'}}><T en={en} ur={ur}/></div><div className="font-bold" style={{color:'var(--accent)'}}>{vol}</div><div className="font-bold" style={{color:'var(--text-primary)'}}>{pct}</div><div className="text-sm" style={{color:'var(--text-secondary)'}}>{note}</div></div><span className="mt-3 inline-block text-xs font-black text-cyan-500">Open full explanation →</span></Link>)}
    </div>
   </section>
 
   <EarthProcessAnimation type="water"/>
+
+  <section className="rounded-3xl border p-6 md:p-8" style={{background:'var(--surface)',borderColor:'var(--border)'}}>
+   <h2 className="text-2xl md:text-3xl font-black" style={{color:'var(--text-primary)'}}><T en="What does “Seven Seas” mean?" ur="“سات سمندر” سے کیا مراد ہے؟"/></h2>
+   <p className="mt-3 leading-7" style={{color:'var(--text-secondary)'}}><T en="There is no single modern scientific list of exactly seven seas. NOAA explains that the phrase has had different meanings across history. Modern geography more commonly divides the one global ocean into five named regions." ur="جدید سائنس میں بالکل سات سمندروں کی ایک مقررہ فہرست نہیں۔ NOAA کے مطابق Seven Seas کی اصطلاح تاریخ میں مختلف معنوں میں استعمال ہوئی ہے۔ جدید جغرافیہ میں ایک عالمی سمندر کو عموماً پانچ بڑے نامزد خطوں میں تقسیم کیا جاتا ہے۔"/></p>
+   <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">{['Arctic','North Atlantic','South Atlantic','North Pacific','South Pacific','Indian','Southern'].map((x,i)=><div key={x} className="rounded-2xl border p-4" style={{borderColor:'var(--border)',background:'var(--surface-muted)'}}><span className="text-cyan-500 font-black">{i+1}</span><span className="ml-3 font-bold" style={{color:'var(--text-primary)'}}>{x}</span></div>)}</div>
+   <a href="https://oceanservice.noaa.gov/facts/sevenseas.html" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 mt-4 text-cyan-500 font-bold">NOAA: Seven Seas <ExternalLink size={16}/></a>
+  </section>
 
   <section className="grid lg:grid-cols-2 gap-5">
    <div className="rounded-3xl border p-6" style={{background:'var(--surface)',borderColor:'var(--border)'}}>
@@ -89,14 +105,14 @@ export function WaterAtlasPage(){
   </section>
 
   <section className="rounded-3xl border p-6 md:p-8" style={{background:'var(--surface)',borderColor:'var(--border)'}}>
-   <h2 className="text-2xl md:text-3xl font-black" style={{color:'var(--text-primary)'}}><T en="The five ocean basins" ur="دنیا کے پانچ بڑے سمندری حوض"/></h2>
-   <div className="mt-6 grid md:grid-cols-2 xl:grid-cols-5 gap-3">{oceans.map(o=><article className="rounded-2xl border p-4" style={{borderColor:'var(--border)',background:'var(--surface-muted)'}}><Waves className="text-cyan-500"/><h3 className="mt-3 font-black" style={{color:'var(--text-primary)'}}>{o.name}</h3><div className="font-urdu text-sm mt-1" dir="rtl" style={{color:'var(--text-secondary)'}}>{o.ur}</div><div className="mt-3 text-sm font-bold" style={{color:'var(--accent)'}}>{o.area}</div><p className="mt-2 text-sm" style={{color:'var(--text-secondary)'}}>{o.depth}</p><p className="mt-2 text-sm leading-6" style={{color:'var(--text-secondary)'}}>{o.note}</p></article>)}</div>
+   <h2 className="text-2xl md:text-3xl font-black" style={{color:'var(--text-primary)'}}><T en="One global ocean, five named regions" ur="ایک عالمی سمندر، پانچ بڑے نامزد خطے"/></h2>
+   <div className="mt-6 grid md:grid-cols-2 xl:grid-cols-5 gap-3">{oceans.map(o=><Link key={o.name} to={"/water-atlas/"+detailSlug("ocean",o.name)} className="rounded-2xl border p-4 block hover:-translate-y-1 transition-transform" style={{borderColor:'var(--border)',background:'var(--surface-muted)'}}><Waves className="text-cyan-500"/><h3 className="mt-3 font-black" style={{color:'var(--text-primary)'}}>{o.name}</h3><div className="font-urdu text-sm mt-1" dir="rtl" style={{color:'var(--text-secondary)'}}>{o.ur}</div><div className="mt-3 text-sm font-bold" style={{color:'var(--accent)'}}>{o.area}</div><p className="mt-2 text-sm" style={{color:'var(--text-secondary)'}}>{o.depth}</p><p className="mt-2 text-sm leading-6" style={{color:'var(--text-secondary)'}}>{o.note}</p><span className="mt-4 inline-block text-xs font-black text-cyan-500">Open full explanation →</span></Link>)}</div>
    <p className="mt-4 text-xs" style={{color:'var(--text-secondary)'}}>Ocean-area figures vary by definition and dataset; the page uses rounded educational values.</p>
   </section>
 
   <section className="grid lg:grid-cols-2 gap-5">
-   <div className="rounded-3xl border p-6" style={{background:'var(--surface)',borderColor:'var(--border)'}}><h2 className="text-2xl font-black" style={{color:'var(--text-primary)'}}><T en="Major river systems" ur="اہم دریائی نظام"/></h2><div className="mt-5 space-y-3">{rivers.map(r=><div className="rounded-2xl border p-4" style={{borderColor:'var(--border)',background:'var(--surface-muted)'}}><div className="flex justify-between gap-3"><b style={{color:'var(--text-primary)'}}>{r[0]}</b><span className="text-xs font-bold text-cyan-500">{r[2]}</span></div><div className="font-urdu text-sm" dir="rtl" style={{color:'var(--text-secondary)'}}>{r[1]}</div><div className="text-xs mt-1" style={{color:'var(--text-secondary)'}}>{r[3]} · {r[4]}</div></div>)}</div><p className="mt-4 text-xs" style={{color:'var(--text-secondary)'}}>River length rankings are definition-sensitive because a river system may have multiple headwaters.</p></div>
-   <div className="rounded-3xl border p-6" style={{background:'var(--surface)',borderColor:'var(--border)'}}><h2 className="text-2xl font-black" style={{color:'var(--text-primary)'}}><T en="Important lakes" ur="اہم جھیلیں"/></h2><div className="mt-5 space-y-3">{lakes.map(l=><div className="rounded-2xl border p-4" style={{borderColor:'var(--border)',background:'var(--surface-muted)'}}><div className="font-black" style={{color:'var(--text-primary)'}}>{l[0]}</div><div className="font-urdu text-sm" dir="rtl" style={{color:'var(--text-secondary)'}}>{l[1]}</div><p className="text-sm mt-1" style={{color:'var(--text-secondary)'}}>{l[2]}</p></div>)}</div><p className="mt-4 text-xs" style={{color:'var(--text-secondary)'}}>Lake counts are not a single fixed global number because databases use different size and permanence thresholds.</p></div>
+   <div className="rounded-3xl border p-6" style={{background:'var(--surface)',borderColor:'var(--border)'}}><h2 className="text-2xl font-black" style={{color:'var(--text-primary)'}}><T en="Major river systems" ur="اہم دریائی نظام"/></h2><div className="mt-5 space-y-3">{rivers.map(r=><Link key={r[0]} to={"/water-atlas/"+detailSlug("river",r[0])} className="rounded-2xl border p-4 block hover:-translate-y-0.5 transition-transform" style={{borderColor:'var(--border)',background:'var(--surface-muted)'}}><div className="flex justify-between gap-3"><b style={{color:'var(--text-primary)'}}>{r[0]}</b><span className="text-xs font-bold text-cyan-500">{r[2]}</span></div><div className="font-urdu text-sm" dir="rtl" style={{color:'var(--text-secondary)'}}>{r[1]}</div><div className="text-xs mt-1" style={{color:'var(--text-secondary)'}}>{r[3]} · {r[4]}</div></div>)}</div><p className="mt-4 text-xs" style={{color:'var(--text-secondary)'}}>River length rankings are definition-sensitive because a river system may have multiple headwaters.</p></div>
+   <div className="rounded-3xl border p-6" style={{background:'var(--surface)',borderColor:'var(--border)'}}><h2 className="text-2xl font-black" style={{color:'var(--text-primary)'}}><T en="Important lakes" ur="اہم جھیلیں"/></h2><div className="mt-5 space-y-3">{lakes.map(l=><Link key={l[0]} to={"/water-atlas/"+detailSlug("lake",l[0])} className="rounded-2xl border p-4 block hover:-translate-y-0.5 transition-transform" style={{borderColor:'var(--border)',background:'var(--surface-muted)'}}><div className="font-black" style={{color:'var(--text-primary)'}}>{l[0]}</div><div className="font-urdu text-sm" dir="rtl" style={{color:'var(--text-secondary)'}}>{l[1]}</div><p className="text-sm mt-1" style={{color:'var(--text-secondary)'}}>{l[2]}</p><span className="mt-3 inline-block text-xs font-black text-cyan-500">Open full explanation →</span></Link>)}</div><p className="mt-4 text-xs" style={{color:'var(--text-secondary)'}}>Lake counts are not a single fixed global number because databases use different size and permanence thresholds.</p></div>
   </section>
 
   <section className="rounded-3xl border p-6 md:p-8" style={{background:'var(--surface)',borderColor:'var(--border)'}}>
