@@ -31,6 +31,8 @@ import { MissionControlPage } from './pages/MissionControlPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { WaterAtlasPage } from './pages/WaterAtlasPage';
 import { WaterDetailPage } from './pages/WaterDetailPage';
+import { WorldAtlasPage } from './pages/WorldAtlasPage';
+import { DamDetailPage } from './pages/DamDetailPage';
 
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 768);
@@ -44,6 +46,7 @@ function AppLayout() {
           <SEO />
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/world-atlas" element={<WorldAtlasPage />} />
           <Route path="/solar-system" element={<SolarSystemPage />} />
           <Route path="/planets" element={<PlanetsPage />} />
           <Route path="/planets/:planetId" element={<PlanetDetailPage />} />
@@ -58,6 +61,7 @@ function AppLayout() {
           <Route path="/water-atlas/:slug" element={<WaterDetailPage />} />
           <Route path="/weather" element={<WeatherPage />} />
           <Route path="/dams" element={<DamsPage />} />
+          <Route path="/dams/guide" element={<DamDetailPage />} />
           <Route path="/solar-energy" element={<SolarEnergyPage />} />
           <Route path="/quiz" element={<QuizPage />} />
           <Route path="/games" element={<GamesPage />} />
