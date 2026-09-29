@@ -1,6 +1,7 @@
 import React,{useEffect,useState}from'react';
 import{Pause,Play,RotateCcw}from'lucide-react';
 import{useApp}from'../contexts/AppContext';
+import '../styles/dam-lab.css';
 const steps=[
  ['Reservoir','ذخیرہ','Rain and river water collect behind the dam wall.'],
  ['Intake + penstock','پانی کا راستہ','Gates control the intake; water moves through a pressure pipe.'],
