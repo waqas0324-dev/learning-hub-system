@@ -30,6 +30,7 @@ import { LearnTopicPage } from './pages/LearnTopicPage';
 import { MissionControlPage } from './pages/MissionControlPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { WaterAtlasPage } from './pages/WaterAtlasPage';
+import { WaterDetailPage } from './pages/WaterDetailPage';
 
 function AppLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(() => typeof window !== 'undefined' && window.innerWidth >= 768);
@@ -54,6 +55,7 @@ function AppLayout() {
           <Route path="/earth" element={<EarthExplorerPage />} />
           <Route path="/oceans" element={<OceansPage />} />
           <Route path="/water-atlas" element={<WaterAtlasPage />} />
+          <Route path="/water-atlas/:slug" element={<WaterDetailPage />} />
           <Route path="/weather" element={<WeatherPage />} />
           <Route path="/dams" element={<DamsPage />} />
           <Route path="/solar-energy" element={<SolarEnergyPage />} />
