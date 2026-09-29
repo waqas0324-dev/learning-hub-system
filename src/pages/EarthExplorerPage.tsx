@@ -3,240 +3,13 @@ import { useApp } from '../contexts/AppContext';
 import { EducationalCarousel } from '../components/EducationalCarousel';
 import { BilingualFlowchart } from '../components/BilingualFlowchart';
 import { InteractiveDiagram } from '../components/InteractiveDiagram';
+import { EarthProcessAnimation } from '../components/EarthProcessAnimation';
 import { CheckCircle, XCircle, Play, Pause, RotateCcw, ChevronLeft, ChevronRight } from 'lucide-react';
 
 // ============================================
 // WATER CYCLE ANIMATION COMPONENT
 // ============================================
-function WaterCycleAnimation() {
-  const { language } = useApp();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [speed, setSpeed] = useState(1);
-
-  const steps = [
-    { en: 'Sun heats ocean', ur: 'سورج سمندر کو گرم کرتا ہے', icon: '☀️' },
-    { en: 'Evaporation', ur: 'بخارات بننا', icon: '💨' },
-    { en: 'Transpiration from plants', ur: 'پودوں سے بخارات', icon: '🌿' },
-    { en: 'Condensation → Clouds', ur: 'بادل بننا', icon: '☁️' },
-    { en: 'Precipitation', ur: 'بارش یا برف', icon: '🌧️' },
-    { en: 'Collection in rivers/lakes', ur: 'دریاؤں/جھیلوں میں جمع', icon: '🏞️' },
-    { en: 'Runoff to oceans', ur: 'سمندروں تک بہاؤ', icon: '🌊' }
-  ];
-
-  useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setCurrentStep(prev => (prev + 1) % steps.length);
-    }, 2000 / speed);
-    return () => clearInterval(interval);
-  }, [isPlaying, speed, steps.length]);
-
-  const renderText = (en: string, ur: string) => {
-    if (language === 'en') return en;
-    if (language === 'ur') return ur;
-    return <>{en}<span className="block font-urdu text-xs mt-1" dir="rtl">{ur}</span></>;
-  };
-
-  return (
-    <div className="p-4 rounded-xl" style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
-      <div className="relative h-40 mb-4 rounded-lg overflow-hidden" style={{ background: 'linear-gradient(180deg, #87CEEB 0%, #4682B4 50%, #2E8B57 100%)' }}>
-        {/* Sun */}
-        <div className="absolute top-2 left-2 w-12 h-12 rounded-full" style={{ background: 'radial-gradient(circle, #FFD700, #FFA500)', boxShadow: '0 0 20px #FFD700' }} />
-        
-        {/* Ocean */}
-        <div className="absolute bottom-0 left-0 right-0 h-16" style={{ background: 'linear-gradient(180deg, #4682B4, #1E90FF)' }} />
-        
-        {/* Clouds */}
-        <div className="absolute top-4 right-8 w-20 h-10 rounded-full" style={{ backgroundColor: '#fff', opacity: 0.8 }} />
-        <div className="absolute top-6 right-20 w-16 h-8 rounded-full" style={{ backgroundColor: '#fff', opacity: 0.7 }} />
-        
-        {/* Plants */}
-        <div className="absolute bottom-16 left-8 text-2xl">🌿</div>
-        <div className="absolute bottom-16 left-20 text-2xl">🌳</div>
-        
-        {/* Current step indicator */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-black/70 rounded-lg p-3 text-center">
-            <div className="text-3xl mb-1">{steps[currentStep].icon}</div>
-            <div className="text-sm font-medium text-white">
-              {renderText(steps[currentStep].en, steps[currentStep].ur)}
-            </div>
-          </div>
-        </div>
-        
-        {/* Progress bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-          <div className="h-full transition-all duration-500" style={{ width: `${((currentStep + 1) / steps.length) * 100}%`, backgroundColor: '#4CAF50' }} />
-        </div>
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2">
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium"
-            style={{ backgroundColor: 'var(--accent)', color: '#fff' }}
-          >
-            {isPlaying ? <Pause size={12} /> : <Play size={12} />}
-            {isPlaying ? (language === 'ur' ? 'روکیں' : 'Pause') : (language === 'ur' ? 'چلائیں' : 'Play')}
-          </button>
-          <button
-            onClick={() => { setIsPlaying(false); setCurrentStep(0); }}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border"
-            style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
-          >
-            <RotateCcw size={12} />
-            {language === 'ur' ? 'دوبارہ' : 'Reset'}
-          </button>
-        </div>
-        <div className="flex gap-1">
-          <button
-            onClick={() => setCurrentStep(prev => (prev - 1 + steps.length) % steps.length)}
-            className="p-1.5 rounded-lg border"
-            style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
-          >
-            <ChevronLeft size={14} />
-          </button>
-          <span className="px-2 py-1 text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
-            {currentStep + 1}/{steps.length}
-          </span>
-          <button
-            onClick={() => setCurrentStep(prev => (prev + 1) % steps.length)}
-            className="p-1.5 rounded-lg border"
-            style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
-          >
-            <ChevronRight size={14} />
-          </button>
-        </div>
-      </div>
-      
-      <p className="text-xs italic mt-2 text-center" style={{ color: 'var(--text-secondary)' }}>
-        {language === 'en' && 'Educational animation — not to scale.'}
-        {language === 'ur' && <span className="font-urdu" dir="rtl">تعلیمی حرکت — حقیقی پیمانے پر نہیں۔</span>}
-        {language === 'both' && <>Educational animation — not to scale.<span className="block font-urdu" dir="rtl">تعلیمی حرکت — حقیقی پیمانے پر نہیں۔</span></>}
-      </p>
-    </div>
-  );
-}
-
-// ============================================
-// PLATE TECTONICS ANIMATION COMPONENT
-// ============================================
-function PlateTectonicsAnimation() {
-  const { language } = useApp();
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const steps = [
-    { en: 'Earth\'s crust with plates', ur: 'زمین کی کرسٹ پلیٹوں کے ساتھ', icon: '🌍' },
-    { en: 'Divergent boundary', ur: 'ڈائورجنٹ باؤنڈری', icon: '↔️' },
-    { en: 'New crust forms', ur: 'نئی کرسٹ بنتی ہے', icon: '🔥' },
-    { en: 'Convergent boundary', ur: 'کنورجنٹ باؤنڈری', icon: '→←' },
-    { en: 'Mountains/volcanoes', ur: 'پہاڑ/آتش فشاں', icon: '🏔️' },
-    { en: 'Transform boundary', ur: 'ٹرانسفارم باؤنڈری', icon: '↑↓' },
-    { en: 'Earthquakes', ur: 'زلزلے', icon: '💥' }
-  ];
-
-  useEffect(() => {
-    if (!isPlaying) return;
-    const interval = setInterval(() => {
-      setCurrentStep(prev => (prev + 1) % steps.length);
-    }, 2000);
-    return () => clearInterval(interval);
-  }, [isPlaying, steps.length]);
-
-  const renderText = (en: string, ur: string) => {
-    if (language === 'en') return en;
-    if (language === 'ur') return ur;
-    return <>{en}<span className="block font-urdu text-xs mt-1" dir="rtl">{ur}</span></>;
-  };
-
-  return (
-    <div className="p-4 rounded-xl" style={{ backgroundColor: 'var(--surface-muted)', border: '1px solid var(--border)' }}>
-      <div className="relative h-40 mb-4 rounded-lg overflow-hidden" style={{ background: 'linear-gradient(180deg, #8B4513 0%, #A0522D 50%, #CD853F 100%)' }}>
-        {/* Tectonic plates visualization */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="relative w-full h-full">
-            {/* Plate 1 */}
-            <div className="absolute top-1/4 left-0 w-1/2 h-1/2 rounded" style={{ 
-              backgroundColor: '#8B4513',
-              border: '2px solid #654321',
-              transform: isPlaying ? `translateX(${Math.sin(currentStep * 0.5) * 10}px)` : 'translateX(0)',
-              transition: 'transform 0.5s'
-            }} />
-            {/* Plate 2 */}
-            <div className="absolute top-1/4 right-0 w-1/2 h-1/2 rounded" style={{ 
-              backgroundColor: '#A0522D',
-              border: '2px solid #654321',
-              transform: isPlaying ? `translateX(${Math.cos(currentStep * 0.5) * 10}px)` : 'translateX(0)',
-              transition: 'transform 0.5s'
-            }} />
-          </div>
-        </div>
-        
-        {/* Current step indicator */}
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-black/70 rounded-lg p-3 text-center">
-            <div className="text-3xl mb-1">{steps[currentStep].icon}</div>
-            <div className="text-sm font-medium text-white">
-              {renderText(steps[currentStep].en, steps[currentStep].ur)}
-            </div>
-          </div>
-        </div>
-        
-        {/* Progress bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-1 bg-white/20">
-          <div className="h-full transition-all duration-500" style={{ width: `${((currentStep + 1) / steps.length) * 100}%`, backgroundColor: '#FF6B6B' }} />
-        </div>
-      </div>
-
-      {/* Controls */}
-      <div className="flex items-center justify-between">
-        <div className="flex gap-2">
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium"
-            style={{ backgroundColor: 'var(--accent)', color: '#fff' }}
-          >
-            {isPlaying ? <Pause size={12} /> : <Play size={12} />}
-            {isPlaying ? (language === 'ur' ? 'روکیں' : 'Pause') : (language === 'ur' ? 'چلائیں' : 'Play')}
-          </button>
-          <button
-            onClick={() => { setIsPlaying(false); setCurrentStep(0); }}
-            className="flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-medium border"
-            style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
-          >
-            <RotateCcw size={12} />
-            {language === 'ur' ? 'دوبارہ' : 'Reset'}
-          </button>
-        </div>
-        <div className="flex gap-1">
-          <button
-            onClick={() => setCurrentStep(prev => (prev - 1 + steps.length) % steps.length)}
-            className="p-1.5 rounded-lg border"
-            style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
-          >
-            <ChevronLeft size={14} />
-          </button>
-          <span className="px-2 py-1 text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>
-            {currentStep + 1}/{steps.length}
-          </span>
-          <button
-            onClick={() => setCurrentStep(prev => (prev + 1) % steps.length)}
-            className="p-1.5 rounded-lg border"
-            style={{ borderColor: 'var(--border)', color: 'var(--text-primary)' }}
-          >
-            <ChevronRight size={14} />
-          </button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// ============================================
+// Process animations are provided by EarthProcessAnimation for a clear, continuous visual demonstration.\n\n// ============================================
 // MAIN PAGE COMPONENT
 // ============================================
 export function EarthExplorerPage() {
@@ -595,7 +368,7 @@ export function EarthExplorerPage() {
           )}
         </p>
 
-        <WaterCycleAnimation />
+        <EarthProcessAnimation type="water" />
 
         {/* Process Cards */}
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-4">
@@ -692,7 +465,7 @@ export function EarthExplorerPage() {
           )}
         </p>
 
-        <PlateTectonicsAnimation />
+        <EarthProcessAnimation type="plates" />
 
         {/* Boundary Types */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
