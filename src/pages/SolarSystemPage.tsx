@@ -194,6 +194,82 @@ function Quiz() {
 }
 
 // ============================================
+// FORMATION ANIMATION — VISUAL SOLAR NEBULA MODEL
+// ============================================
+function FormationAnimation() {
+  const { language } = useApp();
+  const [playing, setPlaying] = useState(true);
+  const [step, setStep] = useState(0);
+
+  const steps = [
+    { en:'Giant cloud collapses', ur:'بڑا بادل سکڑتا ہے', phase:'cloud' },
+    { en:'Young Sun forms at the center', ur:'مرکز میں نوجوان سورج بنتا ہے', phase:'sun' },
+    { en:'Spinning disk forms', ur:'گھومتی ہوئی قرص بنتی ہے', phase:'disk' },
+    { en:'Particles collide and stick', ur:'ذرات ٹکراتے اور جڑتے ہیں', phase:'particles' },
+    { en:'Planets grow from the disk', ur:'قرص سے سیارے بنتے ہیں', phase:'planets' }
+  ];
+
+  useEffect(() => {
+    if (!playing) return;
+    const id = window.setInterval(() => setStep(s => (s + 1) % steps.length), 2600);
+    return () => window.clearInterval(id);
+  }, [playing, steps.length]);
+
+  const render = (en:string, ur:string) =>
+    language === 'ur'
+      ? <span className="font-urdu" dir="rtl">{ur}</span>
+      : language === 'both'
+        ? <><span>{en}</span><span className="block font-urdu mt-1" dir="rtl">{ur}</span></>
+        : <span>{en}</span>;
+
+  const phase = steps[step].phase;
+
+  return (
+    <div className="rounded-3xl border overflow-hidden" style={{background:'linear-gradient(135deg,#050816,#0f172a)',borderColor:'var(--border)'}}>
+      <div className="p-5 md:p-7 flex flex-col lg:flex-row gap-6">
+        <div className="flex-1">
+          <div className="formation-stage relative h-[330px] md:h-[390px] rounded-2xl overflow-hidden" data-phase={phase}>
+            <div className="formation-stars" />
+            <div className="formation-cloud" />
+            <div className="formation-core" />
+            <div className="formation-disk" />
+            <div className="formation-particles">
+              {Array.from({length:18}).map((_,i)=><i key={i} style={{'--i':i} as React.CSSProperties} />)}
+            </div>
+            <div className="formation-planets">
+              {[0,1,2,3,4,5].map(i=><b key={i} style={{'--i':i} as React.CSSProperties} />)}
+            </div>
+            <div className="absolute inset-x-0 bottom-4 text-center text-white/80 text-xs md:text-sm">
+              {render('Simplified animated model — not to scale','سادہ متحرک سائنسی ماڈل — حقیقی پیمانے پر نہیں')}
+            </div>
+          </div>
+        </div>
+        <div className="lg:w-[330px]">
+          <p className="text-xs uppercase tracking-[0.18em] font-black text-cyan-300">4.6 BILLION YEARS AGO</p>
+          <h3 className="text-2xl font-black text-white mt-2">{render('How the Solar System formed','نظامِ شمسی کیسے بنا')}</h3>
+          <p className="text-sm text-slate-300 mt-3 leading-6">{render(
+            'Watch the gas-and-dust cloud collapse, the young Sun appear, the disk spin, particles collide, and planets grow.',
+            'گیس اور گرد کے بادل کے سکڑنے، نوجوان سورج کے بننے، قرص کے گھومنے، ذرات کے ٹکرانے اور سیاروں کے بننے کا عمل دیکھیں۔'
+          )}</p>
+          <div className="mt-5 space-y-2">
+            {steps.map((s,i)=>(
+              <button key={s.phase} onClick={()=>{setPlaying(false);setStep(i)}} className="w-full text-left rounded-xl border p-3 transition-all" style={{background:i===step?'rgba(59,130,246,.18)':'rgba(15,23,42,.7)',borderColor:i===step?'#3b82f6':'#334155'}}>
+                <div className="text-[11px] uppercase tracking-wider text-blue-300">Step {i+1}</div>
+                <div className="text-sm font-bold text-white mt-1">{render(s.en,s.ur)}</div>
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-2 mt-4">
+            <button onClick={()=>setPlaying(v=>!v)} className="flex-1 rounded-xl py-2.5 font-bold text-sm" style={{background:'#3b82f6',color:'#fff'}}>{playing ? render('Pause','روکیں') : render('Play animation','اینیمیشن چلائیں')}</button>
+            <button onClick={()=>{setStep(0);setPlaying(true)}} className="rounded-xl border px-4 py-2.5 text-sm font-bold text-white" style={{borderColor:'#334155'}}>↻</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ============================================
 // MAIN SOLAR SYSTEM PAGE
 // ============================================
 export function SolarSystemPage() {
@@ -449,18 +525,9 @@ export function SolarSystemPage() {
           )}
         </p>
         <p className="text-xs italic mb-4" style={{ color: 'var(--text-secondary)' }}>
-          {renderText('Simplified scientific formation model.', 'نظامِ شمسی کی تشکیل کا سادہ سائنسی نمونہ۔')}
+          {renderText('Watch the physical process as an animated visual model.', 'اس جسمانی عمل کو متحرک بصری ماڈل میں دیکھیں۔')}
         </p>
-        <BilingualFlowchart
-          steps={[
-            { en: 'Giant cloud of gas and dust', ur: 'گیس اور گرد کا بہت بڑا بادل' },
-            { en: 'Gravity pulls inward', ur: 'کششِ ثقل اندر کھینچتی ہے' },
-            { en: 'Young Sun forms', ur: 'نوجوان سورج بنتا ہے' },
-            { en: 'Spinning disk forms', ur: 'گھومتی قرص بنتی ہے' },
-            { en: 'Particles collide', ur: 'ذرات ٹکراتے ہیں' },
-            { en: 'Planets form', ur: 'سیارے بنتے ہیں' }
-          ]}
-        />
+        <FormationAnimation />
       </section>
 
       {/* SECTION 9: IMAGE CAROUSEL */}
