@@ -61,6 +61,7 @@ export function SEO() {
     const pathname = location.pathname;
     const planetId = pathname.startsWith('/planets/') ? pathname.split('/')[2] : '';
     const planet = planets.find(p => p.id === planetId);
+    const waterSlug = pathname.startsWith('/water-atlas/') ? pathname.split('/')[2] : '';
 
     const topicMeta: Record<string, { title: string; description: string; keywords: string }> = {
       'why-is-the-sky-blue': { title: 'Why Is the Sky Blue? | Light Scattering Explained', description: 'Learn why Earth’s daytime sky looks blue and why sunsets can look red or orange.', keywords: 'why is the sky blue, Rayleigh scattering, sky color' },
@@ -74,13 +75,35 @@ export function SEO() {
     const topicSlug = pathname.startsWith('/learn/') ? pathname.split('/')[2] : '';
     const topic = topicSlug ? topicMeta[topicSlug] : undefined;
 
+    const waterTitles: Record<string, { title:string; description:string; keywords:string }> = {
+      'ocean-pacific': { title:'Pacific Ocean | Size, Depth, Currents & Science', description:'Explore the Pacific Ocean: size, depth, currents, plate tectonics, ecosystems and its role in the global ocean.', keywords:'Pacific Ocean, ocean size, ocean depth, currents, Mariana Trench' },
+      'ocean-atlantic': { title:'Atlantic Ocean | Size, Currents & Global Circulation', description:'Explore the Atlantic Ocean, its size, circulation, currents and role in Earth systems.', keywords:'Atlantic Ocean, ocean currents, global circulation' },
+      'ocean-indian': { title:'Indian Ocean | Monsoons, Currents & Water Science', description:'Explore the Indian Ocean, monsoon winds, circulation and marine systems.', keywords:'Indian Ocean, monsoon, ocean currents' },
+      'ocean-southern': { title:'Southern Ocean | Antarctica, Currents & Climate', description:'Explore the Southern Ocean around Antarctica and its role in global ocean circulation.', keywords:'Southern Ocean, Antarctica, Antarctic Circumpolar Current' },
+      'ocean-arctic': { title:'Arctic Ocean | Sea Ice, Climate & Ecosystems', description:'Explore the Arctic Ocean, sea ice, polar ecosystems and high-latitude water systems.', keywords:'Arctic Ocean, sea ice, polar ocean' },
+      'river-nile': { title:'Nile River | Basin, Flow & Water Science', description:'Explore the Nile River system, headwaters, flow, basin and importance to northeastern Africa.', keywords:'Nile River, Nile Basin, river science' },
+      'river-amazon': { title:'Amazon River | Discharge, Basin & Water Cycle', description:'Explore the Amazon River system, exceptional discharge, basin and freshwater transport.', keywords:'Amazon River, Amazon Basin, river discharge' },
+      'river-yangtze': { title:'Yangtze River | Basin, Flow & Freshwater Science', description:'Explore the Yangtze River system, basin, flow and importance to China.', keywords:'Yangtze River, river basin, freshwater' },
+      'river-mississippi': { title:'Mississippi–Missouri | River Basin & Water Flow', description:'Explore the Mississippi–Missouri river system, basin, tributaries and water management.', keywords:'Mississippi River, Missouri River, river basin' },
+      'lake-caspian': { title:'Caspian Sea | Enclosed Lake & Water System', description:'Explore the Caspian Sea as the world’s largest enclosed inland water body, its salinity and water balance.', keywords:'Caspian Sea, largest lake, enclosed lake' },
+      'lake-superior': { title:'Lake Superior | Great Lakes Freshwater Science', description:'Explore Lake Superior, the largest Great Lake by surface area and a major freshwater store.', keywords:'Lake Superior, Great Lakes, freshwater' },
+      'lake-victoria': { title:'Lake Victoria | African Freshwater Ecosystem', description:'Explore Lake Victoria, its water inputs, outflow, ecosystem and basin pressures.', keywords:'Lake Victoria, Africa lake, freshwater ecosystem' },
+      'lake-baikal': { title:'Lake Baikal | Deepest Lake & Freshwater Store', description:'Explore Lake Baikal, its depth, ancient rift setting and exceptional freshwater store.', keywords:'Lake Baikal, deepest lake, freshwater' },
+      'lake-tanganyika': { title:'Lake Tanganyika | Deep Rift Lake Science', description:'Explore Lake Tanganyika, its deep rift basin, water movement and freshwater ecosystem.', keywords:'Lake Tanganyika, rift lake, freshwater' },
+      'water-oceans': { title:'Earth Ocean Water | 96.5% of Earth Water', description:'Learn how much water is stored in Earth’s oceans, why it is saline and how it drives the water cycle.', keywords:'Earth ocean water, 96.5 percent, water distribution' },
+      'water-groundwater': { title:'Groundwater | Aquifers, Recharge & Water Movement', description:'Learn how groundwater is stored, recharged and moved through aquifers beneath Earth’s surface.', keywords:'groundwater, aquifer, recharge, water cycle' },
+      'water-glaciers': { title:'Glaciers & Ice Sheets | Earth Freshwater Store', description:'Learn how glaciers and ice sheets store freshwater, flow and release meltwater.', keywords:'glaciers, ice sheets, freshwater, meltwater' },
+      'water-atmosphere': { title:'Atmospheric Water | Vapor, Clouds & Precipitation', description:'Learn how water vapor moves through the atmosphere and becomes clouds and precipitation.', keywords:'atmospheric water, water vapor, clouds, precipitation' }
+    };
+    const waterMeta = waterSlug ? waterTitles[waterSlug] : undefined;
+
     const base = routeMeta[pathname] || {
       title: 'Space & Earth Science Learning Hub',
       description: 'Interactive learning resources for astronomy, planetary science and Earth science.',
       keywords: 'space science, astronomy, earth science, learning'
     };
 
-    const meta = topic ? topic : planet ? {
+    const meta = waterMeta ? waterMeta : topic ? topic : planet ?
       title: `${planet.name.en} | Planet Facts, Images & Interactive Learning`,
       description: `Learn about ${planet.name.en}: size, distance from the Sun, orbital period, key facts and NASA imagery in an interactive learning page.`,
       keywords: `${planet.name.en}, ${planet.name.en} facts, ${planet.name.en} planet, solar system`
